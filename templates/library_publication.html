@@ -1,0 +1,33 @@
+<{includeq file='db:library_header.html'}>
+<{if $library_publication}>
+<div id="library-publication-container">
+	<h1><{$library_publication.title}></h1>
+		<div><b><{$smarty.const._CO_LIBRARY_PUBLICATION_TYPE}></b>: <{$library_publication.type}></div>
+		<div><b><{$smarty.const._CO_LIBRARY_PUBLICATION_IDENTIFIER}></b>: <{$library_publication.identifier}></div>
+		<div><b><{$smarty.const._CO_LIBRARY_PUBLICATION_CREATOR}></b>: <{$library_publication.creator}></div>
+		<div><b><{$smarty.const._CO_LIBRARY_PUBLICATION_DESCRIPTION}></b></div>
+				<div><{$library_publication.description}></div>
+		<div><b><{$smarty.const._CO_LIBRARY_PUBLICATION_EXTENDED_TEXT}></b></div>
+				<div><{$library_publication.extended_text}></div>
+		<div><b><{$smarty.const._CO_LIBRARY_PUBLICATION_PUBLISHER}></b>: <{$library_publication.publisher}></div>
+		<div><b><{$smarty.const._CO_LIBRARY_PUBLICATION_FORMAT}></b>: <{$library_publication.format}></div>
+		<div><b><{$smarty.const._CO_LIBRARY_PUBLICATION_FILE_SIZE}></b>: <{$library_publication.file_size}></div>
+		<div><b><{$smarty.const._CO_LIBRARY_PUBLICATION_COVER}></b>: <{$library_publication.cover}></div>
+		<div><b><{$smarty.const._CO_LIBRARY_PUBLICATION_DATE}></b>: <{$library_publication.date}></div>
+		<div><b><{$smarty.const._CO_LIBRARY_PUBLICATION_SOURCE}></b>: <{$library_publication.source}></div>
+		<div><b><{$smarty.const._CO_LIBRARY_PUBLICATION_LANGUAGE}></b>: <{$library_publication.language}></div>
+		<div><b><{$smarty.const._CO_LIBRARY_PUBLICATION_RIGHTS}></b>: <{$library_publication.rights}></div>
+		<div><b><{$smarty.const._CO_LIBRARY_PUBLICATION_COMPACT_VIEW}></b>: <{$library_publication.compact_view}></div>
+		<div><b><{$smarty.const._CO_LIBRARY_PUBLICATION_ONLINE_STATUS}></b>: <{$library_publication.online_status}></div>
+		<div><b><{$smarty.const._CO_LIBRARY_PUBLICATION_FEDERATED}></b>: <{$library_publication.federated}></div>
+		<div><b><{$smarty.const._CO_LIBRARY_PUBLICATION_SUBMISSION_TIME}></b>: <{$library_publication.submission_time}></div>
+		<div><b><{$smarty.const._CO_LIBRARY_PUBLICATION_SUBMITTER}></b>: <{$library_publication.submitter}></div>
+		<div><b><{$smarty.const._CO_LIBRARY_PUBLICATION_OAI_IDENTIFIER}></b>: <{$library_publication.oai_identifier}></div>
+
+</div>
+<{/if}>
+<{if $library_publication_table}>
+<h1><{$library_title}></h1>
+<{$library_publication_table}>
+<{/if}>
+<{includeq file='db:library_footer.html'}>
