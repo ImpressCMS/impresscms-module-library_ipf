@@ -84,9 +84,9 @@ $modversion["tables"] = icms_getTablesArray($modversion['dirname'], $modversion[
 $modversion['templates'] = array(
 	array("file" => "library_admin_publication.html", "description" => "publication Admin Index"),
 	array("file" => "library_publication.html", "description" => "publication Index"),
-
 	array('file' => 'library_header.html', 'description' => 'Module Header'),
-	array('file' => 'library_footer.html', 'description' => 'Module Footer'));
+	array('file' => 'library_footer.html', 'description' => 'Module Footer'),
+	array('file' => 'library_requirements.html', 'description' => 'Module requirements information'));
 
 /** Blocks information */
 

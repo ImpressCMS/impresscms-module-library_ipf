@@ -14,24 +14,22 @@
 
 defined("ICMS_ROOT_PATH") or die("ICMS root path not defined");
 
-function library_search($queryarray, $andor, $limit, $offset, $userid) {
-/** To come soon in imBuilding...
-
-	$library_post_handler = icms_getModuleHandler("post", basename(dirname(dirname(__FILE__))), "library");
-	$postsArray = $library_post_handler->getPostsForSearch($queryarray, $andor, $limit, $offset, $userid);
+function library_search($queryarray, $andor, $limit, $offset, $userid)
+{
+	$library_publication_handler = icms_getModuleHandler("publication", basename(dirname(dirname(__FILE__))), "library");
+	$publicationArray = $library_publication_handler->getPublicationsForSearch($queryarray, $andor, $limit, $offset, $userid);
 
 	$ret = array();
 
-	foreach ($postsArray as $postArray) {
-		$item['image'] = "images/post.png";
-		$item['link'] = str_replace(LIBRARY_URL, '', $postArray['itemUrl']);
-		$item['title'] = $postArray['post_title'];
-		$item['time'] = strtotime($postArray['post_published_date']);
-		$item['uid'] = $postArray['post_posterid'];
+	foreach ($publicationArray as $publication) {
+		$item['image'] = "images/project.png";
+		$item['link'] = $publication->getItemLink(TRUE);
+		$item['title'] = $publication->getVar("title");
+		$item['time'] = $publication->getVar("date", "e");
+		$item['uid'] = $publication->getVar("creator");
 		$ret[] = $item;
 		unset($item);
 	}
 
 	return $ret;
-*/
 }

@@ -49,6 +49,17 @@ class mod_library_Publication extends icms_ipf_seo_Object {
 		$this->setControl("submitter", "user");
 
 		$this->initiateSEO();
+		
+		// Enable HTML editors
+		$this->setControl('description', 'dhtmltextarea');
+		$this->setControl('extended_text', 'dhtmltextarea');
+
+		$this->setControl('type', array(
+			'name' => 'select',
+			'itemHandler' => 'publication',
+			'method' => 'getTypeOptions',
+			'module' => 'library',
+			'onSelect' => 'submit'));
 	}
 
 	/**

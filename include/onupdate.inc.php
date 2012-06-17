@@ -41,5 +41,70 @@ function icms_module_update_library($module) {
 }
 
 function icms_module_install_library($module) {
+	
+	// create an uploads directory for images
+	$path = ICMS_ROOT_PATH . '/uploads/' . basename(dirname(dirname(__FILE__)));
+	$directory_exists = $writeable = true;
+
+	// check if upload directory exists, make one if not
+	if (!is_dir($path)) {
+		$directory_exists = mkdir($path, 0777);
+	}
+
+	// authorise some audio mimetypes for convenience
+	library_authorise_mimetypes();
+	
 	return TRUE;
+}
+
+/**
+ * Authorises some commonly used mimetypes on install
+ *
+ * Helps reduce the need for post-install configuration, its just a convenience for the end user.
+ * It grants the module permission to use some common audio (and image) mimetypes that will
+ * probably be needed for audio tracks and collection cover art.
+ */
+
+function library_authorise_mimetypes() {
+	$dirname = basename(dirname(dirname(__FILE__)));
+	$extension_list = array(
+		'mp3', // sound formats
+		'wav',
+		'wma',
+		'png', // image formats
+		'gif',
+		'jpg',
+		'doc', // document formats
+		'pdf',
+		'html',
+		'zip', // archives
+		'tar',
+		'wmv', // video formats
+		'mpeg',
+		'mpg',
+		'avi'
+	);
+	$system_mimetype_handler = icms_getModuleHandler('mimetype', 'system');
+	foreach ($extension_list as $extension) {
+		$allowed_modules = array();
+		$mimetypeObj = '';
+
+		$criteria = new icms_db_criteria_Compo();
+		$criteria->add(new icms_db_criteria_Item('extension', $extension));
+		$mimetypeObj = array_shift($system_mimetype_handler->getObjects($criteria));
+
+		if ($mimetypeObj) {
+			$allowed_modules = $mimetypeObj->getVar('dirname');
+			if (empty($allowed_modules)) {
+				$mimetypeObj->setVar('dirname', $dirname);
+				$mimetypeObj->store();
+			} else {
+				if (!in_array($dirname, $allowed_modules)) {
+					$allowed_modules[] = $dirname;
+					$mimetypeObj->setVar('dirname', $allowed_modules);
+					$mimetypeObj->store();
+				}
+			}
+		}
+	}
 }
