@@ -52,4 +52,13 @@ define("_CO_LIBRARY_PUBLICATION_SUBMISSION_TIME_DSC", "");
 define("_CO_LIBRARY_PUBLICATION_SUBMITTER", "Submitter");
 define("_CO_LIBRARY_PUBLICATION_SUBMITTER_DSC", "");
 define("_CO_LIBRARY_PUBLICATION_OAI_IDENTIFIER", "OAI Identifier");
-define("_CO_LIBRARY_PUBLICATION_OAI_IDENTIFIER_DSC", "Used to uniquely identify this publication across federated sites, and prevents publications being duplicated or imported multiple times. Should never be changed under any circumstance. Complies with the &lt;a href=&quot;<a href="http://www.openarchives.org/OAI/2.0/guidelines-oai-identifier.htm&quot;&gt;OAI" rel="external">http://www.openarchives.org/OAI/2.0/guidelines-oai-identifier.htm&quot;&gt;OAI</a> Identifier Format specification&lt;/a&gt;.");
+define("_CO_LIBRARY_PUBLICATION_OAI_IDENTIFIER_DSC", "Used to uniquely identify this publication across federated sites, and prevents publications being duplicated or imported multiple times. Should never be changed under any circumstance.");
+
+// Dublic Core Metadata Initiative Type Vocabulary
+define("_CO_LIBRARY_TEXT", "Text");
+define("_CO_LIBRARY_SOUND", "Sound");
+define("_CO_LIBRARY_IMAGE", "Image");
+define("_CO_LIBRARY_MOVINGIMAGE", "Video");
+define("_CO_LIBRARY_DATASET", "Dataset");
+define("_CO_LIBRARY_SOFTWARE", "Software");
+define("_CO_LIBRARY_COLLECTION", "Collection");
