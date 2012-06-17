@@ -1,6 +1,6 @@
 <?php
 
-return array(
+$language_options = array(
 	0 => '---',
 	"ab"=>"Abkhazian",
 	"aa"=>"Afar",

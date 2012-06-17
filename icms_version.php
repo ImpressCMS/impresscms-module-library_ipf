@@ -184,9 +184,9 @@ $modversion['config'][] = array(
 	'default' =>  '10');
 
 // prepare language options
-$language_options = include ICMS_ROOT_PATH . '/modules/' . basename(dirname(__FILE__))
+include ICMS_ROOT_PATH . '/modules/' . basename(dirname(__FILE__))
 	. '/include/language.inc.php';
-// the preference system displays keys rather than values for some reason, so lets flip it
+// The preference system displays keys rather than values for some reason, so lets flip it
 $language_options = array_flip($language_options);
 
 $modversion['config'][] = array(

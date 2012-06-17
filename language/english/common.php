@@ -28,7 +28,7 @@ define("_CO_LIBRARY_PUBLICATION_EXTENDED_TEXT_DSC", "Optional. This is an altern
 define("_CO_LIBRARY_PUBLICATION_PUBLISHER", "Publisher");
 define("_CO_LIBRARY_PUBLICATION_PUBLISHER_DSC", "The agency responsible for publishing this work.");
 define("_CO_LIBRARY_PUBLICATION_FORMAT", "Format");
-define("_CO_LIBRARY_PUBLICATION_FORMAT_DSC", "You can add more file formats (mimetypes) to this list by authorising the Library module to use them in &lt;a href=&quot;&quot; . ICMS_URL . &quot;/modules/system/admin.php?fct=mimetype&quot;&gt;System =&gt; Mimetypes&lt;/a&gt;.");
+define("_CO_LIBRARY_PUBLICATION_FORMAT_DSC", "You can add more file formats (mimetypes) to this list by authorising the Library module to use them in System module Mimetype Manager.");
 define("_CO_LIBRARY_PUBLICATION_FILE_SIZE", "File size");
 define("_CO_LIBRARY_PUBLICATION_FILE_SIZE_DSC", "Enter in BYTES, it will be converted to human readable automatically. This is the size of the file specified in the URL field, if any.");
 define("_CO_LIBRARY_PUBLICATION_COVER", "Image");

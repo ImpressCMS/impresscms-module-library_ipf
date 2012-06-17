@@ -18,8 +18,11 @@ class mod_library_Publication extends icms_ipf_seo_Object {
 	 *
 	 * @param mod_library_Publication $handler Object handler
 	 */
-	public function __construct(&$handler) {
+	public function __construct(&$handler)
+	{
 		icms_ipf_object::__construct($handler);
+		
+		$libraryModule = icms_getModuleInfo(basename(dirname(dirname(__FILE__))));
 
 		$this->quickInitVar("publication_id", XOBJ_DTYPE_INT, TRUE);
 		$this->quickInitVar("type", XOBJ_DTYPE_TXTBOX, TRUE);
@@ -33,15 +36,18 @@ class mod_library_Publication extends icms_ipf_seo_Object {
 		$this->quickInitVar("cover", XOBJ_DTYPE_IMAGE, FALSE);
 		$this->quickInitVar("date", XOBJ_DTYPE_STIME, FALSE);
 		$this->quickInitVar("source", XOBJ_DTYPE_TXTBOX, FALSE);
-		$this->quickInitVar("language", XOBJ_DTYPE_TXTBOX, FALSE);
+		$this->quickInitVar("language", XOBJ_DTYPE_TXTBOX, FALSE, FALSE, FALSE,
+				$libraryModule->config['default_language']);
 		$this->quickInitVar("rights", XOBJ_DTYPE_TXTBOX, TRUE);
 		$this->quickInitVar("publisher", XOBJ_DTYPE_TXTBOX, FALSE);
-		$this->quickInitVar("compact_view", XOBJ_DTYPE_INT, FALSE);
-		$this->quickInitVar("online_status", XOBJ_DTYPE_INT, TRUE);
-		$this->quickInitVar("federated", XOBJ_DTYPE_INT, TRUE);
+		$this->quickInitVar("compact_view", XOBJ_DTYPE_INT, FALSE, FALSE, FALSE, 0);
+		$this->quickInitVar("online_status", XOBJ_DTYPE_INT, TRUE, FALSE, FALSE, 1);		
+		$this->quickInitVar("federated", XOBJ_DTYPE_INT, TRUE, FALSE, FALSE,
+				$libraryModule->config['library_default_federation']);
 		$this->quickInitVar("submission_time", XOBJ_DTYPE_LTIME, TRUE);
 		$this->quickInitVar("submitter", XOBJ_DTYPE_INT, TRUE);
-		$this->quickInitVar("oai_identifier", XOBJ_DTYPE_TXTBOX, TRUE);
+		$this->quickInitVar("oai_identifier", XOBJ_DTYPE_TXTBOX, TRUE, FALSE, FALSE,
+				$this->handler->setOaiId());
 		$this->initCommonVar("counter");
 		$this->initCommonVar("dohtml");
 		$this->initCommonVar("dobr");
@@ -60,6 +66,28 @@ class mod_library_Publication extends icms_ipf_seo_Object {
 			'method' => 'getTypeOptions',
 			'module' => 'library',
 			'onSelect' => 'submit'));
+		
+		$this->setControl('format', array(
+			'name' => 'select',
+			'itemHandler' => 'publication',
+			'method' => 'getFormatOptions',
+			'module' => 'library'));
+		
+		$this->setControl('source', array(
+			'itemHandler' => 'publication',
+			'method' => 'getCollectionOptions',
+			'module' => 'library'));
+		
+		$this->setControl('language', array(
+			'name' => 'select',
+			'itemHandler' => 'publication',
+			'method' => 'getLanguageOptions',
+			'module' => 'library'));
+		
+		$this->setControl('submitter', 'user');
+		$this->setControl('compact_view', 'yesno');
+		$this->setControl('online_status', 'yesno');
+		$this->setControl('federated', 'yesno');
 	}
 
 	/**
