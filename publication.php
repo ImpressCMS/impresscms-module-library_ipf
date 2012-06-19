@@ -17,16 +17,31 @@ include_once ICMS_ROOT_PATH . "/header.php";
 
 $library_publication_handler = icms_getModuleHandler("publication", basename(dirname(__FILE__)), "library");
 
-/** Use a naming convention that indicates the source of the content of the variable */
 $clean_publication_id = isset($_GET["publication_id"]) ? (int)$_GET["publication_id"] : 0 ;
 $publicationObj = $library_publication_handler->get($clean_publication_id);
 
-if($publicationObj && !$publicationObj->isNew()) {
+////////////////////////////////////////////////////////////////////
+//////////////////// DISPLAY SINGLE PUBLICATION ////////////////////
+////////////////////////////////////////////////////////////////////
+
+if($publicationObj && !$publicationObj->isNew()) 
+{
+	// Prepare publication for display
+	
 	$icmsTpl->assign("library_publication", $publicationObj->toArray());
 
-	$icms_metagen = new icms_ipf_Metagen($publicationObj->getVar("title"), $publicationObj->getVar("meta_keywords", "n"), $publicationObj->getVar("meta_description", "n"));
+	$icms_metagen = new icms_ipf_Metagen($publicationObj->getVar("title"), 
+			$publicationObj->getVar("meta_keywords", "n"), 
+			$publicationObj->getVar("meta_description", "n"));
 	$icms_metagen->createMetaTags();
-} else {
+}
+
+////////////////////////////////////////////////////////////////////
+//////////////////// DISPLAY INDEX PAGE ////////////////////////////
+////////////////////////////////////////////////////////////////////
+
+else
+{
 	$icmsTpl->assign("library_title", _MD_LIBRARY_ALL_PUBLICATIONS);
 
 	$objectTable = new icms_ipf_view_Table($library_publication_handler, FALSE, array());

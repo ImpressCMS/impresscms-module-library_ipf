@@ -146,8 +146,8 @@ class mod_library_PublicationHandler extends icms_ipf_Handler {
 	 *
 	 * @return string
 	 */
-	public function setOaiId() {
-		
+	public function setOaiId()
+	{		
 		$id = $prefix = $namespace = $timestamp = '';
 		
 		$prefix = $this->getMetadataPrefix();
@@ -163,8 +163,8 @@ class mod_library_PublicationHandler extends icms_ipf_Handler {
 	 *
 	 * @return string 
 	 */
-	public function getMetadataPrefix() {
-		
+	public function getMetadataPrefix()
+	{		
 		$metadataPrefix = '';
 		
 		$metadataPrefix = 'oai';
@@ -176,8 +176,8 @@ class mod_library_PublicationHandler extends icms_ipf_Handler {
 	 *
 	 * @return string
 	 */
-	public function getNamespace() {
-		
+	public function getNamespace()
+	{		
 		$namespace = '';
 		
 		$namespace = ICMS_URL;
@@ -186,5 +186,52 @@ class mod_library_PublicationHandler extends icms_ipf_Handler {
 		$namespace = str_replace('www.', '', $namespace);
 		
 		return $namespace;
+	}
+	
+
+	/**
+	 * Prepares a publication for user-side display
+	 */
+	
+	public function prepareForDisplay($type)
+	{
+		// Convert properties to human readable
+		
+	}
+	
+	/**
+	 * Sets a contextually appropriate template for this publication, based on its type
+	 * 
+	 * Most publication types have similar display requirements and can use text.html as a 
+	 * common template. Some (sound, images) have more specialised requirements that warrant 
+	 * a separate template. However, it is possible to create specialised templates for all 
+	 * types simply by i) specifying the template name in the switch below, ii) creating a 
+	 * matching template file and iii) declaring it in icms_version.php. Templates are 
+	 * dynamically assigned at display time.
+	 * 
+	 * @param string $type
+	 * @return String
+	 */
+	public function assignTemplate($type)
+	{
+		// 
+		
+		switch ($type)
+		{
+			case "Text":
+			case "Collection":
+			case "Dataset":
+			case "Event":
+			case "Software":
+			case "Dataset":
+				return "text.html";
+				break;
+			case "Sound":
+				return "sound.html";
+				break;
+			case "Image":
+				return "image.html";
+				break;	
+		}
 	}
 }
