@@ -23,6 +23,7 @@ function editpublication($publication_id = 0) {
 	$publicationObj = $library_publication_handler->get($publication_id);
 
 	if (!$publicationObj->isNew()){
+		$publicationObj->loadCategories();
 		$icmsModule->displayAdminMenu(0, _AM_LIBRARY_PUBLICATIONS . " > " . _CO_ICMS_EDITING);
 		$sform = $publicationObj->getForm(_AM_LIBRARY_PUBLICATION_EDIT, "addpublication");
 		$sform->assign($icmsAdminTpl);
@@ -49,6 +50,7 @@ if (isset($_GET["op"])) $clean_op = htmlentities($_GET["op"]);
 if (isset($_POST["op"])) $clean_op = htmlentities($_POST["op"]);
 
 $clean_publication_id = isset($_GET["publication_id"]) ? (int)$_GET["publication_id"] : 0 ;
+$clean_category_id = isset($_GET['tag_id']) ? intval($_GET['tag_id']) : 0 ;
 
 if (in_array($clean_op, $valid_op, TRUE)) {
 	switch ($clean_op) {
@@ -77,7 +79,51 @@ if (in_array($clean_op, $valid_op, TRUE)) {
 		default:
 			icms_cp_header();
 			$icmsModule->displayAdminMenu(0, _AM_LIBRARY_PUBLICATIONS);
-			$objectTable = new icms_ipf_view_Table($library_publication_handler);
+			
+		// Display a category select filter (if the Sprockets module is installed)
+		$module = icms_getModuleInfo(basename(dirname(dirname(__FILE__))));
+		$sprocketsModule = icms_getModuleInfo('sprockets');
+		
+		if (icms_get_module_status("sprockets")) {
+			
+			$category_select_box = '';
+			$taglink_array = $categorised_publication_list = array();
+			$sprockets_tag_handler = icms_getModuleHandler('tag', $sprocketsModule->getVar('dirname'),
+				'sprockets');
+			$sprockets_taglink_handler = icms_getModuleHandler('taglink',
+					$sprocketsModule->getVar('dirname'), 'sprockets');
+			
+			$category_select_box = $sprockets_tag_handler->getCategorySelectBox('publication.php', 
+						$clean_category_id,	_AM_LIBRARY_PUBLICATION_ALL_PUBLICATIONS, icms::$module->getVar('mid'));
+			if (!empty($category_select_box)) {
+				echo '<h3>' . _AM_LIBRARY_PUBLICATION_FILTER_BY_CATEGORY . '</h3>';
+				echo $category_select_box;
+			}
+			
+			if ($clean_category_id)
+			{
+				// Get a list of message IDs belonging to this tag
+				$criteria = new icms_db_criteria_Compo();
+				$criteria->add(new icms_db_criteria_Item('tid', $clean_category_id));
+				$criteria->add(new icms_db_criteria_Item('mid', $module->getVar('mid')));
+				$criteria->add(new icms_db_criteria_Item('item', 'publication'));
+				$taglink_array = $sprockets_taglink_handler->getObjects($criteria);
+				foreach ($taglink_array as $taglink) {
+					$categorised_publication_list[] = $taglink->getVar('iid');
+				}
+				$categorised_publication_list = "('" . implode("','", $categorised_publication_list) . "')";
+				
+				// Use the list to filter the persistable table
+				$criteria = new icms_db_criteria_Compo();
+				$criteria->add(new icms_db_criteria_Item('publication_id', $categorised_publication_list, 'IN'));
+			}
+		}
+		
+		if (empty($criteria)) {
+			$criteria = null;
+		}
+		
+			$objectTable = new icms_ipf_view_Table($library_publication_handler, $criteria);
 			$objectTable->addColumn(new icms_ipf_view_Column("title"));
 			$objectTable->addIntroButton("addpublication", "publication.php?op=mod", _AM_LIBRARY_PUBLICATION_CREATE);
 			$icmsAdminTpl->assign("library_publication_table", $objectTable->fetch());

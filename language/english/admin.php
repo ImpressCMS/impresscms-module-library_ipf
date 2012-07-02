@@ -30,3 +30,7 @@ define("_AM_LIBRARY_PUBLICATION_MODIFIED", "The publication was successfully mod
 define("_AM_LIBRARY_PUBLICATION_CREATED", "The publication has been successfully created.");
 define("_AM_LIBRARY_PUBLICATION_VIEW", "Publication info");
 define("_AM_LIBRARY_PUBLICATION_VIEW_DSC", "Here is the info about this publication.");
+
+// Categories
+define("_AM_LIBRARY_PUBLICATION_ALL_PUBLICATIONS", "All publications");
+define("_AM_LIBRARY_PUBLICATION_FILTER_BY_CATEGORY", "Filter by category");

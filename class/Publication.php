@@ -69,8 +69,8 @@ class mod_library_Publication extends icms_ipf_seo_Object {
 			'module' => 'library',
 			'onSelect' => 'submit'));
 		
-		$this->setControl('categories', array(
-			'name' => 'select_multi',
+		$this->setControl('category', array(
+			'name' => 'selectmulti',
 			'itemHandler' => 'tag',
 			'method' => 'getCategoryOptions',
 			'module' => 'sprockets'));
@@ -116,5 +116,25 @@ class mod_library_Publication extends icms_ipf_seo_Object {
 			return call_user_func(array ($this,	$key));
 		}
 		return parent::getVar($key, $format);
+	}
+	
+	/**
+	 * Load categories linked to this publication
+	 *
+	 * @return void
+	 */
+	public function loadCategories() {
+		
+		$ret = array();
+		
+		// Retrieve the tags for this object (which will include both tags and category label_type)
+		$sprocketsModule = icms_getModuleInfo('sprockets');
+		if (icms_get_module_status("sprockets")) {
+			$sprockets_taglink_handler = icms_getModuleHandler('taglink',
+					$sprocketsModule->getVar('dirname'), 'sprockets');
+			$ret = $sprockets_taglink_handler->getTagsForObject($this->id(), $this->handler, 
+					$label_type = '1'); // label_type = 1 means only return categories
+			$this->setVar('category', $ret);
+		}
 	}
 }
