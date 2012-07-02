@@ -34,3 +34,6 @@ define("_AM_LIBRARY_PUBLICATION_VIEW_DSC", "Here is the info about this publicat
 // Categories
 define("_AM_LIBRARY_PUBLICATION_ALL_PUBLICATIONS", "All publications");
 define("_AM_LIBRARY_PUBLICATION_FILTER_BY_CATEGORY", "Filter by category");
+
+// Tags
+define("_AM_LIBRARY_PUBLICATION_FILTER_BY_TAG", "Filter by tag");

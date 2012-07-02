@@ -244,8 +244,6 @@ class mod_library_PublicationHandler extends icms_ipf_Handler {
 	protected function afterSave(& $obj)
 	{		
 		$sprockets_taglink_handler = '';
-		$label_type = '1'; // Important: This must be set as 1 for categories (and 0 for tags)
-		$tag_var = 'category'; // Important: Must match the non-persistable var name in your class file
 
 		$sprocketsModule = icms::handler("icms_module")->getByDirname("sprockets");
 		
@@ -254,7 +252,12 @@ class mod_library_PublicationHandler extends icms_ipf_Handler {
 		if ($_SERVER['REQUEST_METHOD'] == 'POST' && icms_get_module_status("sprockets")) {
 			$sprockets_taglink_handler = icms_getModuleHandler('taglink', 
 					$sprocketsModule->getVar('dirname'), $sprocketsModule->getVar('dirname'), 'sprockets');
-			$sprockets_taglink_handler->storeTagsForObject($obj, $tag_var, $label_type);
+			
+			// Store tags
+			$sprockets_taglink_handler->storeTagsForObject($obj, 'tag', '0');
+			
+			// Store categories
+			$sprockets_taglink_handler->storeTagsForObject($obj, 'category', '1');
 		}
 	
 		return TRUE;

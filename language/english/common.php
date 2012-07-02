@@ -21,6 +21,8 @@ define("_CO_LIBRARY_PUBLICATION_IDENTIFIER", "URL");
 define("_CO_LIBRARY_PUBLICATION_IDENTIFIER_DSC", "The link to download the associated file (if any).");
 define("_CO_LIBRARY_PUBLICATION_CREATOR", "Creator");
 define("_CO_LIBRARY_PUBLICATION_CREATOR_DSC", "Separate multiple authors with a pipe &#039;|&#039; character. Use a convention for consistency, eg. John Smith|Jane Doe.");
+define("_CO_LIBRARY_PUBLICATION_TAG", "Tags");
+define("_CO_LIBRARY_PUBLICATION_TAG_DSC", "Select the tags (subjects) you wish to label this object with.");
 define("_CO_LIBRARY_PUBLICATION_CATEGORY", "Categories");
 define("_CO_LIBRARY_PUBLICATION_CATEGORY_DSC", "Select the categories this object belongs to.");
 define("_CO_LIBRARY_PUBLICATION_DESCRIPTION", "Description (summary)");

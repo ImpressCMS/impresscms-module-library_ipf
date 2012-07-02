@@ -23,6 +23,7 @@ function editpublication($publication_id = 0) {
 	$publicationObj = $library_publication_handler->get($publication_id);
 
 	if (!$publicationObj->isNew()){
+		$publicationObj->loadTags();
 		$publicationObj->loadCategories();
 		$icmsModule->displayAdminMenu(0, _AM_LIBRARY_PUBLICATIONS . " > " . _CO_ICMS_EDITING);
 		$sform = $publicationObj->getForm(_AM_LIBRARY_PUBLICATION_EDIT, "addpublication");
@@ -50,7 +51,7 @@ if (isset($_GET["op"])) $clean_op = htmlentities($_GET["op"]);
 if (isset($_POST["op"])) $clean_op = htmlentities($_POST["op"]);
 
 $clean_publication_id = isset($_GET["publication_id"]) ? (int)$_GET["publication_id"] : 0 ;
-$clean_category_id = isset($_GET['tag_id']) ? intval($_GET['tag_id']) : 0 ;
+$clean_tag_id = isset($_GET['tag_id']) ? intval($_GET['tag_id']) : 0 ;
 
 if (in_array($clean_op, $valid_op, TRUE)) {
 	switch ($clean_op) {
@@ -84,8 +85,10 @@ if (in_array($clean_op, $valid_op, TRUE)) {
 		$module = icms_getModuleInfo(basename(dirname(dirname(__FILE__))));
 		$sprocketsModule = icms_getModuleInfo('sprockets');
 		
-		if (icms_get_module_status("sprockets")) {
+		if (icms_get_module_status("sprockets"))
+		{
 			
+			/*
 			$category_select_box = '';
 			$taglink_array = $categorised_publication_list = array();
 			$sprockets_tag_handler = icms_getModuleHandler('tag', $sprocketsModule->getVar('dirname'),
@@ -94,17 +97,17 @@ if (in_array($clean_op, $valid_op, TRUE)) {
 					$sprocketsModule->getVar('dirname'), 'sprockets');
 			
 			$category_select_box = $sprockets_tag_handler->getCategorySelectBox('publication.php', 
-						$clean_category_id,	_AM_LIBRARY_PUBLICATION_ALL_PUBLICATIONS, icms::$module->getVar('mid'));
+						$clean_tag_id, _AM_LIBRARY_PUBLICATION_ALL_PUBLICATIONS, icms::$module->getVar('mid'));
 			if (!empty($category_select_box)) {
 				echo '<h3>' . _AM_LIBRARY_PUBLICATION_FILTER_BY_CATEGORY . '</h3>';
 				echo $category_select_box;
 			}
 			
-			if ($clean_category_id)
+			if ($clean_tag_id)
 			{
 				// Get a list of message IDs belonging to this tag
 				$criteria = new icms_db_criteria_Compo();
-				$criteria->add(new icms_db_criteria_Item('tid', $clean_category_id));
+				$criteria->add(new icms_db_criteria_Item('tid', $clean_tag_id));
 				$criteria->add(new icms_db_criteria_Item('mid', $module->getVar('mid')));
 				$criteria->add(new icms_db_criteria_Item('item', 'publication'));
 				$taglink_array = $sprockets_taglink_handler->getObjects($criteria);
@@ -116,6 +119,38 @@ if (in_array($clean_op, $valid_op, TRUE)) {
 				// Use the list to filter the persistable table
 				$criteria = new icms_db_criteria_Compo();
 				$criteria->add(new icms_db_criteria_Item('publication_id', $categorised_publication_list, 'IN'));
+			}
+		*/
+		
+			$tag_select_box = '';
+			$taglink_array = $tagged_publication_list = array();
+			$sprockets_tag_handler = icms_getModuleHandler('tag', 'sprockets', 'sprockets');
+			$sprockets_taglink_handler = icms_getModuleHandler('taglink', 'sprockets', 'sprockets');
+
+			$tag_select_box = $sprockets_tag_handler->getTagSelectBox('publication.php', $clean_tag_id,
+				_AM_LIBRARY_PUBLICATION_ALL_PUBLICATIONS, FALSE, icms::$module->getVar('mid'), 'publication');
+
+			if (!empty($tag_select_box)) {
+				echo '<h3>' . _AM_LIBRARY_PUBLICATION_FILTER_BY_TAG . '</h3>';
+				echo $tag_select_box;
+			}
+
+			if ($clean_tag_id)
+			{
+				// Get a list of publication IDs belonging to this tag
+				$criteria = new icms_db_criteria_Compo();
+				$criteria->add(new icms_db_criteria_Item('tid', $clean_tag_id));
+				$criteria->add(new icms_db_criteria_Item('mid', icms::$module->getVar('mid')));
+				$criteria->add(new icms_db_criteria_Item('item', 'publication'));
+				$taglink_array = $sprockets_taglink_handler->getObjects($criteria);
+				foreach ($taglink_array as $taglink) {
+					$tagged_publication_list[] = $taglink->getVar('iid');
+				}
+				$tagged_publication_list = "('" . implode("','", $tagged_publication_list) . "')";
+
+				// Use the list to filter the persistable table
+				$criteria = new icms_db_criteria_Compo();
+				$criteria->add(new icms_db_criteria_Item('publication_id', $tagged_publication_list, 'IN'));
 			}
 		}
 		
