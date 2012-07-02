@@ -16,6 +16,10 @@ $adminmenu[] = array(
 	"title" => _MI_LIBRARY_PUBLICATIONS,
 	"link" => "admin/publication.php");
 
+$adminmenu[] = array(
+	"title" => _MI_LIBRARY_CATEGORIES,
+	"link" => "admin/category.php");
+
 $module = icms::handler("icms_module")->getByDirname(basename(dirname(dirname(__FILE__))));
 
 $headermenu[] = array(

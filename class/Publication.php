@@ -29,6 +29,8 @@ class mod_library_Publication extends icms_ipf_seo_Object {
 		$this->quickInitVar("title", XOBJ_DTYPE_TXTBOX, TRUE);
 		$this->quickInitVar("identifier", XOBJ_DTYPE_TXTBOX, FALSE);
 		$this->quickInitVar("creator", XOBJ_DTYPE_TXTBOX, FALSE);
+		$this->initNonPersistableVar('category', XOBJ_DTYPE_INT, 'category',
+			FALSE, FALSE, FALSE, TRUE);
 		$this->quickInitVar("description", XOBJ_DTYPE_TXTAREA, FALSE);
 		$this->quickInitVar("extended_text", XOBJ_DTYPE_TXTAREA, FALSE);
 		$this->quickInitVar("format", XOBJ_DTYPE_TXTBOX, TRUE);
@@ -67,16 +69,27 @@ class mod_library_Publication extends icms_ipf_seo_Object {
 			'module' => 'library',
 			'onSelect' => 'submit'));
 		
+		$this->setControl('categories', array(
+			'name' => 'select_multi',
+			'itemHandler' => 'tag',
+			'method' => 'getCategoryOptions',
+			'module' => 'sprockets'));
+		
 		$this->setControl('format', array(
 			'name' => 'select',
 			'itemHandler' => 'publication',
 			'method' => 'getFormatOptions',
 			'module' => 'library'));
 		
-		$this->setControl('source', array(
+		/*$this->setControl('source', array(
 			'itemHandler' => 'publication',
-			'method' => 'getCollectionOptions',
-			'module' => 'library'));
+			'method' => 'getSourceOptions',
+			'module' => 'library'));*/
+		
+		$this->setControl('rights', array(
+			'itemHandler' => 'rights',
+			'method' => 'getRights',
+			'module' => 'sprockets'));
 		
 		$this->setControl('language', array(
 			'name' => 'select',

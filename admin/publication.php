@@ -38,7 +38,7 @@ function editpublication($publication_id = 0) {
 include_once "admin_header.php";
 
 $library_publication_handler = icms_getModuleHandler("publication", basename(dirname(dirname(__FILE__))), "library");
-/** Use a naming convention that indicates the source of the content of the variable */
+
 $clean_op = "";
 /** Create a whitelist of valid values, be sure to use appropriate types for each value
  * Be sure to include a value for no parameter, if you have a default condition
@@ -48,15 +48,8 @@ $valid_op = array ("mod", "changedField", "addpublication", "del", "view", "");
 if (isset($_GET["op"])) $clean_op = htmlentities($_GET["op"]);
 if (isset($_POST["op"])) $clean_op = htmlentities($_POST["op"]);
 
-/** Again, use a naming convention that indicates the source of the content of the variable */
 $clean_publication_id = isset($_GET["publication_id"]) ? (int)$_GET["publication_id"] : 0 ;
 
-/**
- * in_array() is a native PHP function that will determine if the value of the
- * first argument is found in the array listed in the second argument. Strings
- * are case sensitive and the 3rd argument determines whether type matching is
- * required
-*/
 if (in_array($clean_op, $valid_op, TRUE)) {
 	switch ($clean_op) {
 		case "mod":
