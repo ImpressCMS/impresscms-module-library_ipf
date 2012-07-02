@@ -87,8 +87,43 @@ if (in_array($clean_op, $valid_op, TRUE)) {
 		
 		if (icms_get_module_status("sprockets"))
 		{
+			////////////////////////////////////
+			////////// TAG SELECT BOX //////////
+			////////////////////////////////////
+			$tag_select_box = '';
+			$taglink_array = $tagged_publication_list = array();
+			$sprockets_tag_handler = icms_getModuleHandler('tag', 'sprockets', 'sprockets');
+			$sprockets_taglink_handler = icms_getModuleHandler('taglink', 'sprockets', 'sprockets');
+
+			$tag_select_box = $sprockets_tag_handler->getTagSelectBox('publication.php', $clean_tag_id,
+				_AM_LIBRARY_PUBLICATION_ALL_PUBLICATIONS, FALSE, icms::$module->getVar('mid'), 'publication');
+
+			if (!empty($tag_select_box)) {
+				echo '<h3>' . _AM_LIBRARY_PUBLICATION_FILTER_BY_TAG . '</h3>';
+				echo $tag_select_box;
+			}
+
+			if ($clean_tag_id)
+			{
+				// Get a list of publication IDs belonging to this tag
+				$criteria = new icms_db_criteria_Compo();
+				$criteria->add(new icms_db_criteria_Item('tid', $clean_tag_id));
+				$criteria->add(new icms_db_criteria_Item('mid', icms::$module->getVar('mid')));
+				$criteria->add(new icms_db_criteria_Item('item', 'publication'));
+				$taglink_array = $sprockets_taglink_handler->getObjects($criteria);
+				foreach ($taglink_array as $taglink) {
+					$tagged_publication_list[] = $taglink->getVar('iid');
+				}
+				$tagged_publication_list = "('" . implode("','", $tagged_publication_list) . "')";
+
+				// Use the list to filter the persistable table
+				$criteria = new icms_db_criteria_Compo();
+				$criteria->add(new icms_db_criteria_Item('publication_id', $tagged_publication_list, 'IN'));
+			}
 			
-			/*
+			/////////////////////////////////////////
+			////////// CATEGORY SELECT BOX //////////
+			/////////////////////////////////////////
 			$category_select_box = '';
 			$taglink_array = $categorised_publication_list = array();
 			$sprockets_tag_handler = icms_getModuleHandler('tag', $sprocketsModule->getVar('dirname'),
@@ -119,38 +154,6 @@ if (in_array($clean_op, $valid_op, TRUE)) {
 				// Use the list to filter the persistable table
 				$criteria = new icms_db_criteria_Compo();
 				$criteria->add(new icms_db_criteria_Item('publication_id', $categorised_publication_list, 'IN'));
-			}
-		*/
-		
-			$tag_select_box = '';
-			$taglink_array = $tagged_publication_list = array();
-			$sprockets_tag_handler = icms_getModuleHandler('tag', 'sprockets', 'sprockets');
-			$sprockets_taglink_handler = icms_getModuleHandler('taglink', 'sprockets', 'sprockets');
-
-			$tag_select_box = $sprockets_tag_handler->getTagSelectBox('publication.php', $clean_tag_id,
-				_AM_LIBRARY_PUBLICATION_ALL_PUBLICATIONS, FALSE, icms::$module->getVar('mid'), 'publication');
-
-			if (!empty($tag_select_box)) {
-				echo '<h3>' . _AM_LIBRARY_PUBLICATION_FILTER_BY_TAG . '</h3>';
-				echo $tag_select_box;
-			}
-
-			if ($clean_tag_id)
-			{
-				// Get a list of publication IDs belonging to this tag
-				$criteria = new icms_db_criteria_Compo();
-				$criteria->add(new icms_db_criteria_Item('tid', $clean_tag_id));
-				$criteria->add(new icms_db_criteria_Item('mid', icms::$module->getVar('mid')));
-				$criteria->add(new icms_db_criteria_Item('item', 'publication'));
-				$taglink_array = $sprockets_taglink_handler->getObjects($criteria);
-				foreach ($taglink_array as $taglink) {
-					$tagged_publication_list[] = $taglink->getVar('iid');
-				}
-				$tagged_publication_list = "('" . implode("','", $tagged_publication_list) . "')";
-
-				// Use the list to filter the persistable table
-				$criteria = new icms_db_criteria_Compo();
-				$criteria->add(new icms_db_criteria_Item('publication_id', $tagged_publication_list, 'IN'));
 			}
 		}
 		
