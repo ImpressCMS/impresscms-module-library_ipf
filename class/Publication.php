@@ -192,7 +192,7 @@ class mod_library_Publication extends icms_ipf_seo_Object {
 
 		if ($type == 'Collection') {
 			$button = '<a href="' . ICMS_URL . '/modules/' . basename(dirname(dirname(__FILE__)))
-				. '/admin/collection.php?publication_id=' . $this->getVar('publication_id')
+				. '/admin/publication.php?publication_id=' . $this->getVar('publication_id')
 				. '&amp;op=changeFederated">';
 		} else {
 			$button = '<a href="' . ICMS_URL . '/modules/' . basename(dirname(dirname(__FILE__)))
@@ -302,7 +302,7 @@ class mod_library_Publication extends icms_ipf_seo_Object {
 
 		if ($type == 'Collection') {
 			$button = '<a href="' . ICMS_URL . '/modules/' . basename(dirname(dirname(__FILE__)))
-				. '/admin/collection.php?publication_id=' . $this->getVar('publication_id')
+				. '/admin/publication.php?publication_id=' . $this->getVar('publication_id')
 				. '&amp;op=changeStatus">';
 		} else {
 			$button = '<a href="' . ICMS_URL . '/modules/' . basename(dirname(dirname(__FILE__)))

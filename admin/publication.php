@@ -217,11 +217,11 @@ if (in_array($clean_op, $valid_op, TRUE)) {
 		$objectTable->addColumn(new icms_ipf_view_Column('date'));
 		if (icms_get_module_status("sprockets")) {
 			$objectTable->addColumn(new icms_ipf_view_Column('federated'));
-			//objectTable->addFilter('federated', 'federated_filter');
-			//$objectTable->addFilter('format', 'format_filter');
-			//$objectTable->addFilter('source' , 'source_filter');
-			//$objectTable->addFilter('rights', 'rights_filter');
-			//$objectTable->addFilter('federated', 'federation_filter');
+			$objectTable->addFilter('online_status', 'online_status_filter');
+			$objectTable->addFilter('format', 'format_filter');
+			$objectTable->addFilter('type' , 'type_filter');
+			$objectTable->addFilter('rights', 'rights_filter');
+			$objectTable->addFilter('federated', 'federated_filter');
 		}
 		$objectTable->addIntroButton("addpublication", "publication.php?op=mod", _AM_LIBRARY_PUBLICATION_CREATE);
 		$icmsAdminTpl->assign("library_publication_table", $objectTable->fetch());

@@ -69,3 +69,7 @@ define("_CO_LIBRARY_MOVINGIMAGE", "Video");
 define("_CO_LIBRARY_DATASET", "Dataset");
 define("_CO_LIBRARY_SOFTWARE", "Software");
 define("_CO_LIBRARY_COLLECTION", "Collection");
+
+// Filters
+define("_CO_LIBRARY_PUBLICATION_FEDERATION_ENABLED", "Federation enabled");
+define("_CO_LIBRARY_PUBLICATION_FEDERATION_DISABLED", "Federation disabled");

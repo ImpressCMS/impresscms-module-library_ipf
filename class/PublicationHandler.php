@@ -268,6 +268,48 @@ class mod_library_PublicationHandler extends icms_ipf_Handler {
 	}
 	
 	/**
+	 * Allows the publications admin table to be sorted by publication status
+	 */
+	public function online_status_filter() {
+		return array(0 =>  _CO_LIBRARY_PUBLICATION_OFFLINE, 1 =>  _CO_LIBRARY_PUBLICATION_ONLINE);
+	}
+	
+	/**
+	 * Allows the publications admin table to be sorted by publication format
+	 */
+	public function format_filter() {
+		return $this->getFormatOptions();
+	}
+	
+	/**
+	 * Allows the publications admin table to be sorted by type
+	 */
+	public function type_filter() {
+		return $this->getTypeOptions();
+	}
+	
+	/**
+	 * Allows the publications admin table to be sorted by rights
+	 */
+	public function rights_filter() {
+		$rights_array = array();
+		$sprockets_rights_handler = '';
+		
+		$sprockets_rights_handler = icms_getModuleHandler('rights', 'sprockets', 'sprockets');
+		$rights_array = $sprockets_rights_handler->getList();
+		
+		return $rights_array;
+	}
+	
+	/**
+	 * Allows the publications admin table to be sorted by federation status
+	 */
+	public function federated_filter() {
+		return array(0 =>  _CO_LIBRARY_PUBLICATION_FEDERATION_DISABLED,
+			1 =>  _CO_LIBRARY_PUBLICATION_FEDERATION_ENABLED);
+	}
+	
+	/**
 	 * Manages tracking of categories (via taglinks), called when a message is inserted or updated
 	 *
 	 * @param object $obj ContactMessage object
