@@ -185,12 +185,27 @@ if (in_array($clean_op, $valid_op, TRUE)) {
 			$criteria = null;
 		}
 		
-			$objectTable = new icms_ipf_view_Table($library_publication_handler, $criteria);
-			$objectTable->addColumn(new icms_ipf_view_Column("title"));
-			$objectTable->addIntroButton("addpublication", "publication.php?op=mod", _AM_LIBRARY_PUBLICATION_CREATE);
-			$icmsAdminTpl->assign("library_publication_table", $objectTable->fetch());
-			$icmsAdminTpl->display("db:library_admin_publication.html");
-			break;
+		$objectTable = new icms_ipf_view_Table($library_publication_handler, $criteria);
+		$objectTable->addQuickSearch('title');
+		$objectTable->addColumn(new icms_ipf_view_Column("online_status"));
+		$objectTable->addColumn(new icms_ipf_view_Column("title"));
+		$objectTable->addColumn(new icms_ipf_view_Column('creator'));
+		$objectTable->addColumn(new icms_ipf_view_Column('type', _GLOBAL_LEFT, false));
+		$objectTable->addColumn(new icms_ipf_view_Column('format', _GLOBAL_LEFT, false));
+		$objectTable->addColumn(new icms_ipf_view_Column('counter'));
+		$objectTable->addColumn(new icms_ipf_view_Column('date'));
+		if (icms_get_module_status("sprockets")) {
+			$objectTable->addColumn(new icms_ipf_view_Column('federated'));
+			//objectTable->addFilter('federated', 'federated_filter');
+			//$objectTable->addFilter('format', 'format_filter');
+			//$objectTable->addFilter('source' , 'source_filter');
+			//$objectTable->addFilter('rights', 'rights_filter');
+			//$objectTable->addFilter('federated', 'federation_filter');
+		}
+		$objectTable->addIntroButton("addpublication", "publication.php?op=mod", _AM_LIBRARY_PUBLICATION_CREATE);
+		$icmsAdminTpl->assign("library_publication_table", $objectTable->fetch());
+		$icmsAdminTpl->display("db:library_admin_publication.html");
+		break;
 	}
 	icms_cp_footer();
 }
