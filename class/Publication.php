@@ -36,7 +36,7 @@ class mod_library_Publication extends icms_ipf_seo_Object {
 		$this->quickInitVar("extended_text", XOBJ_DTYPE_TXTAREA, FALSE);
 		$this->quickInitVar("format", XOBJ_DTYPE_TXTBOX, TRUE);
 		$this->quickInitVar("file_size", XOBJ_DTYPE_INT, FALSE);
-		$this->quickInitVar("cover", XOBJ_DTYPE_IMAGE, FALSE);
+		$this->quickInitVar("image", XOBJ_DTYPE_IMAGE, FALSE);
 		$this->quickInitVar("date", XOBJ_DTYPE_STIME, FALSE);
 		$this->quickInitVar("source", XOBJ_DTYPE_TXTBOX, FALSE);
 		$this->quickInitVar("language", XOBJ_DTYPE_TXTBOX, FALSE, FALSE, FALSE,
@@ -54,7 +54,7 @@ class mod_library_Publication extends icms_ipf_seo_Object {
 		$this->initCommonVar("counter");
 		$this->initCommonVar("dohtml");
 		$this->initCommonVar("dobr");
-		$this->setControl("cover", "image");
+		$this->setControl("image", "image");
 		$this->setControl("submitter", "user");
 
 		$this->initiateSEO();
@@ -100,10 +100,10 @@ class mod_library_Publication extends icms_ipf_seo_Object {
 			'method' => 'getFormatOptions',
 			'module' => 'library'));
 		
-		/*$this->setControl('source', array(
+		$this->setControl('source', array(
 			'itemHandler' => 'publication',
-			'method' => 'getSourceOptions',
-			'module' => 'library'));*/
+			'method' => 'getSourceList',
+			'module' => 'library'));
 		
 		$this->setControl('rights', array(
 			'itemHandler' => 'rights',
@@ -120,6 +120,10 @@ class mod_library_Publication extends icms_ipf_seo_Object {
 		$this->setControl('compact_view', 'yesno');
 		$this->setControl('online_status', 'yesno');
 		$this->setControl('federated', 'yesno');
+		
+		// Hide the compact view control by default, it is only enabled for the collection type
+		$this->doHideFieldFromForm('compact_view');
+		$this->hideFieldFromSingleView ('compact_view');
 	}
 
 	/**
@@ -135,6 +139,16 @@ class mod_library_Publication extends icms_ipf_seo_Object {
 			return call_user_func(array ($this,	$key));
 		}
 		return parent::getVar($key, $format);
+	}
+	
+	/*
+     * Formats the date in a sane (non-American) way
+	*/
+	public function date()
+	{
+		$date = $this->getVar('date', 'e');
+		$date = date('j/m/Y', $date);
+		return $date;
 	}
 	
 	/**
@@ -172,6 +186,80 @@ class mod_library_Publication extends icms_ipf_seo_Object {
 					$sprocketsModule->getVar('dirname'), 'sprockets');
 			$ret = $sprockets_taglink_handler->getTagsForObject($this->id(), $this->handler, '1'); // label_type = 1 means only return categories
 			$this->setVar('category', $ret);
+		}
+	}
+	
+	/**
+	 * Shows, hides fields and sets requirement status of fields according to publication type.
+	 *
+	 * Modifies the publication submission form to suit the type of publication currently selected.
+	 * It also tries to protect the user by enforcing required fields where possible. However, the
+	 * user must still use their brain occasionally to make sensible decisions. See the user manual
+	 * for guidance on use of the publication submission form.
+	 */
+	public function contextualiseFormFields() {
+
+		// Disallowed fields must be purged in case the object type has been reassigned. Some fields 
+		// may need to be set as required for certain publication types
+
+		switch ($this->getVar('type', 'e')) {
+			case 'Text':
+				// Identifier and file size are optional, for example a text-only article displayed
+				// on screen doesn't need them. However, a downloadable PDF version of an
+				// article *does*. Admins need to make intelligent choices when submitting items.
+				break;
+
+			case 'Image':
+				// If the object is an image, then the image field is required. Only local images
+				// are allowed for integrity reasons, therefore the identifier field is hidden.
+				// IPF bug: Setting image fields as required doesn't seem to work.
+				$this->setFieldAsRequired('image', TRUE);
+				$this->setFieldAsRequired('file_size', TRUE);
+				$this->setFieldAsRequired('format', TRUE);
+
+				$this->doHidefieldFromForm('identifier');
+				$this->hideFieldFromSingleView ('identifier');
+				$this->setVar('identifier', '');
+				
+				$this->doHidefieldFromForm('language');
+				$this->setVar('language', 0);				
+				break;
+
+			case 'MovingImage':
+				// Can support embedded videos, therefore identifier, file size and format are optional
+				break;
+			
+			case 'Sound':
+				// Sound files require a URL to the resource. The format and file size are required
+				// as these are important for correct representation of media enclosures in RSS / 
+				// podcasting fields.
+				$this->setFieldAsRequired('identifier', TRUE);
+				$this->setFieldAsRequired('file_size', TRUE);
+				$this->setFieldAsRequired('format', TRUE);
+				break;
+
+			case 'Dataset':
+			case 'Software':
+				// Downloadable items, identifier, file size and format are required.
+				$this->setFieldAsRequired('identifier', TRUE);
+				$this->setFieldAsRequired('file_size', TRUE);
+				$this->setFieldAsRequired('format', TRUE);
+				break;
+
+			case 'Collection';
+				// Collections do not *have* to be downloadable entities (for example, could be a
+				// text description of an album, with individually downloadable soundtracks, 
+				// so identifier, file size and format are optional. Compact view is a setting that
+				// is only available to collections; it displays the related works as a simple list
+				// to save space (or in cases where the related works don't have a description, 
+				// which is often the case with soundtracks that are part of an album).
+				$this->setVar('source', 0);
+				$this->doHideFieldFromForm('source');
+				$this->hideFieldFromSingleView ('source');
+				$this->doShowFieldOnForm('compact_view');
+				break;
+
+			default:
 		}
 	}
 }

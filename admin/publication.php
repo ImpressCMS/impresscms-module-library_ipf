@@ -17,20 +17,21 @@
  *
  * @param int $publication_id Publicationid to be edited
 */
-function editpublication($publication_id = 0) {
+function editPublication($pubObj) 
+{
 	global $library_publication_handler, $icmsModule, $icmsAdminTpl;
 
-	$publicationObj = $library_publication_handler->get($publication_id);
+	$pubObj->contextualiseFormFields();
 
-	if (!$publicationObj->isNew()){
-		$publicationObj->loadTags();
-		$publicationObj->loadCategories();
+	if (!$pubObj->isNew()){
+		$pubObj->loadTags();
+		$pubObj->loadCategories();
 		$icmsModule->displayAdminMenu(0, _AM_LIBRARY_PUBLICATIONS . " > " . _CO_ICMS_EDITING);
-		$sform = $publicationObj->getForm(_AM_LIBRARY_PUBLICATION_EDIT, "addpublication");
+		$sform = $pubObj->getForm(_AM_LIBRARY_PUBLICATION_EDIT, "addpublication");
 		$sform->assign($icmsAdminTpl);
 	} else {
 		$icmsModule->displayAdminMenu(0, _AM_LIBRARY_PUBLICATIONS . " > " . _CO_ICMS_CREATINGNEW);
-		$sform = $publicationObj->getForm(_AM_LIBRARY_PUBLICATION_CREATE, "addpublication");
+		$sform = $pubObj->getForm(_AM_LIBRARY_PUBLICATION_CREATE, "addpublication");
 		$sform->assign($icmsAdminTpl);
 
 	}
@@ -54,11 +55,23 @@ $clean_publication_id = isset($_GET["publication_id"]) ? (int)$_GET["publication
 $clean_tag_id = isset($_GET['tag_id']) ? intval($_GET['tag_id']) : 0 ;
 
 if (in_array($clean_op, $valid_op, TRUE)) {
-	switch ($clean_op) {
+	switch ($clean_op)
+	{
 		case "mod":
+				icms_cp_header();
+				$publicationObj = $library_publication_handler->get($clean_publication_id);
+				editPublication($publicationObj);
+			break;
+		
 		case "changedField":
 			icms_cp_header();
-			editpublication($clean_publication_id);
+			$publicationObj = $library_publication_handler->get($clean_publication_id);
+			if (isset($_POST['op']))
+			{
+				$controller = new icms_ipf_Controller($library_publication_handler);
+				$controller->postDataToObject($publicationObj);
+			}
+			editpublication($publicationObj);
 			break;
 
 		case "addpublication":

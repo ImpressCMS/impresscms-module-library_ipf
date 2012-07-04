@@ -76,16 +76,17 @@ class mod_library_PublicationHandler extends icms_ipf_Handler {
 	public function getTypeOptions()
 	{
 		$options = array(
-			'Collection',
-			'Dataset',
-			'Event',
-			'Image',
-			//'InteractiveResource',
-			//'Service',
-			'Software',
-			'Sound',
-			'Text',
-			//'PhysicalObject'
+			'Text' => 'Text',
+			'Image' => 'Image',
+			'MovingImage' => 'MovingImage',
+			'Sound' => 'Sound',
+			'Software' => 'Software',
+			'Dataset' => 'Dataset',
+			'Collection' => 'Collection'			
+			//'Event' => 'Event',
+			//'InteractiveResource' => 'InteractiveResource',
+			//'Service' => 'Service',
+			//'PhysicalObject' = 'PhysicalObject'
 		);
 		
 		return $options;
@@ -118,11 +119,11 @@ class mod_library_PublicationHandler extends icms_ipf_Handler {
 	 * @return array
 	 */
 	
-	public function getCollectionOptions()
+	public function getSourceList()
 	{
 		$library_publication_handler = icms_getModuleHandler('publication', basename(dirname(dirname(__FILE__))), 'library');
 		$criteria = new icms_db_criteria_Compo();
-		$criteria->add(new icms_db_criteria_Item('type', '0'));
+		$criteria->add(new icms_db_criteria_Item('type', 'Collection'));
 		$collectionList = array( 0 => '---') + $library_publication_handler->getList($criteria);
 		return $collectionList;
 	}
