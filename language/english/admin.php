@@ -37,3 +37,9 @@ define("_AM_LIBRARY_PUBLICATION_FILTER_BY_CATEGORY", "Filter by category");
 
 // Tags
 define("_AM_LIBRARY_PUBLICATION_FILTER_BY_TAG", "Filter by tag");
+
+// Toggle switches
+define("_AM_LIBRARY_PUBLICATION_OFFLINE", "Publication set offline.");
+define("_AM_LIBRARY_PUBLICATION_ONLINE", "Publication set online.");
+define("_AM_LIBRARY_PUBLICATION_FEDERATION_ENABLED", "Federation enabled.");
+define("_AM_LIBRARY_PUBLICATION_FEDERATION_DISABLED", "Federation disabled.");

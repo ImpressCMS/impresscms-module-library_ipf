@@ -244,6 +244,30 @@ class mod_library_PublicationHandler extends icms_ipf_Handler {
 	}
 	
 	/**
+	 * Toggles the publication online_status and federated properties
+	 *
+	 * @param int $publication_id
+	 * @param str $field
+	 * @return int $visibility
+	 */
+	public function changeStatus($id, $field) {
+		
+		$visibility = $publicationObj = '';
+		
+		$publicationObj = $this->get($id);
+		if ($publicationObj->getVar($field, 'e') == 1) {
+			$publicationObj->setVar($field, 0);
+			$visibility = 0;
+		} else {
+			$publicationObj->setVar($field, 1);
+			$visibility = 1;
+		}
+		$this->insert($publicationObj, TRUE);
+		
+		return $visibility;
+	}
+	
+	/**
 	 * Manages tracking of categories (via taglinks), called when a message is inserted or updated
 	 *
 	 * @param object $obj ContactMessage object

@@ -46,7 +46,8 @@ $clean_op = "";
 /** Create a whitelist of valid values, be sure to use appropriate types for each value
  * Be sure to include a value for no parameter, if you have a default condition
  */
-$valid_op = array ("mod", "changedField", "addpublication", "del", "view", "");
+$valid_op = array ("mod", "changedField", "addpublication", "del", "view", "changeStatus",
+	"changeFederated", "");
 
 if (isset($_GET["op"])) $clean_op = htmlentities($_GET["op"]);
 if (isset($_POST["op"])) $clean_op = htmlentities($_POST["op"]);
@@ -88,6 +89,26 @@ if (in_array($clean_op, $valid_op, TRUE)) {
 			$publicationObj = $library_publication_handler->get($clean_publication_id);
 			icms_cp_header();
 			$publicationObj->displaySingleObject();
+			break;
+		
+		case "changeStatus":
+			$status = $library_publication_handler->changeStatus($clean_publication_id, 'online_status');
+			$ret = '/modules/' . basename(dirname(dirname(__FILE__))) . '/admin/publication.php';
+			if ($status == 0) {
+				redirect_header(ICMS_URL . $ret, 2, _AM_LIBRARY_PUBLICATION_OFFLINE);
+			} else {
+				redirect_header(ICMS_URL . $ret, 2, _AM_LIBRARY_PUBLICATION_ONLINE);
+			}
+			break;
+		
+		case "changeFederated":
+			$federated = $library_publication_handler->changeStatus($clean_publication_id, 'federated');
+			$ret = '/modules/' . basename(dirname(dirname(__FILE__))) . '/admin/publication.php';
+			if ($federated == 0) {
+				redirect_header(ICMS_URL . $ret, 2, _AM_LIBRARY_PUBLICATION_FEDERATION_DISABLED);
+			} else {
+				redirect_header(ICMS_URL . $ret, 2, _AM_LIBRARY_PUBLICATION_FEDERATION_ENABLED);
+			}
 			break;
 
 		default:
