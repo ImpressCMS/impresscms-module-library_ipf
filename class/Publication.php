@@ -142,10 +142,31 @@ class mod_library_Publication extends icms_ipf_seo_Object {
 	 * @return mixed value of the field that is requested
 	 */
 	public function getVar($key, $format = "s") {
-		if ($format == "s" && in_array($key, array())) {
+		if ($format == "s" && in_array($key, array(
+			'creator',
+			'date',
+			'file_size',
+			'language',
+			'rights',
+			'source',
+			'online_status',
+			'federated',
+			'submitter',
+			'format'))) {
 			return call_user_func(array ($this,	$key));
 		}
 		return parent::getVar($key, $format);
+	}
+	
+	/*
+     * Converts pipe-delimited creator field to comma separated for user side presentation
+	*/
+	public function creator() {
+		$creator = $this->getVar('creator', 'e');
+		if ($creator) {
+			$creator = str_replace("|", ", ",  $creator);
+		}
+		return $creator;
 	}
 	
 	/*
@@ -154,8 +175,157 @@ class mod_library_Publication extends icms_ipf_seo_Object {
 	public function date()
 	{
 		$date = $this->getVar('date', 'e');
-		$date = date('j/m/Y', $date);
+		if ($date) {
+			$date = date('j/m/Y', $date);
+		}
 		return $date;
+	}
+	
+	/*
+     * Converts federated field to human readable value
+	*/
+
+	public function federated() {
+		$button = '';
+		$type = $this->getVar('type', 'e');
+		$federated = $this->getVar('federated', 'e');
+
+		if ($type == 'Collection') {
+			$button = '<a href="' . ICMS_URL . '/modules/' . basename(dirname(dirname(__FILE__)))
+				. '/admin/collection.php?publication_id=' . $this->getVar('publication_id')
+				. '&amp;op=changeFederated">';
+		} else {
+			$button = '<a href="' . ICMS_URL . '/modules/' . basename(dirname(dirname(__FILE__)))
+				. '/admin/publication.php?publication_id=' . $this->getVar('publication_id')
+				. '&amp;op=changeFederated">';
+		}
+		if ($federated == FALSE) {
+			$button .= '<img src="' . ICMS_IMAGES_SET_URL . '/actions/button_cancel.png" alt="' 
+				. _CO_LIBRARY_PUBLICATION_OFFLINE . '" title="'
+				. _CO_LIBRARY_PUBLICATION_NOT_FEDERATED . '" /></a>';
+		} else {
+			$button .= '<img src="' . ICMS_IMAGES_SET_URL . '/actions/button_ok.png" alt="'
+				. _CO_LIBRARY_PUBLICATION_ONLINE . '" title="' 
+				. _CO_LIBRARY_PUBLICATION_FEDERATED . '" /></a>';
+		}
+		return $button;
+	}
+	
+	/*
+     * Utility to convert bytes to a more readable form (KB, MB etc)
+	*/
+	public function file_size() {
+		$unit = $value = $output = '';
+		$bytes = $this->getVar('file_size', 'e');
+
+		if ($bytes == 0 || $bytes < 1024) {
+			$unit = ' bytes';
+			$value = $bytes;
+		} elseif ($bytes > 1023 && $bytes < 1048576) {
+			$unit = ' KB';
+			$value = ($bytes / 1024);
+		} elseif ($bytes > 1048575 && $bytes < 1073741824) {
+			$unit = ' MB';
+			$value = ($bytes / 1048576);
+		} else {
+			$unit = ' GB';
+			$value = ($bytes / 1073741824);
+		}
+		$value = round($value, 2);
+		$output = $value . ' ' . $unit;
+		
+		return $output;
+	}
+	
+	/*
+     * Converts mimetype id to human readable value (extension)
+	*/
+	public function format() {
+		if ($this->getVar('format', 'e') !== 0) {
+		$system_mimetype_handler = icms_getModuleHandler('mimetype', 'system');
+		$mimetypeObj = $system_mimetype_handler->get($this->getVar('format', 'e'));
+		$mimetype = $mimetypeObj->getVar('extension');
+		return $mimetype;
+		} else {
+			return FALSE;
+		}
+	}
+	
+	/*
+     * Converts the language key to a human readable title
+	*/
+	public function language() {
+		$language_key = $this->getVar('language', 'e');
+		$language_list = $this->handler->getLanguageOptions();
+		return $language_list[$language_key];
+	}
+	
+	/*
+     * Converts the rights id to a human readable title
+	*/
+	public function rights() {
+		$sprocketsModule = icms_getModuleInfo('sprockets');
+		
+		if (icms_get_module_status("sprockets")) {
+			$rights_id = $this->getVar('rights', 'e');
+			$sprockets_rights_handler = icms_getModuleHandler('rights',
+				$sprocketsModule->getVar('dirname'), 'sprockets');
+			$rights_object = $sprockets_rights_handler->get($rights_id);
+			$rights = $rights_object->getItemLink();
+			return $rights;
+		} else {
+			return FALSE;
+		}
+	}
+	
+	/*
+     * Converts the source (publication/collection) id to a human readable title
+	*/
+	public function source() {
+		$source = $this->getVar('source', 'e');
+		$library_publication_handler = icms_getModuleHandler('publication',
+			basename(dirname(dirname(__FILE__))), 'library');
+		$publication_object = $library_publication_handler->get($source);
+		$source = $publication_object->getVar('title');
+		$source_link = '<a href="./publication.php?publication_id='
+			. $publication_object->getVar('publication_id') . '">' . $source . '</a>';
+		return $source_link;
+	}
+	
+	/*
+     * Converts status field to clickable icon that can change status
+	*/
+	public function online_status() {
+		$button = '';
+		$type = $this->getVar('type', 'e');
+		$status = $this->getVar('online_status', 'e');
+
+		if ($type == 'Collection') {
+			$button = '<a href="' . ICMS_URL . '/modules/' . basename(dirname(dirname(__FILE__)))
+				. '/admin/collection.php?publication_id=' . $this->getVar('publication_id')
+				. '&amp;op=changeStatus">';
+		} else {
+			$button = '<a href="' . ICMS_URL . '/modules/' . basename(dirname(dirname(__FILE__)))
+				. '/admin/publication.php?publication_id=' . $this->getVar('publication_id')
+				. '&amp;op=changeStatus">';
+		}
+		if ($status == '1') {
+			$button .= '<img src="' . ICMS_IMAGES_SET_URL . '/actions/button_ok.png" alt="' 
+				. _CO_LIBRARY_PUBLICATION_ONLINE . '" title="'
+				. _CO_LIBRARY_PUBLICATION_ONLINE . '" /></a>';
+		} else {
+			$button .= '<img src="' . ICMS_IMAGES_SET_URL . '/actions/button_cancel.png" alt="'
+				. _CO_LIBRARY_PUBLICATION_ONLINE . '" title="'
+				. _CO_LIBRARY_PUBLICATION_ONLINE . '" /></a>';
+		}
+		return $button;
+	}
+	
+	/*
+     * Converts user id to human readable user name
+	*/
+	public function submitter() {
+		return icms_member_user_Handler::getUserLink($this->getVar('submitter', 'e'));
 	}
 	
 	/**

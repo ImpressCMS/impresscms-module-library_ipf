@@ -48,8 +48,11 @@ define("_CO_LIBRARY_PUBLICATION_RIGHTS_DSC", "The license under which this publi
 define("_CO_LIBRARY_PUBLICATION_COMPACT_VIEW", "Compact view");
 define("_CO_LIBRARY_PUBLICATION_COMPACT_VIEW_DSC", "Do you want to display this collection in compact form (a simple list of contents, best for albums and similar where member publications don&#039;t usually carry descriptions) or in expanded view with descriptions and other metadata?");
 define("_CO_LIBRARY_PUBLICATION_ONLINE_STATUS", "Online status");
+define("_CO_LIBRARY_PUBLICATION_ONLINE", "Online");
+define("_CO_LIBRARY_PUBLICATION_OFFLINE", "Offline");
 define("_CO_LIBRARY_PUBLICATION_ONLINE_STATUS_DSC", "Toggle this publication online or offline.");
 define("_CO_LIBRARY_PUBLICATION_FEDERATED", "Federated");
+define("_CO_LIBRARY_PUBLICATION_NOT_FEDERATED", "Not federated");
 define("_CO_LIBRARY_PUBLICATION_FEDERATED_DSC", "Syndicate this publication&#039;s metadata with other sites (cross site search) via the Open Archives Initiative Protocol for Metadata Harvesting?");
 define("_CO_LIBRARY_PUBLICATION_SUBMISSION_TIME", "Submission time");
 define("_CO_LIBRARY_PUBLICATION_SUBMISSION_TIME_DSC", "");
