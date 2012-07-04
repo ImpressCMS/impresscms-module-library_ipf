@@ -111,11 +111,6 @@ if (in_array($clean_op, $valid_op, TRUE)) {
 			$tag_select_box = $sprockets_tag_handler->getTagSelectBox('publication.php', $clean_tag_id,
 				_AM_LIBRARY_PUBLICATION_ALL_PUBLICATIONS, FALSE, icms::$module->getVar('mid'), 'publication');
 
-			if (!empty($tag_select_box)) {
-				echo '<h3>' . _AM_LIBRARY_PUBLICATION_FILTER_BY_TAG . '</h3>';
-				echo $tag_select_box;
-			}
-
 			if ($clean_tag_id)
 			{
 				// Get a list of publication IDs belonging to this tag
@@ -146,10 +141,6 @@ if (in_array($clean_op, $valid_op, TRUE)) {
 			
 			$category_select_box = $sprockets_tag_handler->getCategorySelectBox('publication.php', 
 						$clean_tag_id, _AM_LIBRARY_PUBLICATION_ALL_PUBLICATIONS, icms::$module->getVar('mid'));
-			if (!empty($category_select_box)) {
-				echo '<h3>' . _AM_LIBRARY_PUBLICATION_FILTER_BY_CATEGORY . '</h3>';
-				echo $category_select_box;
-			}
 			
 			if ($clean_tag_id)
 			{
@@ -168,6 +159,26 @@ if (in_array($clean_op, $valid_op, TRUE)) {
 				$criteria = new icms_db_criteria_Compo();
 				$criteria->add(new icms_db_criteria_Item('publication_id', $categorised_publication_list, 'IN'));
 			}
+		}
+		
+		// Display the tag/category select boxes in a table, side by side to save space
+		if (!empty($tag_select_box) || !empty($category_select_box))
+		{
+			$select_box_code = '<table><tr>';
+			if (!empty($tag_select_box)) {
+				$select_box_code .= '<td><h3>' . _AM_LIBRARY_PUBLICATION_FILTER_BY_TAG . '</h3></td>';
+			}
+			if (!empty($category_select_box)) {
+				$select_box_code .= '<td><h3>' . _AM_LIBRARY_PUBLICATION_FILTER_BY_CATEGORY . '</h3></td>';
+			}
+			$select_box_code .= '</tr><tr>';
+			if (!empty($tag_select_box)) {
+				$select_box_code .= '<td>' . $tag_select_box . '</td>';
+			}
+			if (!empty($category_select_box)) {
+				$select_box_code .= '<td>' . $category_select_box . '</td>';
+			}
+			echo $select_box_code . '</tr></table>';
 		}
 		
 		if (empty($criteria)) {
