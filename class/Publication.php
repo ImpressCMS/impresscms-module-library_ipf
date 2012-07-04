@@ -51,6 +51,7 @@ class mod_library_Publication extends icms_ipf_seo_Object {
 		$this->quickInitVar("submitter", XOBJ_DTYPE_INT, TRUE);
 		$this->quickInitVar("oai_identifier", XOBJ_DTYPE_TXTBOX, TRUE, FALSE, FALSE,
 				$this->handler->setOaiId());
+		$this->quickInitVar('notification_sent', XOBJ_DTYPE_INT, TRUE, FALSE, FALSE, 0);
 		$this->initCommonVar("counter");
 		$this->initCommonVar("dohtml");
 		$this->initCommonVar("dobr");
@@ -99,6 +100,12 @@ class mod_library_Publication extends icms_ipf_seo_Object {
 			'itemHandler' => 'publication',
 			'method' => 'getFormatOptions',
 			'module' => 'library'));
+		
+		// Set uploads directory for images
+		$this->setControl('image', array('name' => 'image'));
+		$url = ICMS_URL . '/uploads/' . basename(dirname(dirname(__FILE__))) . '/';
+		$path = ICMS_ROOT_PATH . '/uploads/' . basename(dirname(dirname(__FILE__))) . '/';
+		$this->setImageDir($url, $path);
 		
 		$this->setControl('source', array(
 			'itemHandler' => 'publication',
@@ -197,10 +204,22 @@ class mod_library_Publication extends icms_ipf_seo_Object {
 	 * user must still use their brain occasionally to make sensible decisions. See the user manual
 	 * for guidance on use of the publication submission form.
 	 */
-	public function contextualiseFormFields() {
-
-		// Disallowed fields must be purged in case the object type has been reassigned. Some fields 
-		// may need to be set as required for certain publication types
+	public function contextualiseFormFields()
+	{
+		// MANDATORY FORM SETTINGS:
+		
+		// Make the oai_identifier read only for OAIPMH archive integrity purposes. These must 
+		// never change as external harvesters use them as markers to detect duplicate records
+		$this->doMakeFieldreadOnly('oai_identifier');
+		
+		// Force html and don't allow user to change; necessary for RSS feed integrity
+		$this->doHideFieldFromForm('dohtml');
+		
+		// For backend use only - tracking notifications for this object
+		$this->hideFieldFromForm ('notification_sent');
+		$this->hideFieldFromSingleView ('notification_sent');
+		
+		// CONTEXTUAL FORM SETTINGS:
 
 		switch ($this->getVar('type', 'e')) {
 			case 'Text':
