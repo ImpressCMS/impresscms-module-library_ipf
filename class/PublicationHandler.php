@@ -78,15 +78,15 @@ class mod_library_PublicationHandler extends icms_ipf_Handler {
 		$options = array(
 			'Text' => 'Text',
 			'Image' => 'Image',
-			'MovingImage' => 'MovingImage',
+			'MovingImage' => 'Moving Image',
 			'Sound' => 'Sound',
 			'Software' => 'Software',
 			'Dataset' => 'Dataset',
 			'Collection' => 'Collection'			
 			//'Event' => 'Event',
-			//'InteractiveResource' => 'InteractiveResource',
+			//'InteractiveResource' => 'Interactive Resource',
 			//'Service' => 'Service',
-			//'PhysicalObject' = 'PhysicalObject'
+			//'PhysicalObject' = 'Physical Object'
 		);
 		
 		return $options;
@@ -215,8 +215,6 @@ class mod_library_PublicationHandler extends icms_ipf_Handler {
 	 */
 	public function assignTemplate($type)
 	{
-		// 
-		
 		switch ($type)
 		{
 			case "Text":
@@ -231,8 +229,17 @@ class mod_library_PublicationHandler extends icms_ipf_Handler {
 				return "sound.html";
 				break;
 			case "Image":
+			case "MovingImage":
 				return "image.html";
-				break;	
+				break;			
+			case "Event":
+				break;
+			// case "InteractiveResource":\
+			//	break;
+			// case "Service":
+			//	break;
+			// case "PhysicalObject":
+			//	break;
 		}
 	}
 	
