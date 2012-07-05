@@ -128,9 +128,22 @@ class mod_library_Publication extends icms_ipf_seo_Object {
 		$this->setControl('online_status', 'yesno');
 		$this->setControl('federated', 'yesno');
 		
-		// Hide the compact view control by default, it is only enabled for the collection type
+		// MANDATORY CONTROL VIEW SETTINGS:
+		
+		// Make the oai_identifier read only for OAIPMH archive integrity purposes. These must 
+		// never change as external harvesters use them as markers to detect duplicate records
+		$this->doMakeFieldreadOnly('oai_identifier');
+		
+		// Force html and don't allow user to change; necessary for RSS feed integrity
+		$this->doHideFieldFromForm('dohtml');
+		
+		// For backend use only - tracking notifications for this object
+		$this->hideFieldFromForm ('notification_sent');
+		$this->hideFieldFromSingleView ('notification_sent');
+		
+		// For backend use only - compact view is only available to Collection type publications
 		$this->doHideFieldFromForm('compact_view');
-		$this->hideFieldFromSingleView ('compact_view');
+		$this->hideFieldFromSingleView('compact_view');
 	}
 
 	/**
@@ -377,21 +390,6 @@ class mod_library_Publication extends icms_ipf_seo_Object {
 	 */
 	public function contextualiseFormFields()
 	{
-		// MANDATORY FORM SETTINGS:
-		
-		// Make the oai_identifier read only for OAIPMH archive integrity purposes. These must 
-		// never change as external harvesters use them as markers to detect duplicate records
-		$this->doMakeFieldreadOnly('oai_identifier');
-		
-		// Force html and don't allow user to change; necessary for RSS feed integrity
-		$this->doHideFieldFromForm('dohtml');
-		
-		// For backend use only - tracking notifications for this object
-		$this->hideFieldFromForm ('notification_sent');
-		$this->hideFieldFromSingleView ('notification_sent');
-		
-		// CONTEXTUAL FORM SETTINGS:
-
 		switch ($this->getVar('type', 'e')) {
 			case 'Text':
 				// Identifier and file size are optional, for example a text-only article displayed
@@ -416,7 +414,8 @@ class mod_library_Publication extends icms_ipf_seo_Object {
 				break;
 
 			case 'MovingImage':
-				// Can support embedded videos, therefore identifier, file size and format are optional
+				// Can support embedded or downloadable videos, therefore identifier, file size and
+				// format are optional
 				break;
 			
 			case 'Sound':
@@ -451,5 +450,15 @@ class mod_library_Publication extends icms_ipf_seo_Object {
 
 			default:
 		}
+	}
+	
+	/**
+	 * View publication within admin page
+	 */
+	public function getAdminViewItemLink() {
+		$ret = '<a href="' . LIBRARY_ADMIN_URL . 'publication.php?op=view&amp;publication_id=' 
+			. $this->getVar('publication_id', 'e') . '" title="' . _CO_LIBRARY_PUBLICATION_VIEW 
+			. '">' . $this->getVar('title') . '</a>';
+		return $ret;
 	}
 }

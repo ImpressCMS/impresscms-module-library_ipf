@@ -60,6 +60,7 @@ define("_CO_LIBRARY_PUBLICATION_SUBMITTER", "Submitter");
 define("_CO_LIBRARY_PUBLICATION_SUBMITTER_DSC", "");
 define("_CO_LIBRARY_PUBLICATION_OAI_IDENTIFIER", "OAI Identifier");
 define("_CO_LIBRARY_PUBLICATION_OAI_IDENTIFIER_DSC", "Used to uniquely identify this publication across federated sites, and prevents publications being duplicated or imported multiple times. Should never be changed under any circumstance.");
+define("_CO_LIBRARY_PUBLICATION_VIEW", "View publication");
 
 // Dublic Core Metadata Initiative Type Vocabulary
 define("_CO_LIBRARY_TEXT", "Text");
