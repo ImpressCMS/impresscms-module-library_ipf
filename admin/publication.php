@@ -40,7 +40,8 @@ function editPublication($pubObj)
 
 include_once "admin_header.php";
 
-$library_publication_handler = icms_getModuleHandler("publication", basename(dirname(dirname(__FILE__))), "library");
+$library_publication_handler = icms_getModuleHandler("publication", 
+		basename(dirname(dirname(__FILE__))), "library");
 
 $clean_op = "";
 /** Create a whitelist of valid values, be sure to use appropriate types for each value
@@ -77,7 +78,8 @@ if (in_array($clean_op, $valid_op, TRUE)) {
 
 		case "addpublication":
 			$controller = new icms_ipf_Controller($library_publication_handler);
-			$controller->storeFromDefaultForm(_AM_LIBRARY_PUBLICATION_CREATED, _AM_LIBRARY_PUBLICATION_MODIFIED);
+			$controller->storeFromDefaultForm(_AM_LIBRARY_PUBLICATION_CREATED, 
+					_AM_LIBRARY_PUBLICATION_MODIFIED);
 			break;
 
 		case "del":
@@ -209,7 +211,7 @@ if (in_array($clean_op, $valid_op, TRUE)) {
 		$objectTable = new icms_ipf_view_Table($library_publication_handler, $criteria);
 		$objectTable->addQuickSearch('title');
 		$objectTable->addColumn(new icms_ipf_view_Column("online_status"));
-		$objectTable->addColumn(new icms_ipf_view_Column("title"));
+		$objectTable->addColumn(new icms_ipf_view_Column("title", FALSE, FALSE, 'getAdminViewItemLink'));
 		$objectTable->addColumn(new icms_ipf_view_Column('creator'));
 		$objectTable->addColumn(new icms_ipf_view_Column('type', _GLOBAL_LEFT, false));
 		$objectTable->addColumn(new icms_ipf_view_Column('format', _GLOBAL_LEFT, false));
