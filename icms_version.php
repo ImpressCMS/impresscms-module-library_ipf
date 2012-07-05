@@ -343,6 +343,14 @@ $modversion['config'][] = array(
 	'default' =>  '1');
 
 $modversion['config'][] = array(
+	'name' => 'date_format',
+	'title' => '_MI_LIBRARY_DATE_FORMAT',
+	'description' => '_MI_LIBRARY_DATE_FORMAT_DSC',
+	'formtype' => 'textbox',
+	'valuetype' => 'string',
+	'default' => 'j/n/Y');
+
+$modversion['config'][] = array(
 	'name' => 'display_format_field',
 	'title' => '_MI_LIBRARY_DISPLAY_FORMAT',
 	'description' => '_MI_LIBRARY_DISPLAY_FORMATDSC',

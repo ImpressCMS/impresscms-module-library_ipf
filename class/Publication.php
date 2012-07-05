@@ -174,9 +174,10 @@ class mod_library_Publication extends icms_ipf_seo_Object {
 	*/
 	public function date()
 	{
+		$libraryModule = icms_getModuleInfo(basename(dirname(dirname(__FILE__))));
 		$date = $this->getVar('date', 'e');
 		if ($date) {
-			$date = date('j/m/Y', $date);
+			$date = date($libraryModule->config['date_format'], $date);
 		}
 		return $date;
 	}
