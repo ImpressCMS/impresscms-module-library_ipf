@@ -113,35 +113,27 @@ define("_MI_LIBRARY_NUMBER_COLLECTIONSDSC", "When viewing the collection index p
 define("_MI_LIBRARY_NEW", "New");
 
 // display preferences
-define("_MI_LIBRARY_DISPLAY_RELEASED", "Display collection release date");
-define("_MI_LIBRARY_DISPLAY_RELEASEDDSC", "Toggles visibility in user-side templates");
-define("_MI_LIBRARY_DISPLAY_COLLECTION_PUBLISHER", "Display collection publisher field");
-define("_MI_LIBRARY_DISPLAY_COLLECTION_PUBLISHERDSC", "Toggles visibility in user-side templates");
-define("_MI_LIBRARY_DISPLAY_TRACKCOUNT", "Display collection publication counter field");
-define("_MI_LIBRARY_DISPLAY_TRACKCOUNTDSC", "Toggles visibility in user-side templates");
-define("_MI_LIBRARY_DISPLAY_COUNTER", "Display collection/publication views counter field");
+define("_MI_LIBRARY_DISPLAY_COUNTER", "Display views counter field");
 define("_MI_LIBRARY_DISPLAY_COUNTERDSC", "Toggles visibility in user-side templates");
-define("_MI_LIBRARY_DISPLAY_CREATOR", "Display publication author field");
+define("_MI_LIBRARY_DISPLAY_CREATOR", "Display author field");
 define("_MI_LIBRARY_DISPLAY_CREATORDSC", "Toggles visibility in user-side templates");
-define("_MI_LIBRARY_DISPLAY_DATE", "Display publication date field");
+define("_MI_LIBRARY_DISPLAY_DATE", "Display date field");
 define("_MI_LIBRARY_DISPLAY_DATEDSC", "Toggles visibility in user-side templates");
 define("_MI_LIBRARY_DATE_FORMAT", "Date format");
 define("_MI_LIBRARY_DATE_FORMAT_DSC", "You can format the timestamp on your publication by changing 
 	the format string as per PHP's date() function. See the PHP manual for format codes.");
-define("_MI_LIBRARY_DISPLAY_FORMAT", "Display publication format / file size field");
+define("_MI_LIBRARY_DISPLAY_FORMAT", "Display format and file size fields");
 define("_MI_LIBRARY_DISPLAY_FORMATDSC", "Toggles visibility in user-side templates");
-define("_MI_LIBRARY_DISPLAY_PUBLICATION_PUBLISHER", "Display publication publisher field");
-define("_MI_LIBRARY_DISPLAY_PUBLICATION_PUBLISHERDSC", "Toggles visibility in user-side templates");
-define("_MI_LIBRARY_DISPLAY_LANGUAGE", "Display publication language field");
+define("_MI_LIBRARY_DISPLAY_PUBLISHER", "Display publisher field");
+define("_MI_LIBRARY_DISPLAY_PUBLISHERDSC", "Toggles visibility in user-side templates");
+define("_MI_LIBRARY_DISPLAY_LANGUAGE", "Display language field");
 define("_MI_LIBRARY_DISPLAY_LANGUAGEDSC", "Toggles visibility in user-side templates");
-define("_MI_LIBRARY_DISPLAY_RIGHTS", "Display publication rights field");
+define("_MI_LIBRARY_DISPLAY_RIGHTS", "Display rights field");
 define("_MI_LIBRARY_DISPLAY_RIGHTSDSC", "Toggles visibility in user-side templates");
-define("_MI_LIBRARY_DISPLAY_DOWNLOAD_BUTTON", "Display download button");
-define("_MI_LIBRARY_DISPLAY_DOWNLOAD_BUTTONDSC", "Toggles visibility in user-side templates");
-define("_MI_LIBRARY_DISPLAY_STREAMING_BUTTON", "Display play (streaming) button");
-define("_MI_LIBRARY_DISPLAY_STREAMING_BUTTONDSC", "Toggles visibility in user-side templates");
-define("_MI_LIBRARY_DISPLAY_PUBLICATION_SOURCE", "Display publication collection (source) field");
-define("_MI_LIBRARY_DISPLAY_PUBLICATION_SOURCEDSC", "Toggles visibility in user-side templates");
+define("_MI_LIBRARY_DISPLAY_SOURCE", "Display source field");
+define("_MI_LIBRARY_DISPLAY_SUBMITTER", "Display submitter field");
+define("_MI_LIBRARY_DISPLAY_SUBMITTERDSC", "Toggles visibility in user-side templates");
+define("_MI_LIBRARY_DISPLAY_SOURCEDSC", "Toggles visibility in user-side templates");
 define("_MI_LIBRARY_PUBLICATION_ADD", "Submit publication");
 
 // Additional admin menu items

@@ -374,6 +374,9 @@ class mod_library_PublicationHandler extends icms_ipf_Handler {
 			$sprockets_taglink_handler->deleteAllForObject($obj);
 		}
 		
+		// To do: Need to search for other publications that have this one marked as source and
+		// delete the reference
+		
 		return TRUE;
 	}
 }

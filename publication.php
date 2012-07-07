@@ -50,6 +50,7 @@ if($publicationObj && !$publicationObj->isNew())
 	}
 
 	// Prepare publication for display
+	$publicationObj->setFieldDisplayPreferences();
 	$publication = $publicationObj->toArray();
 	
 	// Add SEO friendly string to URL

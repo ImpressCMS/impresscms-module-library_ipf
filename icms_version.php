@@ -272,33 +272,7 @@ $modversion['config'][] = array(
 
 //// Template switches - show or hide particular fields ////
 
-// Collections
-
-$modversion['config'][] = array(
-	'name' => 'display_released_field',
-	'title' => '_MI_LIBRARY_DISPLAY_RELEASED',
-	'description' => '_MI_LIBRARY_DISPLAY_RELEASEDDSC',
-	'formtype' => 'yesno',
-	'valuetype' => 'int',
-	'default' =>  '1');
-
-$modversion['config'][] = array(
-	'name' => 'display_collection_publisher_field',
-	'title' => '_MI_LIBRARY_DISPLAY_COLLECTION_PUBLISHER',
-	'description' => '_MI_LIBRARY_DISPLAY_COLLECTION_PUBLISHERDSC',
-	'formtype' => 'yesno',
-	'valuetype' => 'int',
-	'default' =>  '1');
-
-$modversion['config'][] = array(
-	'name' => 'display_trackcount_field',
-	'title' => '_MI_LIBRARY_DISPLAY_TRACKCOUNT',
-	'description' => '_MI_LIBRARY_DISPLAY_TRACKCOUNTDSC',
-	'formtype' => 'yesno',
-	'valuetype' => 'int',
-	'default' =>  '1');
-
-// affects both collection and publication objects
+// Affects both collection and publication objects
 
 $modversion['config'][] = array(
 	'name' => 'display_counter_field',
@@ -307,24 +281,6 @@ $modversion['config'][] = array(
 	'formtype' => 'yesno',
 	'valuetype' => 'int',
 	'default' =>  '1');
-
-$modversion['config'][] = array(
-	'name' => 'display_download_button',
-	'title' => '_MI_LIBRARY_DISPLAY_DOWNLOAD_BUTTON',
-	'description' => '_MI_LIBRARY_DISPLAY_DOWNLOAD_BUTTONDSC',
-	'formtype' => 'yesno',
-	'valuetype' => 'int',
-	'default' =>  '1');
-
-$modversion['config'][] = array(
-	'name' => 'display_streaming_button',
-	'title' => '_MI_LIBRARY_DISPLAY_STREAMING_BUTTON',
-	'description' => '_MI_LIBRARY_DISPLAY_STREAMING_BUTTONDSC',
-	'formtype' => 'yesno',
-	'valuetype' => 'int',
-	'default' =>  '1');
-
-// Publications
 
 $modversion['config'][] = array(
 	'name' => 'display_creator_field',
@@ -359,17 +315,17 @@ $modversion['config'][] = array(
 	'default' =>  '1');
 
 $modversion['config'][] = array(
-	'name' => 'display_publication_publisher_field',
-	'title' => '_MI_LIBRARY_DISPLAY_PUBLICATION_PUBLISHER',
-	'description' => '_MI_LIBRARY_DISPLAY_PUBLICATION_PUBLISHERDSC',
+	'name' => 'display_publisher_field',
+	'title' => '_MI_LIBRARY_DISPLAY_PUBLISHER',
+	'description' => '_MI_LIBRARY_DISPLAY_PUBLISHERDSC',
 	'formtype' => 'yesno',
 	'valuetype' => 'int',
 	'default' =>  '1');
 
 $modversion['config'][] = array(
-	'name' => 'display_publication_source_field',
-	'title' => '_MI_LIBRARY_DISPLAY_PUBLICATION_SOURCE',
-	'description' => '_MI_LIBRARY_DISPLAY_PUBLICATION_SOURCEDSC',
+	'name' => 'display_source_field',
+	'title' => '_MI_LIBRARY_DISPLAY_SOURCE',
+	'description' => '_MI_LIBRARY_DISPLAY_SOURCEDSC',
 	'formtype' => 'yesno',
 	'valuetype' => 'int',
 	'default' =>  '1');
@@ -386,6 +342,14 @@ $modversion['config'][] = array(
 	'name' => 'display_rights_field',
 	'title' => '_MI_LIBRARY_DISPLAY_RIGHTS',
 	'description' => '_MI_LIBRARY_DISPLAY_RIGHTSDSC',
+	'formtype' => 'yesno',
+	'valuetype' => 'int',
+	'default' =>  '1');
+
+$modversion['config'][] = array(
+	'name' => 'display_submitter_field',
+	'title' => '_MI_LIBRARY_DISPLAY_SUBMITTER',
+	'description' => '_MI_LIBRARY_DISPLAY_SUBMITTERDSC',
 	'formtype' => 'yesno',
 	'valuetype' => 'int',
 	'default' =>  '1');
