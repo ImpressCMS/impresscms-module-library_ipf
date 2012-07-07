@@ -55,8 +55,6 @@ class mod_library_Publication extends icms_ipf_seo_Object {
 		$this->initCommonVar("counter");
 		$this->initCommonVar("dohtml");
 		$this->initCommonVar("dobr");
-		$this->setControl("image", "image");
-		$this->setControl("submitter", "user");
 
 		$this->initiateSEO();
 		
@@ -100,6 +98,8 @@ class mod_library_Publication extends icms_ipf_seo_Object {
 			'itemHandler' => 'publication',
 			'method' => 'getFormatOptions',
 			'module' => 'library'));
+		
+		$this->setControl("image", "image");
 		
 		// Set uploads directory for images
 		$this->setControl('image', array('name' => 'image'));
