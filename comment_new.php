@@ -15,15 +15,15 @@
 include_once "header.php";
 $com_itemid = isset($_GET["com_itemid"]) ? (int)$_GET["com_itemid"] : 0;
 if ($com_itemid > 0) {
-	$library_post_handler = icms_getModuleHandler("post", basename(dirname(__FILE__)), "library");
-	$postObj = $library_post_handler->get($com_itemid);
-	if ($postObj && !$postObj->isNew()) {
-		$com_replytext = "test...";
-		$bodytext = $postObj->getPostLead();
+	$library_publication_handler = icms_getModuleHandler("publication", basename(dirname(__FILE__)), "library");
+	$obj = $library_publication_handler->get($com_itemid);
+	if ($obj && !$obj->isNew()) {
+		$com_replytext = "";
+		$bodytext = $obj->getVar('description');
 		if ($bodytext != "") {
 			$com_replytext .= "<br /><br />".$bodytext;
 		}
-		$com_replytitle = $postObj->getVar("post_title");
+		$com_replytitle = $obj->getVar("title");
 		include_once ICMS_ROOT_PATH . "/include/comment_new.php";
 	}
 }

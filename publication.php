@@ -29,10 +29,17 @@ if($publicationObj && !$publicationObj->isNew())
 	// Prepare publication for display
 	
 	$icmsTpl->assign("library_publication", $publicationObj->toArray());
+	
+	// Display comments
+	if (icms::$module->config['com_rule']) {
+		$icmsTpl->assign('library_publication_comment', TRUE);
+		include_once ICMS_ROOT_PATH . '/include/comment_view.php';
+	}
 
+	// Generate page metadata
 	$icms_metagen = new icms_ipf_Metagen($publicationObj->getVar("title"), 
-			$publicationObj->getVar("meta_keywords", "n"), 
-			$publicationObj->getVar("meta_description", "n"));
+	$publicationObj->getVar("meta_keywords", "n"), 
+	$publicationObj->getVar("meta_description", "n"));
 	$icms_metagen->createMetaTags();
 }
 

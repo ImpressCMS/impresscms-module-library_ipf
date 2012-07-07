@@ -142,6 +142,7 @@ define("_MI_LIBRARY_DISPLAY_STREAMING_BUTTON", "Display play (streaming) button"
 define("_MI_LIBRARY_DISPLAY_STREAMING_BUTTONDSC", "Toggles visibility in user-side templates");
 define("_MI_LIBRARY_DISPLAY_PUBLICATION_SOURCE", "Display publication collection (source) field");
 define("_MI_LIBRARY_DISPLAY_PUBLICATION_SOURCEDSC", "Toggles visibility in user-side templates");
+define("_MI_LIBRARY_PUBLICATION_ADD", "Submit publication");
 
 // Additional admin menu items
 define("_MI_LIBRARY_TEMPLATES", "Templates");

@@ -310,6 +310,23 @@ class mod_library_PublicationHandler extends icms_ipf_Handler {
 	}
 	
 	/**
+	 * Updates comments
+	 *
+	 * @param int $id
+	 * @param int $total_num
+	 */
+	public function updateComments($id, $total_num) {
+			
+		$obj = '';
+		
+		$obj = $this->get($id);
+		if ($obj && !$obj->isNew()) {
+			$obj->setVar('publication_comments', $total_num);
+			$this->insert($obj, TRUE);
+		}
+	}
+	
+	/**
 	 * Manages tracking of categories (via taglinks), called when a message is inserted or updated
 	 *
 	 * @param object $obj ContactMessage object

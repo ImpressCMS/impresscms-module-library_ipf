@@ -63,8 +63,8 @@ $modversion = array(
 /** Comments information */
 	"hasComments"				=> 1,
 	"comments"					=> array(
-									"itemName" => "post_id",
-									"pageName" => "post.php",
+									"itemName" => "publication_id",
+									"pageName" => "publication.php",
 									"callbackFile" => "include/comment.inc.php",
 									"callback" => array("approve" => "library_com_approve",
 														"update" => "library_com_update")));

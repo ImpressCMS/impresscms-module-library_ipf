@@ -13,8 +13,8 @@
  */
 
 function library_com_update($item_id, $total_num) {
-    $library_post_handler = icms_getModuleHandler("post", basename(dirname(dirname(__FILE__))), "library");
-    $library_post_handler->updateComments($item_id, $total_num);
+    $library_publication_handler = icms_getModuleHandler("publication", basename(dirname(dirname(__FILE__))), "library");
+    $library_publication_handler->updateComments($item_id, $total_num);
 }
 
 function library_com_approve(&$comment) {
