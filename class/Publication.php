@@ -159,13 +159,15 @@ class mod_library_Publication extends icms_ipf_seo_Object {
 			'creator',
 			'date',
 			'file_size',
+			'image',
 			'language',
 			'rights',
 			'source',
 			'online_status',
 			'federated',
 			'submitter',
-			'format'))) {
+			'format',
+			'oai_identifier'))) {
 			return call_user_func(array ($this,	$key));
 		}
 		return parent::getVar($key, $format);
@@ -266,6 +268,17 @@ class mod_library_Publication extends icms_ipf_seo_Object {
 	}
 	
 	/*
+	 * Generates a html snippet for visualising the image
+	 */
+	public function image() {
+		$image = $this->getVar('image', 'e');
+		$image_for_display = '<img src="' . $this->getImageDir() . $image 
+				. '" alt="' . $this->getVar('title') 
+				. '" title="' . $this->getVar('title') . '" />';
+		return $image_for_display;
+	}
+	
+	/*
      * Converts the language key to a human readable title
 	*/
 	public function language() {
@@ -293,17 +306,29 @@ class mod_library_Publication extends icms_ipf_seo_Object {
 	}
 	
 	/*
-     * Converts the source (publication/collection) id to a human readable title
+	 * Converts the oai_identifier to a permalink
+	 */
+	public function oai_identifier() {
+		$oai_identifier = $this->getVar('oai_identifier', 'e');
+		$permalink = '<a href="' . ICMS_URL . '/modules/' . basename(dirname(dirname(__FILE__))) 
+				. '/permalink.php?id=' . $oai_identifier . '">' 
+				. _CO_LIBRARY_PUBLICATION_PERMALINK . '</a>';
+		return $permalink;
+	}
+	
+	/*
+     * Converts the source (publication/collection) id to a human readable title with link
 	*/
 	public function source() {
 		$source = $this->getVar('source', 'e');
 		$library_publication_handler = icms_getModuleHandler('publication',
 			basename(dirname(dirname(__FILE__))), 'library');
 		$publication_object = $library_publication_handler->get($source);
-		$source = $publication_object->getVar('title');
-		$source_link = '<a href="./publication.php?publication_id='
-			. $publication_object->getVar('publication_id') . '">' . $source . '</a>';
-		return $source_link;
+		if ($publication_object)
+		{
+			return $publication_object->getItemLink();
+		}
+		return FALSE;
 	}
 	
 	/*

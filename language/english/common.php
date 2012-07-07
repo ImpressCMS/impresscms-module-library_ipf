@@ -39,7 +39,7 @@ define("_CO_LIBRARY_PUBLICATION_IMAGE", "Image");
 define("_CO_LIBRARY_PUBLICATION_IMAGE_DSC", "Upload &#039;Image&#039; type publications, publication covers and album art here. Maximum image width, height and file size can be adjusted in preferences. Image types are currently restricted to PNG, GIF and JPG.");
 define("_CO_LIBRARY_PUBLICATION_DATE", "Date");
 define("_CO_LIBRARY_PUBLICATION_DATE_DSC", "Publication date of this work.");
-define("_CO_LIBRARY_PUBLICATION_SOURCE", "Collection");
+define("_CO_LIBRARY_PUBLICATION_SOURCE", "Source");
 define("_CO_LIBRARY_PUBLICATION_SOURCE_DSC", "A collection of which this publication is a part, for example, a scientific journal an article belongs to, an album a soundtrack is included in, or an event at which a presentation was made.");
 define("_CO_LIBRARY_PUBLICATION_LANGUAGE", "Language");
 define("_CO_LIBRARY_PUBLICATION_LANGUAGE_DSC", "Language of the publication, if any.");
@@ -74,3 +74,10 @@ define("_CO_LIBRARY_COLLECTION", "Collection");
 // Filters
 define("_CO_LIBRARY_PUBLICATION_FEDERATION_ENABLED", "Federation enabled");
 define("_CO_LIBRARY_PUBLICATION_FEDERATION_DISABLED", "Federation disabled");
+
+// User side presentation aids
+define("_CO_LIBRARY_PUBLICATION_AUTHORS", "Author(s):");
+define("_CO_LIBRARY_PUBLICATION_PUBLISHED", "Published:");
+define("_CO_LIBRARY_PUBLICATION_VIEWS", "views");
+define("_CO_LIBRARY_PUBLICATION_DOWNLOAD", "Download");
+define("_CO_LIBRARY_PUBLICATION_PERMALINK", "Permalink");

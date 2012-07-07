@@ -11,13 +11,11 @@
 */
 
 include_once "header.php";
-
 $xoopsOption["template_main"] = "library_publication.html";
 include_once ICMS_ROOT_PATH . "/header.php";
 
-$library_publication_handler = icms_getModuleHandler("publication", basename(dirname(__FILE__)), "library");
-
 $clean_publication_id = isset($_GET["publication_id"]) ? (int)$_GET["publication_id"] : 0 ;
+$library_publication_handler = icms_getModuleHandler("publication", basename(dirname(__FILE__)), "library");
 $publicationObj = $library_publication_handler->get($clean_publication_id);
 
 ////////////////////////////////////////////////////////////////////
@@ -26,8 +24,13 @@ $publicationObj = $library_publication_handler->get($clean_publication_id);
 
 if($publicationObj && !$publicationObj->isNew()) 
 {
-	// Prepare publication for display
+	// Update views counter
+	if (!icms_userIsAdmin(icms::$module->getVar('dirname')))
+	{
+		$library_publication_handler->updateCounter($publicationObj);
+	}
 	
+	// Prepare publication for display
 	$icmsTpl->assign("library_publication", $publicationObj->toArray());
 	
 	// Display comments

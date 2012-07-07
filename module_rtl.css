@@ -1,0 +1,24 @@
+/**
+* Specific CSS for the module
+*
+* @copyright	http://smartfactory.ca The SmartFactory
+* @license		http://www.gnu.org/licenses/old-licenses/gpl-2.0.html GNU General Public License (GPL)
+* @since		1.0
+* @author		marcan aka Marc-André Lanciault <marcan@smartfactory.ca>
+* @version		$Id$
+*/
+.library_headertable {padding: 0; margin: 0; border-bottom: 1px solid; margin-bottom: 10px;}
+.library_modulename {font-size: 0.8em; text-align: left; font-weight: bold; padding-right: 0.3em;	line-height: 18px;}
+.library_breadcrumb {font-size: 0.8em; line-height: 18px;}
+.library_adminlinks {padding-top: 15px; padding-bottom: 5px; font-size: 0.8em; text-align: center; line-height: 18px;}
+
+.library_publication_metadata
+{
+	float: right;
+	margin: 1em;
+	background-colour: #333333;
+}
+
+.library_comment_container {
+	margin-bottom: 35px;
+}
