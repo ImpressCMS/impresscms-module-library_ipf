@@ -80,12 +80,13 @@ $modversion['object_items'][1] = 'publication';
 
 $modversion["tables"] = icms_getTablesArray($modversion['dirname'], $modversion['object_items']);
 
-/** Templates information */
+/** Templates information - subtemplates that will be included must be declared before the calling file */
 $modversion['templates'] = array(
-	array("file" => "library_admin_publication.html", "description" => "publication Admin Index"),
-	array("file" => "library_publication.html", "description" => "publication Index"),
-	array('file' => 'library_header.html', 'description' => 'Module Header'),
-	array('file' => 'library_footer.html', 'description' => 'Module Footer'),
+	array("file" => "library_admin_publication.html", "description" => "Publication admin index"),
+	array("file" => "library_publication_text.html", "description" => "Subtemplate for text publications"),
+	array("file" => "library_publication.html", "description" => "Publication container template"),
+	array('file' => 'library_header.html', 'description' => 'Module header'),
+	array('file' => 'library_footer.html', 'description' => 'Module footer'),
 	array('file' => 'library_requirements.html', 'description' => 'Module requirements information'));
 
 /** Blocks information */
@@ -123,6 +124,14 @@ $modversion['config'][] = array(
 	'name' => 'library_show_breadcrumb',
 	'title' => '_MI_LIBRARY_SHOW_BREADCRUMB',
 	'description' => '_MI_LIBRARY_SHOW_BREADCRUMB_DSC',
+	'formtype' => 'yesno',
+	'valuetype' => 'int',
+	'default' =>  '1');
+
+$modversion['config'][] = array(
+	'name' => 'library_show_tag_select_box',
+	'title' => '_MI_LIBRARY_SHOW_TAG_SELECT_BOX',
+	'description' => '_MI_LIBRARY_SHOW_TAG_SELECT_BOX_DSC',
 	'formtype' => 'yesno',
 	'valuetype' => 'int',
 	'default' =>  '1');

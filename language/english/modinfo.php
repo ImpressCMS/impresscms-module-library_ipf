@@ -108,7 +108,9 @@ define("_MI_LIBRARY_NUMBER_COLLECTIONSDSC", "When viewing the collection index p
     more, pagination controls will be inserted.");
 define("_MI_LIBRARY_NEW", "New");
 
-// display preferences
+// Display preferences
+define("_MI_LIBRARY_SHOW_TAG_SELECT_BOX", "Show tag select box");
+define("_MI_LIBRARY_SHOW_TAG_SELECT_BOX_DSC", "Toggles the tag select box on/off for the projects index page (only if Sprockets module installed).");
 define("_MI_LIBRARY_DISPLAY_COUNTER", "Display views counter field");
 define("_MI_LIBRARY_DISPLAY_COUNTERDSC", "Toggles visibility in user-side templates");
 define("_MI_LIBRARY_DISPLAY_CREATOR", "Display author field");

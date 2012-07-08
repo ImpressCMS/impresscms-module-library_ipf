@@ -1,0 +1,52 @@
+<div id="library_publication_container">
+	<h1><{$library_publication.title}></h1>
+	<div class="itemInfo">
+		<{if $library_publication.creator}><{$smarty.const._CO_LIBRARY_PUBLICATION_AUTHORS}> <{$library_publication.creator}><{/if}>
+		<{if $library_publication.creator && ($library_publication.date || $library_publication.counter || $library_publication.tags)}> | <{/if}>
+		<{if $library_publication.date}><{$smarty.const._CO_LIBRARY_PUBLICATION_PUBLISHED}> <{$library_publication.date}><{/if}>
+		<{if ($library_publication.creator || $library_publication.date) && ($library_publication.counter || $library_publication.tags)}> | <{/if}>
+		<{if $library_publication.counter}><{$library_publication.counter}> <{$smarty.const._CO_LIBRARY_PUBLICATION_VIEWS}><{/if}>
+		<{if ($library_publication.creator || $library_publication.date || $library_publication.counter) && $library_publication.tags}> | <{/if}>
+		<{if $library_publication.tags}><{$library_publication.tags}><{/if}>
+	</div>
+	<{if $library_publication.image}>
+		<div class="library_publication_image">
+			<{$library_publication.image}>
+		</div>
+	<{/if}>
+	<!-- Float extra metadata in a box -->
+	<div class="library_publication_metadata">
+		<{if $library_publication.identifier || $library_publication.oai_identifier}>
+			<p>
+				<{if $library_publication.identifier}><strong><a href="<{$library_publication.identifier}>">>> <{$smarty.const._CO_LIBRARY_PUBLICATION_DOWNLOAD}></a></strong><{/if}>
+				<{if $library_publication.identifier && $library_publication.oai_identifier}> | <{/if}>
+				<{if $library_publication.oai_identifier}><{$library_publication.oai_identifier}><{/if}>
+			</p>
+		<{/if}>
+		<{if $library_publication.format}><p><strong><{$smarty.const._CO_LIBRARY_PUBLICATION_FORMAT}></strong>: .<{$library_publication.format}></p><{/if}>
+		<{if $library_publication.file_size}><p><strong><{$smarty.const._CO_LIBRARY_PUBLICATION_FILE_SIZE}></strong>: <{$library_publication.file_size}></p><{/if}>
+		<{if $library_publication.source}><p><strong><{$smarty.const._CO_LIBRARY_PUBLICATION_SOURCE}></strong>: <{$library_publication.source}></p><{/if}>
+		<{if $library_publication.language}><p><strong><{$smarty.const._CO_LIBRARY_PUBLICATION_LANGUAGE}></strong>: <{$library_publication.language}></p><{/if}>
+		<{if $library_publication.publisher}><p><strong><{$smarty.const._CO_LIBRARY_PUBLICATION_PUBLISHER}></strong>: <{$library_publication.publisher}></p><{/if}>
+		<{if $library_publication.submitter}><p><strong><{$smarty.const._CO_LIBRARY_PUBLICATION_SUBMITTER}></strong>: <{$library_publication.submitter}></p><{/if}>
+		<{if $library_publication.rights}><p><strong><{$smarty.const._CO_LIBRARY_PUBLICATION_RIGHTS}></strong>: <{$library_publication.rights}></p><{/if}>
+	</div>
+	<div>
+		<!-- If there is no extended text, display the description field instead -->
+		<{if $library_publication.description || $library_publication.extended_text}>
+			<{if $library_publication.extended_text}><{$library_publication.extended_text}>
+			<{else}>
+				<{$library_publication.description}>
+			<{/if}>
+		<{/if}>
+	</div>
+		
+	<!-- Unused fields
+	<div><b><{$smarty.const._CO_LIBRARY_PUBLICATION_TYPE}></b>: <{$library_publication.type}></div>
+	<div><b><{$smarty.const._CO_LIBRARY_PUBLICATION_IDENTIFIER}></b>: <{$library_publication.identifier}></div>
+	<div><b><{$smarty.const._CO_LIBRARY_PUBLICATION_SUBMISSION_TIME}></b>: <{$library_publication.submission_time}></div>
+	<div><b><{$smarty.const._CO_LIBRARY_PUBLICATION_COMPACT_VIEW}></b>: <{$library_publication.compact_view}></div>
+	<div><b><{$smarty.const._CO_LIBRARY_PUBLICATION_FEDERATED}></b>: <{$library_publication.federated}></div>
+	<div><b><{$smarty.const._CO_LIBRARY_PUBLICATION_ONLINE_STATUS}></b>: <{$library_publication.online_status}></div>
+	-->
+</div>

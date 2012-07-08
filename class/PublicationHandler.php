@@ -223,18 +223,18 @@ class mod_library_PublicationHandler extends icms_ipf_Handler {
 			case "Event":
 			case "Software":
 			case "Dataset":
-				return "text.html";
+				return "db:library_publication_text.html";
 				break;
 			case "Sound":
-				return "sound.html";
+				return "db:library_publication_sound.html";
 				break;
 			case "Image":
 			case "MovingImage":
-				return "image.html";
+				return "db:library_publication_image.html";
 				break;			
-			case "Event":
-				break;
-			// case "InteractiveResource":\
+			//case "Event":
+			//	break;
+			// case "InteractiveResource":
 			//	break;
 			// case "Service":
 			//	break;
@@ -327,7 +327,7 @@ class mod_library_PublicationHandler extends icms_ipf_Handler {
 	}
 	
 	/**
-	 * Unsets publication properties that have been toggled off in Library preferences
+	 * Converts publication objects to array and unsets properties toggled off in module preferences
 	 * 
 	 * Prevents unwanted or inappropriate fields from being displayed on the user side. Call it 
 	 * whenever a publication is viewed from the front end. Basically the vars are unset
@@ -336,47 +336,51 @@ class mod_library_PublicationHandler extends icms_ipf_Handler {
 	 * @param array $pubArray - a publication object that has been converted ->toArray()
 	 * @return array
 	 */
-	public function setFieldDisplayPreferences(&$pubArray)
+	public function toArrayForDisplay(&$pubObj)
 	{
+		$publication = $pubObj->toArray();
 		$library = basename(dirname(dirname(__FILE__)));
 
 		if (icms_getConfig('display_counter_field', $library) == '0') {
-			unset($pubArray['counter']);
+			unset($publication['counter']);
 		}
 		if (icms_getConfig('display_creator_field', $library) == '0') {
-			unset($pubArray['creator']);
+			unset($publication['creator']);
 		}
 		if (icms_getConfig('display_date_field', $library) == '0') {
-			unset($pubArray['date']);
+			unset($publication['date']);
 		}
 		if (icms_getConfig('display_language_field', $library) == '0') {
-			unset($pubArray['language']);
+			unset($publication['language']);
 		}
 		if (icms_getConfig('display_file_size_field', $library) == '0') {
-			unset($pubArray['file_size']);
+			unset($publication['file_size']);
 		}
 		if (icms_getConfig('display_format_field', $library) == '0') {
-			unset($pubArray['format']);
+			unset($publication['format']);
 		}
 		if (icms_getConfig('display_publisher_field', $library) == '0') {
-			unset($pubArray['publisher']);
+			unset($publication['publisher']);
 		}
 		if (icms_getConfig('display_rights_field', $library) == '0') {
-			unset($pubArray['rights']);
+			unset($publication['rights']);
 		}
 		if (icms_getConfig('display_source_field', $library) == '0') {
-			unset($pubArray['source']);
+			unset($publication['source']);
 		}
 		if (icms_getConfig('display_submitter_field', $library) == '0') {
-			unset($pubArray['submitter']);
+			unset($publication['submitter']);
 		}
 		
 		// Add SEO friendly string to URL
-		if (!empty($pubArray['short_url'])) {
-			$pubArray['itemUrl'] .= "&amp;title=" . $pubArray['short_url'];
+		if (!empty($publication['short_url'])) {
+			$publication['itemUrl'] .= "&amp;title=" . $publication['short_url'];
 		}
 		
-		return $pubArray;
+		// Assign an appropriate template for this publication type.
+		$publication['subtemplate'] = $this->assignTemplate($publication['type']);
+		
+		return $publication;
 	}
 	
 	/**
