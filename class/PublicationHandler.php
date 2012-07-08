@@ -327,6 +327,54 @@ class mod_library_PublicationHandler extends icms_ipf_Handler {
 	}
 	
 	/**
+	 * Unsets publication properties that have been toggled off in Library preferences
+	 * 
+	 * Prevents unwanted or inappropriate fields from being displayed on the user side. Call it 
+	 * whenever a publication is viewed from the front end. Basically the vars are unset
+	 * and when Smarty tests for their existance they will be removed from the template.
+	 * 
+	 * @param array $pubArray - a publication object that has been converted ->toArray()
+	 * @return array
+	 */
+	public function setFieldDisplayPreferences(&$pubArray)
+	{
+		$library = basename(dirname(dirname(__FILE__)));
+
+		if (icms_getConfig('display_counter_field', $library) == '0') {
+			unset($pubArray['counter']);
+		}
+		if (icms_getConfig('display_creator_field', $library) == '0') {
+			unset($pubArray['creator']);
+		}
+		if (icms_getConfig('display_date_field', $library) == '0') {
+			unset($pubArray['date']);
+		}
+		if (icms_getConfig('display_language_field', $library) == '0') {
+			unset($pubArray['language']);
+		}
+		if (icms_getConfig('display_file_size_field', $library) == '0') {
+			unset($pubArray['file_size']);
+		}
+		if (icms_getConfig('display_format_field', $library) == '0') {
+			unset($pubArray['format']);
+		}
+		if (icms_getConfig('display_publisher_field', $library) == '0') {
+			unset($pubArray['publisher']);
+		}
+		if (icms_getConfig('display_rights_field', $library) == '0') {
+			unset($pubArray['rights']);
+		}
+		if (icms_getConfig('display_source_field', $library) == '0') {
+			unset($pubArray['source']);
+		}
+		if (icms_getConfig('display_submitter_field', $library) == '0') {
+			unset($pubArray['submitter']);
+		}
+		
+		return $pubArray;
+	}
+	
+	/**
 	 * Manages tracking of categories (via taglinks), called when a message is inserted or updated
 	 *
 	 * @param object $obj ContactMessage object

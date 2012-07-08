@@ -249,7 +249,7 @@ class mod_library_Publication extends icms_ipf_seo_Object {
 		}
 		$value = round($value, 2);
 		$output = $value . ' ' . $unit;
-		
+
 		return $output;
 	}
 	
@@ -478,48 +478,6 @@ class mod_library_Publication extends icms_ipf_seo_Object {
 			default:
 		}
 	}
-		
-		/**
-		 * Unsets publication properties that have been toggled off in Library preferences
-		 * 
-		 * Prevents unwanted or inappropriate fields from being displayed on the user side. Called 
-		 * whenever a publication is viewed from the front end. Basically the vars are set to NULL
-		 * and when Smarty tests for their existance they will be removed from the template.
-		 */
-		public function setFieldDisplayPreferences()
-		{
-			$library = basename(dirname(dirname(__FILE__)));
-			
-			if (icms_getConfig('display_creator_field', $library) == '0') {
-				echo $this->getVar('creator', 'e');
-				$this->setVar('creator', '');
-			}
-			if (icms_getConfig('display_date_field', $library) == '0') {
-				$this->setVar('date', '');
-			}
-			if (icms_getConfig('display_language_field', $library) == '0') {
-				$this->setVar('language', '');
-			}
-			if (icms_getConfig('display_format_field', $library) == '0') {
-				$this->setVar('format', '');
-				$this->setVar('file_size', '');
-			}
-			if (icms_getConfig('display_rights_field', $library) == '0') {
-				$this->setVar('rights', '');
-			}
-			if (icms_getConfig('display_counter_field', $library) == '0') {
-				$this->setVar('counter', '');
-			}
-			if (icms_getConfig('display_publisher_field', $library) == '0') {
-				$this->setVar('publisher', '');
-			}
-			if (icms_getConfig('display_source_field', $library) == '0') {
-				$this->setVar('source', '');
-			}
-			if (icms_getConfig('display_submitter_field', $library) == '0') {
-				$this->setVar('submitter', '');
-			}
-		}
 	
 	/**
 	 * View publication within admin page

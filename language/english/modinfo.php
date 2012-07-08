@@ -122,8 +122,10 @@ define("_MI_LIBRARY_DISPLAY_DATEDSC", "Toggles visibility in user-side templates
 define("_MI_LIBRARY_DATE_FORMAT", "Date format");
 define("_MI_LIBRARY_DATE_FORMAT_DSC", "You can format the timestamp on your publication by changing 
 	the format string as per PHP's date() function. See the PHP manual for format codes.");
-define("_MI_LIBRARY_DISPLAY_FORMAT", "Display format and file size fields");
+define("_MI_LIBRARY_DISPLAY_FORMAT", "Display format field");
 define("_MI_LIBRARY_DISPLAY_FORMATDSC", "Toggles visibility in user-side templates");
+define("_MI_LIBRARY_DISPLAY_FILE_SIZE", "Display file size");
+define("_MI_LIBRARY_DISPLAY_FILE_SIZEDSC", "Toggles visibility in user-side templates");
 define("_MI_LIBRARY_DISPLAY_PUBLISHER", "Display publisher field");
 define("_MI_LIBRARY_DISPLAY_PUBLISHERDSC", "Toggles visibility in user-side templates");
 define("_MI_LIBRARY_DISPLAY_LANGUAGE", "Display language field");

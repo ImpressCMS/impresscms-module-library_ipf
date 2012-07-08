@@ -307,6 +307,14 @@ $modversion['config'][] = array(
 	'default' => 'j/n/Y');
 
 $modversion['config'][] = array(
+	'name' => 'display_file_size_field',
+	'title' => '_MI_LIBRARY_DISPLAY_FILE_SIZE',
+	'description' => '_MI_LIBRARY_DISPLAY_FILE_SIZEDSC',
+	'formtype' => 'yesno',
+	'valuetype' => 'int',
+	'default' =>  '1');
+
+$modversion['config'][] = array(
 	'name' => 'display_format_field',
 	'title' => '_MI_LIBRARY_DISPLAY_FORMAT',
 	'description' => '_MI_LIBRARY_DISPLAY_FORMATDSC',
