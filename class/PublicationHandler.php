@@ -192,8 +192,11 @@ class mod_library_PublicationHandler extends icms_ipf_Handler {
 	/*
 	 * Counts the number of (online) publications for a tag to support pagination controls
 	 */
-	public function getPublicationCountForTag($clean_tag_id)
+	public function getPublicationCountForTag($tag_id)
 	{
+		// Sanitise the parameter
+		$clean_tag_id = isset($tag_id) ? (int)$tag_id : 0 ;
+		
 		$libraryModule = $this->getModuleInfo();
 		
 		$sprockets_taglink_handler = icms_getModuleHandler('taglink', 'sprockets', 'sprockets');
@@ -224,8 +227,13 @@ class mod_library_PublicationHandler extends icms_ipf_Handler {
 	 * 
 	 * @return array publications
 	 */
-	public function getPublicationsForTag($clean_tag_id, $publication_count, $clean_start)
+	public function getPublicationsForTag($tag_id, $count, $clean_start)
 	{
+		// Sanitise the parameters
+		$clean_tag_id = isset($tag_id) ? (int)$tag_id : 0 ;
+		$publication_count = isset($count) ? (int)$count : 0 ;
+		$clean_start = isset($start) ? (int)$start : 0 ;
+		
 		$library_publication_summaries = array();
 		$libraryModule = $this->getModuleInfo();
 		
