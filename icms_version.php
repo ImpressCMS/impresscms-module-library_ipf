@@ -57,9 +57,6 @@ $modversion = array(
 	"hasSearch"					=> 1,
 	"search"					=> array("file" => "include/search.inc.php", "func" => "library_search"),
 
-/** Menu information */
-	"hasMain"					=> 1,
-
 /** Comments information */
 	"hasComments"				=> 1,
 	"comments"					=> array(
@@ -69,7 +66,26 @@ $modversion = array(
 									"callback" => array("approve" => "library_com_approve",
 														"update" => "library_com_update")));
 
-/** other possible types: testers, translators, documenters and other */
+/** Menu information */
+$modversion['hasMain'] = 1;
+$sprocketsModule = icms_getModuleInfo('sprockets');
+if (icms_get_module_status("sprockets")) {
+	$i = 0;
+	$modversion['sub'][$i]['name'] = _MI_LIBRARY_TAG_DIRECTORY;
+	$modversion['sub'][$i]['url'] = "tag.php";
+	$i++;
+	$modversion['sub'][$i]['name'] = _MI_LIBRARY_CATEGORY_DIRECTORY;
+	$modversion['sub'][$i]['url'] = "category.php";
+	$i++;
+	$modversion['sub'][$i]['name'] = _MI_LIBRARY_TIMELINE_DIRECTORY;
+	$modversion['sub'][$i]['url'] = "timeline.php";
+	$i++;
+	$modversion['sub'][$i]['name'] = _MI_LIBRARY_OPEN_ARCHIVES_INITIATIVE;
+	$modversion['sub'][$i]['url'] = "open-archives-initiative.php";
+	unset($i);
+}
+
+/** Other possible types: testers, translators, documenters and other */
 $modversion['people']['developers'][] = "Madfish (Simon Wilkinson)";
 
 /** Manual */
@@ -84,6 +100,8 @@ $modversion["tables"] = icms_getTablesArray($modversion['dirname'], $modversion[
 $modversion['templates'] = array(
 	array("file" => "library_admin_publication.html", "description" => "Publication admin index"),
 	array("file" => "library_publication_text.html", "description" => "Subtemplate for text publications"),
+	array("file" => "library_publication_sound.html", "description" => "Subtemplate for sound publications"),
+	array("file" => "library_publication_image.html", "description" => "Subtemplate for image publications"),
 	array("file" => "library_publication.html", "description" => "Publication container template"),
 	array('file' => 'library_header.html', 'description' => 'Module header'),
 	array('file' => 'library_footer.html', 'description' => 'Module footer'),

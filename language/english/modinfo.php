@@ -136,6 +136,18 @@ define("_MI_LIBRARY_DISPLAY_SUBMITTERDSC", "Toggles visibility in user-side temp
 define("_MI_LIBRARY_DISPLAY_SOURCEDSC", "Toggles visibility in user-side templates");
 define("_MI_LIBRARY_PUBLICATION_ADD", "Submit publication");
 
+// Menu
+define("_MI_LIBRARY_TAG_DIRECTORY", "Tags");
+define("_MI_LIBRARY_CATEGORY_DIRECTORY", "Categories");
+define("_MI_LIBRARY_TIMELINE_DIRECTORY", "Timeline");
+define("_MI_LIBRARY_OPEN_ARCHIVES_INITIATIVE", "Open archive");
+
+// Page titles
+define("_MD_LIBRARY_TIMELINE", "Publication timeline");
+define("_MD_LIBRARY_ALL_TAGS", "Publications by tag");
+define("_MD_LIBRARY_ALL_CATEGORIES", "Publications by category");
+define("_MD_LIBRARY_OPEN_ARCHIVES_INITIATIVE", "Open Archives Initiative");
+
 // Additional admin menu items
 define("_MI_LIBRARY_TEMPLATES", "Templates");
 define("_MI_LIBRARY_MANUAL", "Manual");
