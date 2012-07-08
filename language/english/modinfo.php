@@ -64,9 +64,9 @@ define("_MI_LIBRARY_IMAGE_FILE_SIZEDSC", "This is the maximum size (in bytes) al
 define("_MI_LIBRARY_COLLECTIONSDSC", "Displays a list of library collections");
 define("_MI_LIBRARY_NEW_ITEMS", "New publications");
 define("_MI_LIBRARY_NEW_ITEMSDSC", "When looking at the new publications page");
-define("_MI_LIBRARY_NEW_PUBLICATION_VIEW_MODE", "Display publications index page in compact
-    view?");
-define("_MI_LIBRARY_NEW_PUBLICATION_VIEW_MODEDSC", "Toggles how the new publication index page is
+define("_MI_LIBRARY_PUBLICATION_INDEX_DISPLAY_MODE", "Display publications index page as list of 
+	summaries?");
+define("_MI_LIBRARY_PUBLICATION_INDEX_DISPLAY_MODEDSC", "Toggles how the new publication index page is
     displayed. Select 'no' to display descriptive summaries of each publication (it is more
     attractive and aids user navigation as screenshots are enabled). Select 'yes' to display a
     summary table.");

@@ -83,4 +83,4 @@ define("_CO_LIBRARY_PUBLICATION_DOWNLOAD", "Download");
 define("_CO_LIBRARY_PUBLICATION_PERMALINK", "Permalink");
 
 // Tags
-define("_CO_LIBRARY_PUBLICATION_ALL_TAGS", "All tags");
+define("_CO_LIBRARY_PUBLICATION_ALL_TAGS", "-- Sort by tag --");

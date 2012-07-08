@@ -106,7 +106,7 @@ $modversion['blocks'][1] = array(
 /** Preferences information */
 
 // Prepare start page options
-$start_options = array(0 => 'publication.php', 1 => 'collection.php');
+$start_options = array(0 => 'publication.php', 1 => 'tag.php', 2 => 'category.php', 3 => 'timeline.php');
 $start_options = array_flip($start_options);
 
 // default start page for the module
@@ -118,6 +118,14 @@ $modversion['config'][3] = array(
 	'formtype' => 'select',
 	'valuetype' => 'text',
 	'options' => $start_options,
+	'default' =>  '0');
+
+$modversion['config'][] = array(
+	'name' => 'library_publication_index_display_mode',
+	'title' => '_MI_LIBRARY_PUBLICATION_INDEX_DISPLAY_MODE',
+	'description' => '_MI_LIBRARY_PUBLICATION_INDEX_DISPLAY_MODEDSC',
+	'formtype' => 'yesno',
+	'valuetype' => 'int',
 	'default' =>  '0');
 
 $modversion['config'][] = array(
@@ -151,14 +159,6 @@ $modversion['config'][] = array(
 	'formtype' => 'yesno',
 	'valuetype' => 'int',
 	'default' =>  '1');
-
-$modversion['config'][] = array(
-	'name' => 'new_publication_view_mode',
-	'title' => '_MI_LIBRARY_NEW_PUBLICATION_VIEW_MODE',
-	'description' => '_MI_LIBRARY_NEW_PUBLICATION_VIEW_MODEDSC',
-	'formtype' => 'yesno',
-	'valuetype' => 'int',
-	'default' =>  '0');
 
 $modversion['config'][] = array(
 	'name' => 'number_publications_per_page',
