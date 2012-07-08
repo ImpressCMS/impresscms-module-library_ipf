@@ -167,7 +167,7 @@ if (in_array($clean_op, $valid_op, TRUE)) {
 			
 			if ($clean_tag_id)
 			{
-				// Get a list of message IDs belonging to this tag
+				// Get a list of publication IDs belonging to this tag
 				$criteria = new icms_db_criteria_Compo();
 				$criteria->add(new icms_db_criteria_Item('tid', $clean_tag_id));
 				$criteria->add(new icms_db_criteria_Item('mid', $module->getVar('mid')));

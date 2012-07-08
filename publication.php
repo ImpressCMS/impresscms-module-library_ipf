@@ -156,9 +156,43 @@ else
 	}
 	else // Display publication index as compact table
 	{
-		$objectTable = new icms_ipf_view_Table($library_publication_handler, FALSE, array());
+		$criteria = new icms_db_criteria_Compo();
+		if ($clean_tag_id && icms_get_module_status("sprockets"))
+		{
+			// Get a list of publication IDs belonging to this tag
+			$criteria->add(new icms_db_criteria_Item('tid', $clean_tag_id));
+			$criteria->add(new icms_db_criteria_Item('mid', icms::$module->getVar('mid')));
+			$criteria->add(new icms_db_criteria_Item('item', 'publication'));
+			$taglink_array = $sprockets_taglink_handler->getObjects($criteria);
+			foreach ($taglink_array as $taglink) {
+				$categorised_publication_list[] = $taglink->getVar('iid');
+			}
+			$categorised_publication_list = "('" . implode("','", $categorised_publication_list) . "')";
+			unset($criteria);
+
+			// Use the list to filter the persistable table
+			$criteria = new icms_db_criteria_Compo();
+			$criteria->add(new icms_db_criteria_Item('online_status', '1'));
+			$criteria->add(new icms_db_criteria_Item('publication_id', $categorised_publication_list, 'IN'));
+		}
+		
+		if (empty($criteria)) {
+			$criteria = null;
+		}
+		
+		$objectTable = new icms_ipf_view_Table($library_publication_handler, $criteria, array());
 		$objectTable->isForUserSide();
+		$objectTable->addQuickSearch('title');
 		$objectTable->addColumn(new icms_ipf_view_Column("title"));
+		$objectTable->addColumn(new icms_ipf_view_Column("creator"));
+		$objectTable->addColumn(new icms_ipf_view_Column("type"));
+		$objectTable->addColumn(new icms_ipf_view_Column("format"));
+		$objectTable->addColumn(new icms_ipf_view_Column("file_size"));
+		$objectTable->addColumn(new icms_ipf_view_Column("date"));
+		$objectTable->addFilter('format', 'format_filter');
+		$objectTable->addFilter('type' , 'type_filter');
+		$objectTable->addFilter('rights', 'rights_filter');
+		
 		$icmsTpl->assign("library_publication_table", $objectTable->fetch());
 	}
 }
