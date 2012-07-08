@@ -126,7 +126,7 @@ $modversion['config'][] = array(
 	'description' => '_MI_LIBRARY_PUBLICATION_INDEX_DISPLAY_MODEDSC',
 	'formtype' => 'yesno',
 	'valuetype' => 'int',
-	'default' =>  '0');
+	'default' =>  '1');
 
 $modversion['config'][] = array(
 	'name' => 'library_show_breadcrumb',

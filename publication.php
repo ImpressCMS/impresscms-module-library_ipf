@@ -99,88 +99,20 @@ else
 		$icmsTpl->assign('library_tag_select_box', $tag_select_box);
 	}
 	
+	// View publications index as a list of summaries
 	if (icms::$module->config['library_publication_index_display_mode'] == '1')
 	{
 		// Initialise
 		$criteria = $publication_count = '';
 		$library_publication_summaries = array();
-
-		// Retrieve publications for a given tag
+		
+		// Sort publications by tag
 		if ($clean_tag_id && icms_get_module_status("sprockets"))
 		{
-			// Retrieve a list of publications JOINED to taglinks by publication_id/tag_id/module_id/item
-			$query = $rows = $publication_count = '';
-			$linked_publication_ids = array();
-
-			// First, count the number of publications for the pagination control
-			$group_query = "SELECT count(*) FROM " . $library_publication_handler->table . ", "
-					. $sprockets_taglink_handler->table
-					. " WHERE `publication_id` = `iid`"
-					. " AND `online_status` = '1'"
-					. " AND `tid` = '" . $clean_tag_id . "'"
-					. " AND `mid` = '" . icms::$module->getVar('mid') . "'"
-					. " AND `item` = 'publication'";
-			$result = icms::$xoopsDB->query($group_query);
-			if (!$result) {
-				echo 'Error';
-				exit;
-			}
-			else {
-				while ($row = icms::$xoopsDB->fetchArray($result)) {
-					foreach ($row as $key => $count) {
-						$publication_count = $count;
-					}
-				}
-			}
-
-			// Secondly, get the publications
-			$query = "SELECT * FROM " . $library_publication_handler->table . ", "
-					. $sprockets_taglink_handler->table
-					. " WHERE `publication_id` = `iid`"
-					. " AND `online_status` = '1'"
-					. " AND `tid` = '" . $clean_tag_id . "'"
-					. " AND `mid` = '" . icms::$module->getVar('mid') . "'"
-					. " AND `item` = 'publication'"
-					. " ORDER BY `date` DESC"
-					. " LIMIT " . $clean_start . ", " . icms::$module->config['number_publications_per_page'];
-			$result = icms::$xoopsDB->query($query);
-			if (!$result) {
-				echo 'Error';
-				exit;
-			}
-			else {
-				// Retrieve publications as objects, with id as key, and prepare for display
-				$rows = $library_publication_handler->convertResultSet($result, TRUE, TRUE);
-				foreach ($rows as $pubObj) {
-					$library_publication_summaries[$pubObj->getVar('publication_id')] = $library_publication_handler->toArrayForDisplay($pubObj);
-				}
-
-				// Assign publications to template
-				$icmsTpl->assign('library_publication_summaries', $library_publication_summaries);
-			}
-		}	
-	else
-	{	
-		$criteria = new icms_db_criteria_Compo();
-		$criteria->add(new icms_db_criteria_Item('online_status', TRUE));
-
-		// Count the number of online publications for the pagination control
-		$publication_count = $library_publication_handler->getCount($criteria);
-
-		// Continue to retrieve publications for this page view
-		$criteria->setStart($clean_start);
-		$criteria->setLimit(icms::$module->config['number_publications_per_page']);
-		$criteria->setSort('date');
-		$criteria->setOrder('DESC');
-		$library_publication_summaries = $library_publication_handler->getObjects($criteria, TRUE, TRUE);
-
-		// Prepare publications for display
-		foreach ($library_publication_summaries as &$publication) {
-			$publication = $library_publication_handler->toArrayForDisplay($publication);
-		}
-
-			// Assign publications to template
-			$icmsTpl->assign('library_publication_summaries', $library_publication_summaries);// Assign publications to template
+			// Retrieve publications for a given tag
+			$publication_count = $library_publication_handler->getPublicationCountForTag($clean_tag_id);
+			$library_publication_summaries = $library_publication_handler->getPublicationsForTag($clean_tag_id, $publication_count, $clean_start);
+			$icmsTpl->assign('library_publication_summaries', $library_publication_summaries);
 
 			// Pagination control - adust for tag, if present
 			if (!empty($clean_tag_id)) {
@@ -190,7 +122,35 @@ else
 				$extra_arg = FALSE;
 			}
 			$pagenav = new icms_view_PageNav($publication_count, 
-					icms::$module->config['number_publications_per_page'], $clean_start, 'start', $extra_arg);
+				icms::$module->config['number_publications_per_page'], $clean_start, 'start', $extra_arg);
+			$icmsTpl->assign('library_navbar', $pagenav->renderNav());
+		}
+		else // Do not sort by tag
+		{	
+			$criteria = new icms_db_criteria_Compo();
+			$criteria->add(new icms_db_criteria_Item('online_status', TRUE));
+
+			// Count the number of online publications for the pagination control
+			$publication_count = $library_publication_handler->getCount($criteria);
+
+			// Continue to retrieve publications for this page view
+			$criteria->setStart($clean_start);
+			$criteria->setLimit(icms::$module->config['number_publications_per_page']);
+			$criteria->setSort('date');
+			$criteria->setOrder('DESC');
+			$library_publication_summaries = $library_publication_handler->getObjects($criteria, TRUE, TRUE);
+
+			// Prepare publications for display
+			foreach ($library_publication_summaries as &$publication) {
+				$publication = $library_publication_handler->toArrayForDisplay($publication);
+			}
+
+			// Assign publications to template
+			$icmsTpl->assign('library_publication_summaries', $library_publication_summaries);// Assign publications to template
+
+			// Pagination control
+			$pagenav = new icms_view_PageNav($publication_count, 
+					icms::$module->config['number_publications_per_page'], $clean_start, 'start', FALSE);
 			$icmsTpl->assign('library_navbar', $pagenav->renderNav());
 		}
 	}
@@ -200,7 +160,7 @@ else
 		$objectTable->isForUserSide();
 		$objectTable->addColumn(new icms_ipf_view_Column("title"));
 		$icmsTpl->assign("library_publication_table", $objectTable->fetch());
-		}
+	}
 }
 
 $icmsTpl->assign("library_show_breadcrumb", icms::$module->config['library_show_breadcrumb']);

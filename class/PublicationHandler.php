@@ -189,7 +189,75 @@ class mod_library_PublicationHandler extends icms_ipf_Handler {
 		return $namespace;
 	}
 	
+	/*
+	 * Counts the number of (online) publications for a tag to support pagination controls
+	 */
+	public function getPublicationCountForTag($clean_tag_id)
+	{
+		$libraryModule = $this->getModuleInfo();
+		
+		$sprockets_taglink_handler = icms_getModuleHandler('taglink', 'sprockets', 'sprockets');
+		$group_query = "SELECT count(*) FROM " . $this->table . ", "
+				. $sprockets_taglink_handler->table
+				. " WHERE `publication_id` = `iid`"
+				. " AND `online_status` = '1'"
+				. " AND `tid` = '" . $clean_tag_id . "'"
+				. " AND `mid` = '" . $libraryModule->getVar('mid') . "'"
+				. " AND `item` = 'publication'";
+		$result = icms::$xoopsDB->query($group_query);
+		if (!$result) {
+			echo 'Error';
+			exit;
+		}
+		else {
+			while ($row = icms::$xoopsDB->fetchArray($result)) {
+				foreach ($row as $key => $count) {
+					$publication_count = $count;
+				}
+			}
+			return $publication_count;
+		}
+	}
 
+	/*
+	 * Retrieves a list of publications for a given tag, formatted for user-side display
+	 * 
+	 * @return array publications
+	 */
+	public function getPublicationsForTag($clean_tag_id, $publication_count, $clean_start)
+	{
+		$library_publication_summaries = array();
+		$libraryModule = $this->getModuleInfo();
+		
+		$query = $rows = '';
+		$linked_publication_ids = array();
+		$sprockets_taglink_handler = icms_getModuleHandler('taglink', 'sprockets', 'sprockets');
+
+		$query = "SELECT * FROM " . $this->table . ", "
+				. $sprockets_taglink_handler->table
+				. " WHERE `publication_id` = `iid`"
+				. " AND `online_status` = '1'"
+				. " AND `tid` = '" . $clean_tag_id . "'"
+				. " AND `mid` = '" . $libraryModule->getVar('mid') . "'"
+				. " AND `item` = 'publication'"
+				. " ORDER BY `date` DESC"
+				. " LIMIT " . $clean_start . ", " . $libraryModule->config['number_publications_per_page'];
+		$result = icms::$xoopsDB->query($query);
+		if (!$result) {
+			echo 'Error';
+			exit;
+		}
+		else
+		{
+			// Retrieve publications as objects, with id as key, and prepare for display
+			$rows = $this->convertResultSet($result, TRUE, TRUE);
+			foreach ($rows as $pubObj) {
+				$library_publication_summaries[$pubObj->getVar('publication_id')] = $this->toArrayForDisplay($pubObj);
+			}
+			return $library_publication_summaries;
+		}
+	}
+			
 	/**
 	 * Prepares a publication for user-side display
 	 */
