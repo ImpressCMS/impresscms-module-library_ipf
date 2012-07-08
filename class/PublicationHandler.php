@@ -371,6 +371,11 @@ class mod_library_PublicationHandler extends icms_ipf_Handler {
 			unset($pubArray['submitter']);
 		}
 		
+		// Add SEO friendly string to URL
+		if (!empty($pubArray['short_url'])) {
+			$pubArray['itemUrl'] .= "&amp;title=" . $pubArray['short_url'];
+		}
+		
 		return $pubArray;
 	}
 	

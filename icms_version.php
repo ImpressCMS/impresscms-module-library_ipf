@@ -120,6 +120,14 @@ $modversion['config'][3] = array(
 	'default' =>  '0');
 
 $modversion['config'][] = array(
+	'name' => 'library_show_breadcrumb',
+	'title' => '_MI_LIBRARY_SHOW_BREADCRUMB',
+	'description' => '_MI_LIBRARY_SHOW_BREADCRUMB_DSC',
+	'formtype' => 'yesno',
+	'valuetype' => 'int',
+	'default' =>  '1');
+
+$modversion['config'][] = array(
 	'name' => 'library_enable_archive',
 	'title' => '_MI_LIBRARY_ENABLE_ARCHIVE',
 	'description' => '_MI_LIBRARY_ENABLE_ARCHIVE_DSC',
@@ -147,22 +155,6 @@ $modversion['config'][] = array(
 	'name' => 'number_publications_per_page',
 	'title' => '_MI_LIBRARY_NUMBER_PUBLICATIONS',
 	'description' => '_MI_LIBRARY_NUMBER_PUBLICATIONSSDSC',
-	'formtype' => 'textbox',
-	'valuetype' => 'int',
-	'default' =>  '10');
-
-$modversion['config'][] = array(
-	'name' => 'collection_view_mode',
-	'title' => '_MI_LIBRARY_COLLECTION_VIEW_MODE',
-	'description' => '_MI_LIBRARY_COLLECTION_VIEW_MODEDSC',
-	'formtype' => 'yesno',
-	'valuetype' => 'int',
-	'default' =>  '0');
-
-$modversion['config'][] = array(
-	'name' => 'number_collections_per_page',
-	'title' => '_MI_LIBRARY_NUMBER_COLLECTIONS',
-	'description' => '_MI_LIBRARY_NUMBER_COLLECTIONSDSC',
 	'formtype' => 'textbox',
 	'valuetype' => 'int',
 	'default' =>  '10');

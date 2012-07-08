@@ -15,6 +15,7 @@ $xoopsOption["template_main"] = "library_publication.html";
 include_once ICMS_ROOT_PATH . "/header.php";
 
 $clean_publication_id = isset($_GET["publication_id"]) ? (int)$_GET["publication_id"] : 0 ;
+$clean_tag_id = isset($_GET["tag_id"]) ? (int)$_GET["tag_id"] : 0 ;
 $library_publication_handler = icms_getModuleHandler("publication", basename(dirname(__FILE__)), "library");
 $publicationObj = $library_publication_handler->get($clean_publication_id);
 
@@ -52,11 +53,6 @@ if($publicationObj && !$publicationObj->isNew())
 	// Prepare publication for display
 	$publication = $publicationObj->toArray();
 	$library_publication_handler->setFieldDisplayPreferences($publication);
-	
-	// Add SEO friendly string to URL
-	if (!empty($publication['short_url'])) {
-		$publication['itemUrl'] .= "&amp;title=" . $publication['short_url'];
-	}
 	
 	// Prepare tags for display (only if Sprockets module installed)
 	if (icms_get_module_status("sprockets"))
@@ -100,6 +96,7 @@ else
 	$icmsTpl->assign("library_publication_table", $objectTable->fetch());
 }
 
+$icmsTpl->assign("library_show_breadcrumb", icms::$module->config['library_show_breadcrumb']);
 $icmsTpl->assign("library_module_home", '<a href="' . ICMS_URL . "/modules/" . icms::$module->getVar("dirname") . '/">' . icms::$module->getVar("name") . "</a>");
 
 include_once "footer.php";

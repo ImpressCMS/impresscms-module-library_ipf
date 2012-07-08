@@ -19,15 +19,11 @@ define("_MI_LIBRARY_PUBLICATIONS", "Publications");
 define("_MI_LIBRARY_CATEGORIES", "Categories");
 define("_MI_LIBRARY_COLLECTIONS", "Collections");
 define("_MI_LIBRARY_ARCHIVES", "Open Archive");
-define("_MI_LIBRARY_COLLECTION_VIEW_MODE", "Display collections index page in compact view?");
-define("_MI_LIBRARY_COLLECTION_VIEW_MODEDSC", "Toggles how the collection index page is displayed.
-    If you only have a few collections, select 'no' to display descriptive summaries of each (it
-    is more attractive and aids user navigation). If you have a lot of collections, you might prefer
-    just to list them in a table (select 'yes'). It is best to try and list all of your collections
-    in a single view, if possible.");
 define("_MI_LIBRARY_START_PAGE", "Start page");
 define("_MI_LIBRARY_START_PAGE_DSC", "What page do you want to use as the home page for this
     module?");
+define("_MI_LIBRARY_SHOW_BREADCRUMB", "Display breadcrumb?");
+define("_MI_LIBRARY_SHOW_BREADCRUMB_DSC", "Toggles the visibility of the breadcrumb navigation");
 define("_MI_LIBRARY_DEFAULT_LANGUAGE", "Default language");
 define("_MI_LIBRARY_DEFAULT_LANGUAGE_DSC", "Used as the default option in the publication submission
     form to save you time");
