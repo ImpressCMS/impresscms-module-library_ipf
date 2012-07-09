@@ -292,7 +292,7 @@ class mod_library_Publication extends icms_ipf_seo_Object {
 		return $language_list[$language_key];
 		}
 	}
-	
+		
 	/*
      * Converts the rights id to a human readable title
 	*/
@@ -327,12 +327,16 @@ class mod_library_Publication extends icms_ipf_seo_Object {
 	*/
 	public function source() {
 		$source = $this->getVar('source', 'e');
-		$library_publication_handler = icms_getModuleHandler('publication',
-			basename(dirname(dirname(__FILE__))), 'library');
-		$publication_object = $library_publication_handler->get($source);
-		if ($publication_object)
+		
+		if (!empty($source))
 		{
-			return $publication_object->getItemLink();
+			$library_publication_handler = icms_getModuleHandler('publication',
+				basename(dirname(dirname(__FILE__))), 'library');
+			$publicationObj = $library_publication_handler->get($source);
+			if ($publicationObj)
+			{
+				return $publicationObj->getItemLink();
+			}
 		}
 		return FALSE;
 	}

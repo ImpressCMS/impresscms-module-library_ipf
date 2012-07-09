@@ -12,7 +12,7 @@
 
 defined("ICMS_ROOT_PATH") or die("ICMS root path not defined");
 
-// publication
+// Publication
 define("_CO_LIBRARY_PUBLICATION_TYPE", "Type");
 define("_CO_LIBRARY_PUBLICATION_TYPE_DSC", "Select the type of publication you wish to enter. The page will reload with appropriate data entry fields.");
 define("_CO_LIBRARY_PUBLICATION_TITLE", "Title");
@@ -62,7 +62,7 @@ define("_CO_LIBRARY_PUBLICATION_OAI_IDENTIFIER", "OAI Identifier");
 define("_CO_LIBRARY_PUBLICATION_OAI_IDENTIFIER_DSC", "Used to uniquely identify this publication across federated sites, and prevents publications being duplicated or imported multiple times. Should never be changed under any circumstance.");
 define("_CO_LIBRARY_PUBLICATION_VIEW", "View publication");
 
-// Dublic Core Metadata Initiative Type Vocabulary
+// Dublin Core Metadata Initiative Type Vocabulary
 define("_CO_LIBRARY_TEXT", "Text");
 define("_CO_LIBRARY_SOUND", "Sound");
 define("_CO_LIBRARY_IMAGE", "Image");
@@ -85,3 +85,8 @@ define("_CO_LIBRARY_STREAMING", "Streaming");
 
 // Tags
 define("_CO_LIBRARY_PUBLICATION_ALL_TAGS", "-- Sort by tag --");
+
+// Open Archives Initiative Protocol for Metadata Harvesting
+define("_CO_LIBRARY_ARCHIVE_MUST_CREATE", "Error: An archive object must be created before OAIPMH
+    requests can be handled. Please create one via the Open Archive tab in Sprockets administration.");
+define("_CO_LIBRARY_NO_ARCHIVE", "Sorry there are no articles to display yet.");
