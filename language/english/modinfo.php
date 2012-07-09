@@ -76,8 +76,8 @@ define("_MI_LIBRARY_NEW_VIEW_MODEDSC", "This sets the default value in the 'add 
     best for collections where member items do not normally have descriptions, like music albums.
     If your tracks do have descriptions, then it is best to choose extended view which is more
     attractive.");
-define("_MI_LIBRARY_NUMBER_IN_RSS", "Number of publications in RSS feeds");
-define("_MI_LIBRARY_NUMBER_IN_RSSDSC", "Controls the number of recent publications that will appear
+define("_MI_LIBRARY_NUMBER_RSS_ITEMS", "Number of publications in RSS feeds");
+define("_MI_LIBRARY_NUMBER_RSS_ITEMSDSC", "Controls the number of recent publications that will appear
     in RSS feeds throughout the module.");
 define("_MI_LIBRARY_RECENT", "New publications");
 define("_MI_LIBRARY_RECENTDSC", "Displays a list of the most recent publications");

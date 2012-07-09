@@ -83,6 +83,11 @@ define("_CO_LIBRARY_PUBLICATION_DOWNLOAD", "Download");
 define("_CO_LIBRARY_PUBLICATION_PERMALINK", "Permalink");
 define("_CO_LIBRARY_STREAMING", "Streaming");
 
+// RSS feeds
+define("_CO_LIBRARY_NEW", "Recent publications");
+define("_CO_LIBRARY_NEW_DSC", "The latest publications from ");
+define("_CO_LIBRARY_ALL", "All publications");
+
 // Tags
 define("_CO_LIBRARY_PUBLICATION_ALL_TAGS", "-- Sort by tag --");
 

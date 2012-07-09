@@ -103,6 +103,7 @@ $modversion['templates'] = array(
 	array("file" => "library_publication_sound.html", "description" => "Subtemplate for sound publications"),
 	array("file" => "library_publication_image.html", "description" => "Subtemplate for image publications"),
 	array("file" => "library_publication.html", "description" => "Publication container template"),
+	array("file" => "library_rss.html", "description" => "Generates RSS feeds"),
 	array('file' => 'library_header.html', 'description' => 'Module header'),
 	array('file' => 'library_footer.html', 'description' => 'Module footer'),
 	array('file' => 'library_requirements.html', 'description' => 'Module requirements information'));
@@ -195,9 +196,9 @@ $modversion['config'][] = array(
 	'default' =>  '0');
 
 $modversion['config'][] = array(
-	'name' => 'number_publications_in_rss',
-	'title' => '_MI_LIBRARY_NUMBER_IN_RSS',
-	'description' => '_MI_LIBRARY_NUMBER_IN_RSSDSC',
+	'name' => 'number_rss_items',
+	'title' => '_MI_LIBRARY_NUMBER_RSS_ITEMS',
+	'description' => '_MI_LIBRARY_NUMBER_RSS_ITEMSDSC',
 	'formtype' => 'textbox',
 	'valuetype' => 'int',
 	'default' =>  '10');
