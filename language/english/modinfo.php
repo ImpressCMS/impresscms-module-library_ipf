@@ -143,10 +143,9 @@ define("_MI_LIBRARY_TIMELINE_DIRECTORY", "Timeline");
 define("_MI_LIBRARY_OPEN_ARCHIVES_INITIATIVE", "Open archive");
 
 // Page titles
-define("_MD_LIBRARY_TIMELINE", "Publication timeline");
-define("_MD_LIBRARY_ALL_TAGS", "Publications by tag");
-define("_MD_LIBRARY_ALL_CATEGORIES", "Publications by category");
-define("_MD_LIBRARY_OPEN_ARCHIVES_INITIATIVE", "Open Archives Initiative");
+define("_MI_LIBRARY_TIMELINE", "Publication timeline");
+define("_MI_LIBRARY_ALL_TAGS", "Publications by tag");
+define("_MI_LIBRARY_ALL_CATEGORIES", "Publications by category");
 
 // Additional admin menu items
 define("_MI_LIBRARY_TEMPLATES", "Templates");

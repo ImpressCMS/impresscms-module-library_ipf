@@ -95,3 +95,30 @@ define("_CO_LIBRARY_PUBLICATION_ALL_TAGS", "-- Sort by tag --");
 define("_CO_LIBRARY_ARCHIVE_MUST_CREATE", "Error: An archive object must be created before OAIPMH
     requests can be handled. Please create one via the Open Archive tab in Sprockets administration.");
 define("_CO_LIBRARY_NO_ARCHIVE", "Sorry there are no articles to display yet.");
+
+// Timeline page
+define("_CO_LIBRARY_TIMELINE", "Timeline");
+define("_CO_LIBRARY_TIMELINE_DESCRIPTION", "Archived news articles sorted by month.");
+define("_CO_LIBRARY_TIMELINES", "Publication timline");
+define("_CO_LIBRARY_NO_TIMELINE", "Sorry there are no publications to display yet.");
+define("_CO_LIBRARY_TIMELINE_PUBLICATIONS", "Publications");
+define("_CO_LIBRARY_TIMELINE_ACTIONS", "Actions");
+define("_CO_LIBRARY_TIMELINE_DATE", "Date");
+define("_CO_LIBRARY_TIMELINE_VIEWS", "Views");
+define("_CO_LIBRARY_TIMELINE_TAGS", "Tags");
+define("_CO_LIBRARY_TIMELINE_TAGS_DESCRIPTION", "View publications sorted by tag.");
+define("_CO_LIBRARY_TIMELINE_THEREAREINTOTAL", "There are a total of ");
+define("_CO_LIBRARY_TIMELINE_PUBLICATIONS_LOWER", " articles:");
+define("_CO_LIBRARY_SUBSCRIBE_RSS", "Subscribe to RSS feed");
+define("_CO_LIBRARY_CAL_JANUARY", "January");
+define("_CO_LIBRARY_CAL_FEBRUARY", "February");
+define("_CO_LIBRARY_CAL_MARCH", "March");
+define("_CO_LIBRARY_CAL_APRIL", "April");
+define("_CO_LIBRARY_CAL_MAY", "May");
+define("_CO_LIBRARY_CAL_JUNE", "June");
+define("_CO_LIBRARY_CAL_JULY", "July");
+define("_CO_LIBRARY_CAL_AUGUST", "August");
+define("_CO_LIBRARY_CAL_SEPTEMBER", "September");
+define("_CO_LIBRARY_CAL_OCTOBER", "October");
+define("_CO_LIBRARY_CAL_NOVEMBER", "November");
+define("_CO_LIBRARY_CAL_DECEMBER", "December");

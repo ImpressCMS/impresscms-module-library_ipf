@@ -103,6 +103,7 @@ $modversion['templates'] = array(
 	array("file" => "library_publication_sound.html", "description" => "Subtemplate for sound publications"),
 	array("file" => "library_publication_image.html", "description" => "Subtemplate for image publications"),
 	array("file" => "library_publication.html", "description" => "Publication container template"),
+	array("file" => "library_timeline.html", "description" => "Publication timeline page"),
 	array("file" => "library_rss.html", "description" => "Generates RSS feeds"),
 	array('file' => 'library_header.html', 'description' => 'Module header'),
 	array('file' => 'library_footer.html', 'description' => 'Module footer'),
