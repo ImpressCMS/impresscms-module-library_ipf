@@ -81,6 +81,7 @@ define("_CO_LIBRARY_PUBLICATION_PUBLISHED", "Published:");
 define("_CO_LIBRARY_PUBLICATION_VIEWS", "views");
 define("_CO_LIBRARY_PUBLICATION_DOWNLOAD", "Download");
 define("_CO_LIBRARY_PUBLICATION_PERMALINK", "Permalink");
+define("_CO_LIBRARY_STREAMING", "Streaming");
 
 // Tags
 define("_CO_LIBRARY_PUBLICATION_ALL_TAGS", "-- Sort by tag --");

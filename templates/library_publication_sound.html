@@ -26,8 +26,10 @@
 	<div class="library_publication_metadata">
 		<{if $library_publication.identifier || $library_publication.oai_identifier}>
 			<p>
-				<{if $library_publication.identifier}><strong><a href="<{$library_publication.identifier}>">>> <{$smarty.const._CO_LIBRARY_PUBLICATION_DOWNLOAD}></a></strong><{/if}>
-				<{if $library_publication.identifier && $library_publication.oai_identifier}> | <{/if}>
+				<{if $library_publication.identifier}><strong>>>> <a href="<{$library_publication.identifier}>"> <{$smarty.const._CO_LIBRARY_PUBLICATION_DOWNLOAD}></a></strong><{/if}>
+				<{if $library_publication.identifier && ($library_publication.streamingLink || $library_publication.oai_identifier)}> | <{/if}>
+				<{if $library_publication.streamingLink}><{$library_publication.streamingLink}><{/if}>
+				<{if ($library_publication.identifier || $library_publication.streamingLink) && $library_publication.oai_identifier}> | <{/if}>
 				<{if $library_publication.oai_identifier}><{$library_publication.oai_identifier}><{/if}>
 			</p>
 		<{/if}>

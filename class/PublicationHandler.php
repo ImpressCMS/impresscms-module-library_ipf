@@ -405,9 +405,10 @@ class mod_library_PublicationHandler extends icms_ipf_Handler {
 	/**
 	 * Converts publication objects to array and unsets properties toggled off in module preferences
 	 * 
-	 * Prevents unwanted or inappropriate fields from being displayed on the user side. Call it 
-	 * whenever a publication is viewed from the front end. Basically the vars are unset
-	 * and when Smarty tests for their existance they will be removed from the template.
+	 * Prevents unwanted or inappropriate fields from being displayed on the user side, and adds 
+	 * some additional type-speciic fields where required. Call it whenever a publication is viewed
+	 * from the front end instead of using ->toArray(). Basically the vars are unset and when Smarty
+	 * tests for their existance they will be removed from the template.
 	 * 
 	 * @param array $pubArray - a publication object that has been converted ->toArray()
 	 * @return array
@@ -448,13 +449,29 @@ class mod_library_PublicationHandler extends icms_ipf_Handler {
 			unset($publication['submitter']);
 		}
 		
+		// Assign an appropriate template for this publication type.
+		$publication['subtemplate'] = $this->assignTemplate($publication['type']);
+		
+		////////////////////////////////////////////////////////////////
+		////////// Add type-specific fields here, as required //////////
+		////////////////////////////////////////////////////////////////
+		
+		// Create a streaming link for sound type publications
+		if ($pubObj->getVar('type', 'e') == 'Sound') {
+			if ($publication['itemUrl']) {
+				$publication['streamingLink'] = '<a href="' . $publication['itemUrl'] 
+						. '&amp;m3u=1';
+				if (!empty($publication['short_url'])) {
+					$publication['streamingLink'] .= "&amp;title=" . $publication['short_url'];
+				}
+				$publication['streamingLink'] .= '">' . _CO_LIBRARY_STREAMING . '</a>';
+			}
+		}
+		
 		// Add SEO friendly string to URL
 		if (!empty($publication['short_url'])) {
 			$publication['itemUrl'] .= "&amp;title=" . $publication['short_url'];
 		}
-		
-		// Assign an appropriate template for this publication type.
-		$publication['subtemplate'] = $this->assignTemplate($publication['type']);
 		
 		return $publication;
 	}

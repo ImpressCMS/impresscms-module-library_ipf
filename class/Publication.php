@@ -271,10 +271,14 @@ class mod_library_Publication extends icms_ipf_seo_Object {
 	 * Generates a html snippet for visualising the image
 	 */
 	public function image() {
+		$image = $image_for_display = '';
+		
 		$image = $this->getVar('image', 'e');
-		$image_for_display = '<img src="' . $this->getImageDir() . $image 
-				. '" alt="' . $this->getVar('title') 
-				. '" title="' . $this->getVar('title') . '" />';
+		if ($image) {
+			$image_for_display = '<img src="' . $this->getImageDir() . $image 
+					. '" alt="' . $this->getVar('title') 
+					. '" title="' . $this->getVar('title') . '" />';
+		}
 		return $image_for_display;
 	}
 	
@@ -476,6 +480,24 @@ class mod_library_Publication extends icms_ipf_seo_Object {
 				break;
 
 			default:
+		}
+	}
+	
+	public function initiateStreaming()
+	{
+		$identifier = '';
+		$identifier = $this->getVar('identifier');
+		if (!empty ($identifier)) {
+			// Send playlist headers to the browser, followed by the audio file URL as contents (iso-8859-1 charset is standard for m3u)
+			header('Content-Type: audio/x-mpegurl audio/mpeg-url application/x-winamp-playlist audio/scpls audio/x-scpls; charset=iso-8859-1');
+			header("Content-Disposition:inline;filename=stream_soundtrack.m3u");
+
+			// Less widely recognised m3u8 alternative playlist format for utf-8 - use INSTEAD of the two lines above, if you need this:
+			// header ('Content-Type: audio/x-mpegurl audio/mpeg-url application/x-winamp-playlist audio/scpls audio/x-scpls; charset=utf-8');
+			// header("Content-Disposition:inline;filename=stream_soundtrack.m3u8");
+			
+			echo $identifier;
+			exit();
 		}
 	}
 	

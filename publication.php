@@ -1,6 +1,6 @@
 <?php
 /**
-* Publication page
+* Publication display page.
 *
 * @copyright	Copyright Madfish (Simon Wilkinson) 2012
 * @license		http://www.gnu.org/licenses/old-licenses/gpl-2.0.html GNU General Public License (GPL)
@@ -17,6 +17,7 @@ include_once ICMS_ROOT_PATH . "/header.php";
 $clean_publication_id = isset($_GET["publication_id"]) ? (int)$_GET["publication_id"] : 0 ;
 $clean_tag_id = isset($_GET["tag_id"]) ? (int)$_GET["tag_id"] : 0 ;
 $clean_start = isset($_GET["start"]) ? intval($_GET["start"]) : 0;
+$clean_m3u = isset($_GET['m3u']) ? intval($_GET['m3u']) : 0; // Flag indicating streamable content
 
 $library_publication_handler = icms_getModuleHandler("publication", basename(dirname(__FILE__)), "library");
 $publicationObj = $library_publication_handler->get($clean_publication_id);
@@ -47,40 +48,49 @@ if (icms_get_module_status("sprockets"))
 
 if($publicationObj && !$publicationObj->isNew()) 
 {
-	// Update views counter
-	if (!icms_userIsAdmin(icms::$module->getVar('dirname'))) {
-		$library_publication_handler->updateCounter($publicationObj);
+	// If the m3u flag is present stream the linked content should be STREAMED via m3u playlist
+	if ($clean_m3u == 1) {
+		$publicationObj->initiateStreaming();
 	}
-
-	// Prepare publication for display
-	$publication = $library_publication_handler->toArrayForDisplay($publicationObj);
-	
-	// Prepare tags for display (only if Sprockets module installed)
-	if (icms_get_module_status("sprockets"))
-	{
-		$publication['tags'] = array();
-		$publication_tag_array = $sprockets_taglink_handler->getTagsForObject($publicationObj->getVar('publication_id'), $library_publication_handler, '0');
-		foreach ($publication_tag_array as $key => $value) {
-			$publication['tags'][$value] = '<a href="' . LIBRARY_URL . 'publication.php?tag_id=' . $value 
-					. '">' . $sprockets_tag_buffer[$value]['title'] . '</a>';
+	// Display single object
+	else
+	{	
+		// Update views counter
+		if (!icms_userIsAdmin(icms::$module->getVar('dirname'))) {
+			$library_publication_handler->updateCounter($publicationObj);
 		}
-		$publication['tags'] = implode(', ', $publication['tags']);
-	}
-	
-	// Assign to template
-	$icmsTpl->assign("library_publication", $publication);
-	
-	// Display comments
-	if (icms::$module->config['com_rule']) {
-		$icmsTpl->assign('library_publication_comment', TRUE);
-		include_once ICMS_ROOT_PATH . '/include/comment_view.php';
-	}
 
-	// Generate page metadata
-	$icms_metagen = new icms_ipf_Metagen($publicationObj->getVar("title"), 
-	$publicationObj->getVar("meta_keywords", "n"), 
-	$publicationObj->getVar("meta_description", "n"));
-	$icms_metagen->createMetaTags();
+		// Prepare publication for display
+		$publication = $library_publication_handler->toArrayForDisplay($publicationObj);
+
+		// Prepare tags for display (only if Sprockets module installed)
+		if (icms_get_module_status("sprockets"))
+		{
+			$publication['tags'] = array();
+			$publication_tag_array = $sprockets_taglink_handler->getTagsForObject($publicationObj->getVar('publication_id'), $library_publication_handler, '0');
+			foreach ($publication_tag_array as $key => $value) {
+				$publication['tags'][$value] = '<a href="' . LIBRARY_URL . 'publication.php?tag_id=' . $value 
+						. '">' . $sprockets_tag_buffer[$value]['title'] . '</a>';
+			}
+			$publication['tags'] = implode(', ', $publication['tags']);
+		}
+
+		// Assign to template
+		$icmsTpl->assign("library_publication_view_mode", "single");
+		$icmsTpl->assign("library_publication", $publication);
+
+		// Display comments
+		if (icms::$module->config['com_rule']) {
+			$icmsTpl->assign('library_publication_comment', TRUE);
+			include_once ICMS_ROOT_PATH . '/include/comment_view.php';
+		}
+
+		// Generate page metadata
+		$icms_metagen = new icms_ipf_Metagen($publicationObj->getVar("title"), 
+		$publicationObj->getVar("meta_keywords", "n"), 
+		$publicationObj->getVar("meta_description", "n"));
+		$icms_metagen->createMetaTags();
+	}
 }
 
 ////////////////////////////////////////////////////////////////////
