@@ -97,7 +97,7 @@ define("_CO_LIBRARY_ARCHIVE_MUST_CREATE", "Error: An archive object must be crea
 define("_CO_LIBRARY_NO_ARCHIVE", "Sorry there are no articles to display yet.");
 
 // Timeline page
-define("_CO_LIBRARY_TIMELINE", "Timeline");
+define("_CO_LIBRARY_TIMELINE", "Publication timeline");
 define("_CO_LIBRARY_TIMELINE_DESCRIPTION", "Archived news articles sorted by month.");
 define("_CO_LIBRARY_TIMELINES", "Publication timline");
 define("_CO_LIBRARY_NO_TIMELINE", "Sorry there are no publications to display yet.");
@@ -108,7 +108,7 @@ define("_CO_LIBRARY_TIMELINE_VIEWS", "Views");
 define("_CO_LIBRARY_TIMELINE_TAGS", "Tags");
 define("_CO_LIBRARY_TIMELINE_TAGS_DESCRIPTION", "View publications sorted by tag.");
 define("_CO_LIBRARY_TIMELINE_THEREAREINTOTAL", "There are a total of ");
-define("_CO_LIBRARY_TIMELINE_PUBLICATIONS_LOWER", " articles:");
+define("_CO_LIBRARY_TIMELINE_PUBLICATIONS_LOWER", " publications:");
 define("_CO_LIBRARY_SUBSCRIBE_RSS", "Subscribe to RSS feed");
 define("_CO_LIBRARY_CAL_JANUARY", "January");
 define("_CO_LIBRARY_CAL_FEBRUARY", "February");

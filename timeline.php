@@ -17,15 +17,11 @@
 ######################################################################
 
 include_once "header.php";
-$xoopsOption["template_main"] = "library_publication.html";
+$xoopsOption["template_main"] = "library_timeline.html";
 include_once ICMS_ROOT_PATH . "/header.php";
 
 // Set page title
 $icmsTpl->assign("library_page_title", _MD_LIBRARY_TIMELINE);
-
-$icmsTpl->assign("library_show_breadcrumb", icms::$module->config['library_show_breadcrumb']);
-$icmsTpl->assign("library_module_home", '<a href="' . ICMS_URL . "/modules/" 
-		. icms::$module->getVar("dirname") . '/">' . icms::$module->getVar("name") . "</a>");
 
 global $icmsConfig;
 
@@ -128,34 +124,39 @@ if ($fromyear != 0 && $frommonth != 0) {
 	$monthend = mktime(23 - $timeoffset, 59, 59, $frommonth + 1, 0, $fromyear);
 	$monthend = ($monthend > time()) ? time() : $monthend;
 
-	$count=0;
+	$count = 0;
 	$criteria = new icms_db_criteria_Compo();
 	$criteria->add(new icms_db_criteria_Item('submission_time', $monthstart, '>'));
 	$criteria->add(new icms_db_criteria_Item('submission_time', $monthend, '<'));
 	$criteria->add(new icms_db_criteria_Item('online_status', '1'));
 	$criteria->setSort('submission_time');
 	$criteria->setOrder('DESC');
-	$publicationarray = $library_publication_handler->getObjects($criteria, TRUE);
+	$publicationArray = $library_publication_handler->getObjects($criteria, TRUE);
 
-	$count=count($publicationarray);
-
-	if (is_array($publicationarray) && $count>0) {
+	$count = count($publicationArray);
+	
+	if (is_array($publicationArray) && $count > 0) {
 		
-		// if Sprockets is installed, prepare tag buffers to reduce database lookups
+		// If Sprockets is installed, prepare tag buffers to reduce database lookups
 		if (icms_get_module_status("sprockets")) {
-			$publication_ids = array_keys($publicationarray);
+			$publication_ids = array_keys($publicationArray);
 			$publication_tags_multi_array = array();
 			$sprockets_tag_handler = icms_getModuleHandler('tag', 'sprockets', 'sprockets');
 			$sprockets_taglink_handler = icms_getModuleHandler('taglink', 'sprockets', 'sprockets');
+			
+			// Only get tag type tags (not categories)
+			$tag_criteria = icms_buildCriteria(array('label_type' => '0'));
+			$tag_buffer = $sprockets_tag_handler->getObjects($tag_criteria, TRUE);
+			$tag_ids = array_keys($tag_buffer);
+			$tag_ids = "('" . implode("','", $tag_ids) . "')";
 			
 			// Only get taglinks relevant to the publications being listed
 			$publication_ids = "('" . implode("','", $publication_ids) . "')";
 			$criteria = new icms_db_criteria_Compo();
 			$criteria->add(new icms_db_criteria_Item('mid', icms::$module->getVar('mid')));
+			$criteria->add(new icms_db_criteria_Item('tid', $tag_ids, 'IN'));
 			$criteria->add(new icms_db_criteria_Item('item', 'publication'));
 			$criteria->add(new icms_db_criteria_Item('iid', $publication_ids, 'IN'));
-
-			$tag_buffer = $sprockets_tag_handler->getObjects(null, TRUE);
 			$taglink_buffer = $sprockets_taglink_handler->getObjects($criteria, TRUE, FALSE);
 			
 			// Prepare a multidimensional array holding the tags for each publication
@@ -170,19 +171,19 @@ if ($fromyear != 0 && $frommonth != 0) {
 			}
 		}
 		
-		foreach ($publicationArray as $publication) {
+		foreach ($publicationArray as $publicationObj) {
 	    	$htmltitle = '';
 			$publication = array();
-			
-	    	$publication['title'] = $publication->getItemLinkWithSEOString();
-	    	$pubication['counter'] = $publication->getVar('counter');
+
+	    	$publication['title'] = $publicationObj->getItemLinkWithSEOString();
+	    	$publication['counter'] = $publicationObj->getVar('counter');
 			if (icms_get_module_status("sprockets")) {
 				// Use the publication_id to extract the array of tags relevant to this publication
-				$publication['tags'] = implode(', ', $publication_tags_multi_array[$publication->getVar('publication_id')]);
+				$publication['tags'] = implode(', ', $publication_tags_multi_array[$publicationObj->getVar('publication_id')]);
 			} else {
 				$publication['tags'] = FALSE;
 			}
-	    	$publication['submission_time'] = formatTimestamp($publication->getVar('submission_time', 'e'),$dateformat,$useroffset);
+	    	$publication['submission_time'] = formatTimestamp($publicationObj->getVar('submission_time', 'e'),$dateformat, $useroffset);
 	
 	    	$icmsTpl->append('publications', $publication);
 		}
@@ -206,6 +207,7 @@ if (icms::$module->config['library_show_breadcrumb'] == TRUE) {
 }
 
 $icmsTpl->assign("library_module_home", '<a href="' . ICMS_URL . "/modules/" . icms::$module->getVar("dirname") . '/">' . icms::$module->getVar("name") . "</a>");
+$icmsTpl->assign("library_show_breadcrumb", icms::$module->config['library_show_breadcrumb']);
 $icmsTpl->assign('library_category_path', _CO_LIBRARY_TIMELINE);
 
 /**
