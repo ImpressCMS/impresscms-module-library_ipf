@@ -6,13 +6,13 @@ include_once ICMS_ROOT_PATH . "/header.php";
 
 // Set page title
 $icmsTpl->assign("library_page_title", _MD_LIBRARY_OPEN_ARCHIVES_INITIATIVE);
+icms_loadLanguageFile("sprockets", "common");
 
 $sprockets_archive_handler = icms_getModuleHandler('archive', 'sprockets', 'sprockets');
 $criteria = icms_buildCriteria(array('module_id' => icms::$module->getVar('mid')));
 $archiveObj = array_shift($sprockets_archive_handler->getObjects($criteria));
 if ($archiveObj)
 {
-	icms_loadLanguageFile("sprockets", "common");
 	$archive = $archiveObj->toArray();
 	$archive['admin_email'] = str_replace('@', ' "at" ', $archive['admin_email']);
 	$icmsTpl->assign('archive', $archive);

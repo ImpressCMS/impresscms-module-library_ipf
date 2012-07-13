@@ -1,15 +1,20 @@
 <{includeq file='db:library_header.html'}>
 
-<p class="library_separator"><{$smarty.const._CO_SPROCKETS_IMPLEMENTS_OAI}></p>
-
-<p><strong><{$smarty.const._CO_SPROCKETS_REPOSITORY_NAME}></strong>: <{$archive.repository_name}><br />
-	<strong><{$smarty.const._CO_SPROCKETS_METADATA_PREFIX}></strong>: <{$archive.metadata_prefix}><br />
-	<strong><{$smarty.const._CO_SPROCKETS_GRANULARITY}></strong>: <{$archive.granularity}><br />
-	<strong><{$smarty.const._CO_SPROCKETS_DELETED_RECORD}></strong>: <{$archive.deleted_record}><br />
-	<strong><{$smarty.const._CO_SPROCKETS_EARLIEST_DATE_STAMP}></strong>: <{$archive.earliest_date_stamp}><br />
-	<strong><{$smarty.const._CO_SPROCKETS_ADMIN_EMAIL}></strong>: <{$archive.admin_email}><br />
-	<strong><{$smarty.const._CO_SPROCKETS_PROTOCOL_VERSION}></strong>: <{$archive.protocol_version}><br />
-	<strong><{$smarty.const._CO_SPROCKETS_BASE_URL}></strong>: <{$archive.base_url}><br />
-	<strong><{$smarty.const._CO_SPROCKETS_COMPRESSION}></strong>: <{$archive.compression}><br />
+<div>
+	<{if $archive}>
+		<p class="library_separator"><{$smarty.const._CO_SPROCKETS_IMPLEMENTS_OAI}></p>
+		<p><strong><{$smarty.const._CO_SPROCKETS_REPOSITORY_NAME}></strong>: <{$archive.repository_name}><br />
+			<strong><{$smarty.const._CO_SPROCKETS_METADATA_PREFIX}></strong>: <{$archive.metadata_prefix}><br />
+			<strong><{$smarty.const._CO_SPROCKETS_GRANULARITY}></strong>: <{$archive.granularity}><br />
+			<strong><{$smarty.const._CO_SPROCKETS_DELETED_RECORD}></strong>: <{$archive.deleted_record}><br />
+			<strong><{$smarty.const._CO_SPROCKETS_EARLIEST_DATE_STAMP}></strong>: <{$archive.earliest_date_stamp}><br />
+			<strong><{$smarty.const._CO_SPROCKETS_ADMIN_EMAIL}></strong>: <{$archive.admin_email}><br />
+			<strong><{$smarty.const._CO_SPROCKETS_PROTOCOL_VERSION}></strong>: <{$archive.protocol_version}><br />
+			<strong><{$smarty.const._CO_SPROCKETS_BASE_URL}></strong>: <{$archive.base_url}><br />
+			<strong><{$smarty.const._CO_SPROCKETS_COMPRESSION}></strong>: <{$archive.compression}><br />
+	<{else}>
+		<p><{$smarty.const._CO_SPROCKETS_ARCHIVE_NOT_ENABLED}></p>
+	<{/if}>
+</div>
 
 <{includeq file='db:library_footer.html'}>
