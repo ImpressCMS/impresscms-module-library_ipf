@@ -122,3 +122,7 @@ define("_CO_LIBRARY_CAL_SEPTEMBER", "September");
 define("_CO_LIBRARY_CAL_OCTOBER", "October");
 define("_CO_LIBRARY_CAL_NOVEMBER", "November");
 define("_CO_LIBRARY_CAL_DECEMBER", "December");
+
+// Tag index page
+define("_CO_LIBRARY_TAG_INDEX", "Publications: Tags");
+define("_CO_LIBRARY_CATEGORY_INDEX", "Publications: Categories");

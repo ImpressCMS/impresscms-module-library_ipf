@@ -1,0 +1,13 @@
+<{includeq file='db:library_header.html'}>
+
+<{if $library_tag_list}>
+	<div>
+		<ul>
+			<{foreach item=tag from=$library_tag_list}>
+				<li><a href="<{$icms_url}>/modules/library/publication.php?tag_id=<{$tag.tag_id}>"><{$tag.title}></a></li>
+			<{/foreach}>
+		</ul>
+	</div>		
+<{/if}>
+
+<{includeq file='db:library_footer.html'}>

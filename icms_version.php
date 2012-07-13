@@ -75,7 +75,7 @@ if (icms_get_module_status("sprockets")) {
 	$modversion['sub'][$i]['url'] = "tag.php";
 	$i++;
 	$modversion['sub'][$i]['name'] = _MI_LIBRARY_CATEGORY_DIRECTORY;
-	$modversion['sub'][$i]['url'] = "category.php";
+	$modversion['sub'][$i]['url'] = "tag.php?label_type=1";
 	$i++;
 	$modversion['sub'][$i]['name'] = _MI_LIBRARY_TIMELINE_DIRECTORY;
 	$modversion['sub'][$i]['url'] = "timeline.php";
@@ -104,6 +104,7 @@ $modversion['templates'] = array(
 	array("file" => "library_publication_image.html", "description" => "Subtemplate for image publications"),
 	array("file" => "library_publication.html", "description" => "Publication container template"),
 	array("file" => "library_timeline.html", "description" => "Publication timeline page"),
+	array("file" => "library_tag.html", "description" => "Tag index page"),
 	array("file" => "library_rss.html", "description" => "Generates RSS feeds"),
 	array('file' => 'library_header.html', 'description' => 'Module header'),
 	array('file' => 'library_footer.html', 'description' => 'Module footer'),
