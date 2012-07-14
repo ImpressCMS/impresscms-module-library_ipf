@@ -197,14 +197,19 @@ if ($fromyear != 0 && $frommonth != 0) {
 
 $icmsTpl->assign('lang_libraryarchives', _CO_LIBRARY_TIMELINES);
 
-// Check if the module's breadcrumb / RSS icon should be displayed
+// Check if the module's breadcrumb should be displayed
 if (icms::$module->config['library_show_breadcrumb'] == TRUE) {
 	$icmsTpl->assign('library_show_breadcrumb', icms::$module->config['library_show_breadcrumb']);
 } else {
 	$icmsTpl->assign('library_show_breadcrumb', FALSE);
-	$icmsTpl->assign('library_rss_link', 'rss.php');
-	$icmsTpl->assign('library_rss_title', _CO_LIBRARY_SUBSCRIBE_RSS);
 }
+
+// RSS feed
+$icmsTpl->assign('library_rss_link', 'rss.php');
+$icmsTpl->assign('library_rss_title', _CO_LIBRARY_SUBSCRIBE_RSS);
+
+// Add RSS auto-discovery link to module header
+$xoTheme->addLink('alternate', $rss_link, $rss_attributes);
 
 $icmsTpl->assign("library_module_home", '<a href="' . ICMS_URL . "/modules/" . icms::$module->getVar("dirname") . '/">' . icms::$module->getVar("name") . "</a>");
 $icmsTpl->assign("library_show_breadcrumb", icms::$module->config['library_show_breadcrumb']);

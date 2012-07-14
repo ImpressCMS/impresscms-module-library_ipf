@@ -86,10 +86,12 @@ define("_CO_LIBRARY_STREAMING", "Streaming");
 // RSS feeds
 define("_CO_LIBRARY_NEW", "Recent publications");
 define("_CO_LIBRARY_NEW_DSC", "The latest publications from ");
+define("_CO_LIBRARY_SUBSCRIBE_RSS", "Subscribe to RSS feed");
+define("_CO_LIBRARY_SUBSCRIBE_RSS_ON", "Subscribe to our RSS feed on ");
 define("_CO_LIBRARY_ALL", "All publications");
 
 // Tags
-define("_CO_LIBRARY_PUBLICATION_ALL_TAGS", "-- Sort by tag --");
+define("_CO_LIBRARY_PUBLICATION_ALL_TAGS", "-- All publications --");
 
 // Open Archives Initiative Protocol for Metadata Harvesting
 define("_CO_LIBRARY_ARCHIVE_MUST_CREATE", "Error: An archive object must be created before OAIPMH
@@ -109,7 +111,6 @@ define("_CO_LIBRARY_TIMELINE_TAGS", "Tags");
 define("_CO_LIBRARY_TIMELINE_TAGS_DESCRIPTION", "View publications sorted by tag.");
 define("_CO_LIBRARY_TIMELINE_THEREAREINTOTAL", "There are a total of ");
 define("_CO_LIBRARY_TIMELINE_PUBLICATIONS_LOWER", " publications:");
-define("_CO_LIBRARY_SUBSCRIBE_RSS", "Subscribe to RSS feed");
 define("_CO_LIBRARY_CAL_JANUARY", "January");
 define("_CO_LIBRARY_CAL_FEBRUARY", "February");
 define("_CO_LIBRARY_CAL_MARCH", "March");

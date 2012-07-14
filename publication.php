@@ -14,6 +14,8 @@ include_once "header.php";
 $xoopsOption["template_main"] = "library_publication.html";
 include_once ICMS_ROOT_PATH . "/header.php";
 
+global $xoTheme, $icmsConfig;
+
 $clean_publication_id = isset($_GET["publication_id"]) ? (int)$_GET["publication_id"] : 0 ;
 $clean_tag_id = isset($_GET["tag_id"]) ? (int)$_GET["tag_id"] : 0 ;
 $clean_start = isset($_GET["start"]) ? intval($_GET["start"]) : 0;
@@ -41,6 +43,25 @@ if (icms_get_module_status("sprockets"))
 		$icmsTpl->assign('library_category_path', $sprockets_tag_buffer[$clean_tag_id]['title']);
 	}
 }
+
+// RSS feed links
+if (icms_get_module_status("sprockets") && $clean_tag_id) {
+	$icmsTpl->assign('library_rss_link', 'rss.php?tag_id=' . $clean_tag_id);
+	$icmsTpl->assign('library_rss_title', _CO_LIBRARY_SUBSCRIBE_RSS_ON
+			. $sprockets_tag_buffer[$clean_tag_id]['title']);
+	$rss_attributes = array('type' => 'application/rss+xml', 
+		'title' => $icmsConfig['sitename'] . ' - ' . $sprockets_tag_buffer[$clean_tag_id]['title']);
+	$rss_link = LIBRARY_URL . 'rss.php?tag_id=' . $clean_tag_id;
+} else {				
+		$icmsTpl->assign('library_rss_link', 'rss.php');
+		$icmsTpl->assign('library_rss_title', _CO_LIBRARY_SUBSCRIBE_RSS);
+		$rss_attributes = array('type' => 'application/rss+xml', 
+			'title' => $icmsConfig['sitename'] . ' - ' .  _CO_LIBRARY_NEW);
+		$rss_link = LIBRARY_URL . 'rss.php';
+}
+
+// Add RSS auto-discovery link to module header
+$xoTheme->addLink('alternate', $rss_link, $rss_attributes);
 
 ////////////////////////////////////////////////////////////////////
 //////////////////// DISPLAY SINGLE PUBLICATION ////////////////////

@@ -12,7 +12,8 @@
 <{else}>
 
 	<{if $library_page_title}>
-		<h1>
+		<h1><a href="<{$library_rss_link}>" title="<{$library_rss_title}>">
+				<img src="./images/rss.png" alt="RSS" /></a>
 			<{$library_page_title}><{if $library_tag_name}> - <{$library_tag_name}><{/if}>
 		</h1>
 	<{/if}>

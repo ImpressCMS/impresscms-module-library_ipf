@@ -14,6 +14,8 @@ include_once "header.php";
 $xoopsOption["template_main"] = "library_tag.html";
 include_once ICMS_ROOT_PATH . "/header.php";
 
+global $icmsConfig, $xoTheme;
+
 $clean_label_type = isset($_GET["label_type"]) ? (int)$_GET["label_type"] : 0 ;
 $clean_tag_id = isset($_GET["tag_id"]) ? (int)$_GET["tag_id"] : 0 ;
 $sprockets_tag_handler = icms_getModuleHandler('tag', 'sprockets', 'sprockets');
@@ -61,6 +63,16 @@ if ($clean_tag_id == '0') // Indicates index page should be displayed
 		$icmsTpl->assign("library_page_title", _CO_LIBRARY_TAG_INDEX);
 	}
 }
+
+// RSS feed
+$icmsTpl->assign('library_rss_link', 'rss.php');
+$icmsTpl->assign('library_rss_title', _CO_LIBRARY_SUBSCRIBE_RSS);
+$rss_attributes = array('type' => 'application/rss+xml', 
+	'title' => $icmsConfig['sitename'] . ' - ' .  _CO_LIBRARY_NEW);
+$rss_link = LIBRARY_URL . 'rss.php';
+		
+// Add RSS auto-discovery link to module header
+$xoTheme->addLink('alternate', $rss_link, $rss_attributes);
 
 $icmsTpl->assign("library_show_breadcrumb", icms::$module->config['library_show_breadcrumb']);
 $icmsTpl->assign("library_module_home", '<a href="' . ICMS_URL . "/modules/" 
