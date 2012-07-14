@@ -97,10 +97,11 @@ define("_CO_LIBRARY_PUBLICATION_ALL_TAGS", "-- All publications --");
 define("_CO_LIBRARY_ARCHIVE_MUST_CREATE", "Error: An archive object must be created before OAIPMH
     requests can be handled. Please create one via the Open Archive tab in Sprockets administration.");
 define("_CO_LIBRARY_NO_ARCHIVE", "Sorry there are no articles to display yet.");
+define("_CO_LIBRARY_META_ARCHIVE_INDEX_DESCRIPTION", "Open Archives Initiative repository information");
 
 // Timeline page
 define("_CO_LIBRARY_TIMELINE", "Publication timeline");
-define("_CO_LIBRARY_TIMELINE_DESCRIPTION", "Archived news articles sorted by month.");
+define("_CO_LIBRARY_TIMELINE_DESCRIPTION", "Archived publications sorted by month.");
 define("_CO_LIBRARY_TIMELINES", "Publication timline");
 define("_CO_LIBRARY_NO_TIMELINE", "Sorry there are no publications to display yet.");
 define("_CO_LIBRARY_TIMELINE_PUBLICATIONS", "Publications");
@@ -123,7 +124,10 @@ define("_CO_LIBRARY_CAL_SEPTEMBER", "September");
 define("_CO_LIBRARY_CAL_OCTOBER", "October");
 define("_CO_LIBRARY_CAL_NOVEMBER", "November");
 define("_CO_LIBRARY_CAL_DECEMBER", "December");
+define("_CO_LIBRARY_META_TIMELINE_INDEX_DESCRIPTION", "Index of publications sorted by date");
 
 // Tag index page
 define("_CO_LIBRARY_TAG_INDEX", "Publications: Tags");
 define("_CO_LIBRARY_CATEGORY_INDEX", "Publications: Categories");
+define("_CO_LIBRARY_META_TAG_INDEX_DESCRIPTION", "Index of publications sorted by tag");
+

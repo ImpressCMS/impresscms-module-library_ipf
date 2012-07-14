@@ -107,10 +107,18 @@ define("_MI_LIBRARY_NUMBER_COLLECTIONSDSC", "When viewing the collection index p
     maximum number of collections that will be displayed in a single view. If there are
     more, pagination controls will be inserted.");
 define("_MI_LIBRARY_NEW", "New");
+define("_MI_LIBRARY_META_DESCRIPTION", "Publication index meta description");
+define("_MI_LIBRARY_META_DESCRIPTIONDSC", "Used to customise the description meta tag on the publication
+	index pages of the library module. The description of other index pages (tag, open archive) are 
+	in the language files");
+define("_MI_LIBRARY_META_KEYWORDS", "Publication index meta keywords");
+define("_MI_LIBRARY_META_KEYWORDSDSC", "Used to customise the keywords meta tag on the publication 
+	index page of the library module. Separate keywords with a comma.");
 
 // Display preferences
 define("_MI_LIBRARY_SHOW_TAG_SELECT_BOX", "Show tag select box");
-define("_MI_LIBRARY_SHOW_TAG_SELECT_BOX_DSC", "Toggles the tag select box on/off for the projects index page (only if Sprockets module installed).");
+define("_MI_LIBRARY_SHOW_TAG_SELECT_BOX_DSC", "Toggles the tag select box on/off for the projects 
+	index page (only if Sprockets module installed).");
 define("_MI_LIBRARY_DISPLAY_COUNTER", "Display views counter field");
 define("_MI_LIBRARY_DISPLAY_COUNTERDSC", "Toggles visibility in user-side templates");
 define("_MI_LIBRARY_DISPLAY_CREATOR", "Display author field");

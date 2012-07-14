@@ -119,16 +119,34 @@ if($publicationObj && !$publicationObj->isNew())
 ////////////////////////////////////////////////////////////////////
 
 else
-{
+{			
 	// Set page title
 	$icmsTpl->assign("library_page_title", _MD_LIBRARY_ALL_PUBLICATIONS);
-				
+	
 	// Get a select box (if preferences allow, and only if Sprockets module installed)
 	if (icms_get_module_status("sprockets") && icms::$module->config['library_show_tag_select_box'] == TRUE)  {
 		$tag_select_box = $sprockets_tag_handler->getTagSelectBox('publication.php', $clean_tag_id, 
 				_CO_LIBRARY_PUBLICATION_ALL_TAGS, TRUE, icms::$module->getVar('mid'));
 		$icmsTpl->assign('library_tag_select_box', $tag_select_box);
 	}
+	
+	// Generate page metadata (can be customised in module preferences)
+	global $icmsConfigMetaFooter;
+	$library_meta_keywords = $library_meta_description = '';
+	
+	if (icms::$module->config['library_meta_keywords']) {
+		$library_meta_keywords = icms::$module->config['library_meta_keywords'];
+	} else {
+		$library_meta_keywords = $icmsConfigMetaFooter['meta_keywords'];
+	}
+	if (icms::$module->config['library_meta_description']) {
+		$library_meta_description = icms::$module->config['library_meta_description'];
+	} else {
+		$library_meta_description = $icmsConfigMetaFooter['meta_description'];
+	}
+	$icms_metagen = new icms_ipf_Metagen(icms::$module->getVar('name'), $library_meta_keywords, 
+		$library_meta_description);
+	$icms_metagen->createMetaTags();
 	
 	// View publications index as a list of summaries
 	if (icms::$module->config['library_publication_index_display_mode'] == '1')

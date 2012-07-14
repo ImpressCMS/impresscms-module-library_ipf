@@ -385,5 +385,21 @@ $modversion['config'][] = array(
 	'valuetype' => 'int',
 	'default' =>  '1');
 
+$modversion['config'][] = array(
+	'name' => 'library_meta_description',
+	'title' => '_MI_LIBRARY_META_DESCRIPTION',
+	'description' => '_MI_LIBRARY_META_DESCRIPTIONDSC',
+	'formtype' => 'textbox',
+	'valuetype' => 'string',
+	'default' =>  '');
+
+$modversion['config'][] = array(
+	'name' => 'library_meta_keywords',
+	'title' => '_MI_LIBRARY_META_KEYWORDS',
+	'description' => '_MI_LIBRARY_META_KEYWORDSDSC',
+	'formtype' => 'textbox',
+	'valuetype' => 'string',
+	'default' =>  '');
+
 /** Notification information */
 /** To come soon in imBuilding... */

@@ -30,6 +30,19 @@ $rss_link = LIBRARY_URL . 'rss.php';
 // Add RSS auto-discovery link to module header
 $xoTheme->addLink('alternate', $rss_link, $rss_attributes);
 
+// Generate page metadata (can be customised in module preferences)
+global $icmsConfigMetaFooter;
+$library_meta_keywords = '';
+
+if (icms::$module->config['library_meta_keywords']) {
+	$library_meta_keywords = icms::$module->config['library_meta_keywords'];
+} else {
+	$library_meta_keywords = $icmsConfigMetaFooter['meta_keywords'];
+}
+$icms_metagen = new icms_ipf_Metagen(_MD_LIBRARY_OPEN_ARCHIVES_INITIATIVE, $library_meta_keywords, 
+		_CO_LIBRARY_META_ARCHIVE_INDEX_DESCRIPTION);
+$icms_metagen->createMetaTags();
+
 // Breadcrumb
 $icmsTpl->assign("library_show_breadcrumb", icms::$module->config['library_show_breadcrumb']);
 $icmsTpl->assign("library_module_home", '<a href="' . ICMS_URL . "/modules/" 
