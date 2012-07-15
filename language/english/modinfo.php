@@ -90,14 +90,6 @@ define("_MI_LIBRARY_SCREENSHOT_WIDTHDSC", "Screenshots are the cover art/images 
     displayed at a considerably larger size by default. This value is used to scale the width that 
     images are displayed at. Aspect ratio will be preserved, so it will be the largest of the
     width and height preferences that is the constraint.");
-define("_MI_LIBRARY_THUMBNAIL_HEIGHT", "Thumbnail height (in pixels)");
-define("_MI_LIBRARY_THUMBNAIL_HEIGHTDSC", "Thumbnails are the cover art/images displayed when a
-    publication is viewed inside a collection or listing, they (supposed) to be smaller than the
-    screenshot images. Aspect ration will be preserved, so it will be the largest of the width and
-    height preferences that is the constraint.");
-define("_MI_LIBRARY_THUMBNAIL_WIDTH", "Thumbnail width (in pixels)");
-define("_MI_LIBRARY_THUMBNAIL_WIDTHDSC", "This value is used to scale smaller versions of collection
-    logos / album cover art, height will be scaled proportionately");
 define("_MI_LIBRARY_NUMBER_PUBLICATIONS", "Number of publications to display on one page");
 define("_MI_LIBRARY_NUMBER_PUBLICATIONSSDSC", "When viewing the publications index page, this is the
     maximum number of publications that will be displayed in a single view. If there are more,

@@ -223,22 +223,6 @@ $modversion['config'][] = array(
 	'default' =>  'en');
 
 $modversion['config'][] = array(
-	'name' => 'thumbnail_width',
-	'title' => '_MI_LIBRARY_THUMBNAIL_WIDTH',
-	'description' => '_MI_LIBRARY_THUMBNAIL_WIDTHDSC',
-	'formtype' => 'textbox',
-	'valuetype' => 'int',
-	'default' =>  '50');
-
-$modversion['config'][] = array(
-	'name' => 'thumbnail_height',
-	'title' => '_MI_LIBRARY_THUMBNAIL_HEIGHT',
-	'description' => '_MI_LIBRARY_THUMBNAIL_HEIGHTDSC',
-	'formtype' => 'textbox',
-	'valuetype' => 'int',
-	'default' =>  '50');
-
-$modversion['config'][] = array(
 	'name' => 'screenshot_width',
 	'title' => '_MI_LIBRARY_SCREENSHOT_WIDTH',
 	'description' => '_MI_LIBRARY_SCREENSHOT_WIDTHDSC',

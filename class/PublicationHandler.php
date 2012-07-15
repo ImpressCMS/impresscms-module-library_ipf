@@ -451,6 +451,16 @@ class mod_library_PublicationHandler extends icms_ipf_Handler {
 			unset($publication['submitter']);
 		}
 		
+		// If an image is present, set resizing preferences
+		if ($publication['image']) {
+			$publication['image'] = '/uploads/' . basename(dirname(dirname(__FILE__))) . '/publication/'
+				. $pubObj->getVar('image', 'e');
+			$publication['screenshot_width'] = icms_getConfig('screenshot_width', $library);
+			$publication['screenshot_height'] = icms_getConfig('screenshot_height', $library);
+			$publication['image_width'] = icms_getConfig('image_width', $library);
+			$publication['image_height'] = icms_getConfig('image_height', $library);
+		}		
+		
 		// Assign an appropriate template for this publication type.
 		$publication['subtemplate'] = $this->assignTemplate($publication['type']);
 		

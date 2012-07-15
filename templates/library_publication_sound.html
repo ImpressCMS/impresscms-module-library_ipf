@@ -19,7 +19,7 @@
 	</div>
 	<{if $library_publication.image}>
 		<div class="library_publication_image">
-			<{$library_publication.image}>
+			<{resized_image file=$library_publication.image width=$library_publication.screenshot_width height=$library_publication.screenshot_height fit="inside"}>
 		</div>
 	<{/if}>
 	<!-- Float extra metadata in a box -->
