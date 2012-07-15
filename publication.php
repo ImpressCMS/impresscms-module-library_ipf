@@ -95,6 +95,25 @@ if($publicationObj && !$publicationObj->isNew())
 			}
 			$publication['tags'] = implode(', ', $publication['tags']);
 		}
+		
+		// Collections - append links to related publications
+		if ($publicationObj->getVar('type', 'e') == 'Collection')
+		{
+			$criteria = '';
+			$related_work_objects = $related_works = array();
+			
+			$criteria = icms_buildCriteria(array('source' => $publication['publication_id'], 
+				'online_status', '1'));
+			$related_work_objects = $library_publication_handler->getObjects($criteria, TRUE);
+			if ($related_work_objects) {
+				foreach ($related_work_objects as $pubObj) {
+					$related_works[] = '<a href="' . LIBRARY_URL . 'publication.php?publication_id=' 
+							. $pubObj->getVar('publication_id') . '">' 
+							. $pubObj->getVar('title', 'e') . '</a>';
+				}
+				$publication['related_works'] = $related_works;
+			}
+		}
 
 		// Assign to template
 		$icmsTpl->assign("library_publication_view_mode", "single");

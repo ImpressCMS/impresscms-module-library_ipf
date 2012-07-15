@@ -82,6 +82,7 @@ define("_CO_LIBRARY_PUBLICATION_VIEWS", "views");
 define("_CO_LIBRARY_PUBLICATION_DOWNLOAD", "Download");
 define("_CO_LIBRARY_PUBLICATION_PERMALINK", "Permalink");
 define("_CO_LIBRARY_STREAMING", "Streaming");
+define("_CO_LIBRARY_RELATED_WORKS", "Related works");
 
 // RSS feeds
 define("_CO_LIBRARY_NEW", "Recent publications");

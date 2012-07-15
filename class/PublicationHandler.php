@@ -294,7 +294,6 @@ class mod_library_PublicationHandler extends icms_ipf_Handler {
 		switch ($type)
 		{
 			case "Text":
-			case "Collection":
 			case "Dataset":
 			case "Event":
 			case "Software":
@@ -309,7 +308,10 @@ class mod_library_PublicationHandler extends icms_ipf_Handler {
 				break;
 			case "MovingImage":
 				return "db:library_publication_moving_image.html";
-				break;			
+				break;	
+			case "Collection":
+				return "db:library_publication_collection.html";
+				break;
 			//case "Event":
 			//	break;
 			// case "InteractiveResource":
