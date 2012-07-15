@@ -102,6 +102,7 @@ $modversion['templates'] = array(
 	array("file" => "library_publication_text.html", "description" => "Subtemplate for text publications"),
 	array("file" => "library_publication_sound.html", "description" => "Subtemplate for sound publications"),
 	array("file" => "library_publication_image.html", "description" => "Subtemplate for image publications"),
+	array("file" => "library_publication_moving_image.html", "description" => "Subtemplate for video publications"),
 	array("file" => "library_publication.html", "description" => "Publication container template"),
 	array("file" => "library_timeline.html", "description" => "Publication timeline page"),
 	array("file" => "library_tag.html", "description" => "Tag index page"),

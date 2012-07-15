@@ -450,7 +450,10 @@ class mod_library_Publication extends icms_ipf_seo_Object {
 
 			case 'MovingImage':
 				// Can support embedded or downloadable videos, therefore identifier, file size and
-				// format are optional
+				// format are optional. However, maybe the module should just target linked files
+				// (no embedded Youtube videos!) for reasons of archive integrity. I'll think about it.
+				// Problem is, if file size is not set as required, failing to declare a file size
+				// of a linked video file can break Podcasting clients and streams.
 				break;
 			
 			case 'Sound':

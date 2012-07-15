@@ -305,8 +305,10 @@ class mod_library_PublicationHandler extends icms_ipf_Handler {
 				return "db:library_publication_sound.html";
 				break;
 			case "Image":
-			case "MovingImage":
 				return "db:library_publication_image.html";
+				break;
+			case "MovingImage":
+				return "db:library_publication_moving_image.html";
 				break;			
 			//case "Event":
 			//	break;
@@ -457,7 +459,9 @@ class mod_library_PublicationHandler extends icms_ipf_Handler {
 		////////////////////////////////////////////////////////////////
 		
 		// Create a streaming link for sound type publications
-		if ($pubObj->getVar('type', 'e') == 'Sound') {
+		if (($pubObj->getVar('type', 'e') == 'Sound') || ($pubObj->getVar('type', 'e') == 'MovingImage'
+				&& $pubObj->getVar('identifier')))
+		{
 			if ($publication['itemUrl']) {
 				$publication['streamingLink'] = '<a href="' . $publication['itemUrl'] 
 						. '&amp;m3u=1';
