@@ -121,9 +121,9 @@ $modversion['blocks'][1] = array(
 	'file' => 'library_recent.php',
 	'name' => _MI_LIBRARY_RECENT,
 	'description' => _MI_LIBRARY_RECENTDSC,
-	'show_func' => 'library_recent_show',
-	'edit_func' => 'library_recent_edit',
-	'options' => 'All|5',
+	'show_func' => 'show_recent_publications',
+	'edit_func' => 'edit_recent_publications',
+	'options' => '5|0',
 	'template' => 'library_block_recent.html'
 );
 

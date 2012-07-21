@@ -166,6 +166,7 @@ class mod_library_Publication extends icms_ipf_seo_Object {
 			'online_status',
 			'federated',
 			'submitter',
+			'submission_time',
 			'format',
 			'oai_identifier'))) {
 			return call_user_func(array ($this,	$key));
@@ -375,6 +376,15 @@ class mod_library_Publication extends icms_ipf_seo_Object {
 	*/
 	public function submitter() {
 		return icms_member_user_Handler::getUserLink($this->getVar('submitter', 'e'));
+	}
+	
+	/*
+	 * Converts the submission time to human readable
+	 */
+	
+	public function submission_time() {
+		$submission_time = $this->getVar('submission_time', 'e');
+		return date(icms_getConfig('date_format', 'library'), $submission_time);
 	}
 	
 	/**
