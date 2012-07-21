@@ -12,6 +12,6 @@
 
 defined("ICMS_ROOT_PATH") or die("ICMS root path not defined");
 
-define("_MB_LIBRARY_RANDOM_LIMIT", "Number of recently publications to display");
+define("_MB_LIBRARY_RANDOM_LIMIT", "Number of recently publications to display:");
 define("_MB_LIBRARY_RECENT_ALL", "-- All --");
-define("_MB_LIBRARY_RECENT_TAG", "Filter publications by tag");
+define("_MB_LIBRARY_RECENT_TAG", "Filter publications by tag:");

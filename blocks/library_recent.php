@@ -45,7 +45,7 @@ function show_recent_publications($options)
 	// Get a list of publications filtered by tag
 	if (icms_get_module_status("sprockets") && $clean_tag_id != 0)
 	{
-		$query = "SELECT `publication_id` FROM " . $library_publication_handler->table . ", "
+		$query = "SELECT * FROM " . $library_publication_handler->table . ", "
 			. $sprockets_taglink_handler->table
 			. " WHERE `publication_id` = `iid`"
 			. " AND `tid` = '" . $clean_tag_id . "'"
@@ -67,7 +67,7 @@ function show_recent_publications($options)
 			$rows = $library_publication_handler->convertResultSet($result, TRUE, FALSE);
 			foreach ($rows as $key => $row) 
 			{
-				$publication_list[$key] = $row['publication_id'];
+				$publication_list[$key] = $row;
 			}
 		}
 	}
@@ -80,7 +80,7 @@ function show_recent_publications($options)
 		$criteria->setLimit($clean_limit);
 		$publication_list = $library_publication_handler->getObjects($criteria, TRUE, FALSE);
 	}
-	
+
 	// Prepare publication for display
 	foreach ($publication_list as $key => &$object)
 	{		
