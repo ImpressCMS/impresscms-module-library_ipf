@@ -440,6 +440,7 @@ class mod_library_Publication extends icms_ipf_seo_Object {
 				// Identifier and file size are optional, for example a text-only article displayed
 				// on screen doesn't need them. However, a downloadable PDF version of an
 				// article *does*. Admins need to make intelligent choices when submitting items.
+				$this->setFieldAsRequired('description', TRUE);
 				break;
 
 			case 'Image':
@@ -479,6 +480,7 @@ class mod_library_Publication extends icms_ipf_seo_Object {
 			case 'Software':
 				// Downloadable items, identifier, file size and format are required.
 				$this->setFieldAsRequired('identifier', TRUE);
+				$this->setFieldAsRequired('description', TRUE);
 				$this->setFieldAsRequired('file_size', TRUE);
 				$this->setFieldAsRequired('format', TRUE);
 				break;
@@ -490,6 +492,7 @@ class mod_library_Publication extends icms_ipf_seo_Object {
 				// is only available to collections; it displays the related works as a simple list
 				// to save space (or in cases where the related works don't have a description, 
 				// which is often the case with soundtracks that are part of an album).
+				$this->setFieldAsRequired('description', TRUE);
 				$this->setVar('source', 0);
 				$this->doHideFieldFromForm('source');
 				$this->hideFieldFromSingleView ('source');
