@@ -49,7 +49,7 @@ if (icms_get_module_status("sprockets"))
 	if ($clean_label_type)
 	{
 		$criteria = '';
-		$libraryCategories = $parentCategories = $subcategories = array();
+		$libraryCategories = $parentCategories = $subcategories = $tag_ids = $publication_ids = array();
 		$sprocketsModule = icms::handler("icms_module")->getByDirName("sprockets");
 		
 		// Get the library category tree
@@ -57,6 +57,31 @@ if (icms_get_module_status("sprockets"))
 		$criteria = icms_buildCriteria(array('mid' => icms::$module->getVar('mid')));
 		$libraryCategories = $sprockets_tag_handler->getObjects($criteria, TRUE, TRUE);		
 		$categoryTree = new IcmsPersistableTree(&$libraryCategories, 'tag_id', 'parent_id', $rootId = null);
+		unset($criteria);
+		
+		// Get a count of the number of publications in each category - need online publication IDs and category IDs
+		$criteria = icms_buildCriteria(array('mid' => icms::$module->getVar('mid'), 'label_type' => '1'));
+		$category_ids = $sprockets_tag_handler->getList($criteria, TRUE);
+		if ($category_ids) {
+			$category_ids = array_keys($category_ids);
+			$category_ids = "(" . implode(',', $category_ids) . ")";
+		}
+		$criteria = icms_buildCriteria(array('online_status', '1'));
+		$publication_ids = $library_publication_handler->getList($criteria);
+		if ($publication_ids) {
+			$publication_ids = array_keys($publication_ids);
+			$publication_ids = "(" . implode(',', $publication_ids) . ")";
+		}
+		unset($criteria);
+		
+		$criteria = new icms_db_criteria_Compo();
+		$criteria->add(new icms_db_criteria_Item('tid', $category_ids, 'IN'));
+		$criteria->add(new icms_db_criteria_Item('iid', $publication_ids, 'IN'));
+		$criteria->add(new icms_db_criteria_Item('mid', icms::$module->getVar('mid')));
+		$criteria->add(new icms_db_criteria_Item('item', 'publication'));
+		$criteria->setGroupby('tid');
+		$count = $sprockets_taglink_handler->getCount($criteria);
+		unset($criteria);
 		
 		// Get the top level parent categories and convert to array for template insertion
 		$parentCategories = $categoryTree->getFirstChild(0);
