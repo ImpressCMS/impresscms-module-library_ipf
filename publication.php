@@ -20,6 +20,7 @@ $clean_publication_id = isset($_GET["publication_id"]) ? (int)$_GET["publication
 $clean_tag_id = isset($_GET["tag_id"]) ? (int)$_GET["tag_id"] : 0 ;
 $clean_start = isset($_GET["start"]) ? intval($_GET["start"]) : 0;
 $clean_m3u = isset($_GET['m3u']) ? intval($_GET['m3u']) : 0; // Flag indicating streamable content
+$clean_label_type = isset($_GET['label_type']) ? intval($_GET['label_type']) : 0 ; // View tags (0) or categories (1)
 
 $library_publication_handler = icms_getModuleHandler("publication", basename(dirname(__FILE__)), "library");
 $publicationObj = $library_publication_handler->get($clean_publication_id);
@@ -143,9 +144,14 @@ else
 	$icmsTpl->assign("library_page_title", _MD_LIBRARY_ALL_PUBLICATIONS);
 	
 	// Get a select box (if preferences allow, and only if Sprockets module installed)
-	if (icms_get_module_status("sprockets") && icms::$module->config['library_show_tag_select_box'] == TRUE)  {
-		$tag_select_box = $sprockets_tag_handler->getTagSelectBox('publication.php', $clean_tag_id, 
+	if (icms_get_module_status("sprockets") && icms::$module->config['library_show_tag_select_box'] == TRUE) {
+		if ($clean_label_type == '0') { // Get tag select box
+			$tag_select_box = $sprockets_tag_handler->getTagSelectBox('publication.php', $clean_tag_id, 
 				_CO_LIBRARY_PUBLICATION_ALL_TAGS, TRUE, icms::$module->getVar('mid'));
+		} else { // Get category select box
+			$tag_select_box = $sprockets_tag_handler->getCategorySelectBox('publication.php', $clean_tag_id, 
+				_CO_LIBRARY_PUBLICATION_ALL_TAGS, TRUE, icms::$module->getVar('mid'));
+		}
 		$icmsTpl->assign('library_tag_select_box', $tag_select_box);
 	}
 	

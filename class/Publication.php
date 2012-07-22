@@ -396,7 +396,7 @@ class mod_library_Publication extends icms_ipf_seo_Object {
 		
 		$ret = array();
 		
-		// Retrieve the tags for this object (which will include both tags and category label_type)
+		// Retrieve the tags for this object
 		$sprocketsModule = icms_getModuleInfo('sprockets');
 		if (icms_get_module_status("sprockets")) {
 			$sprockets_taglink_handler = icms_getModuleHandler('taglink',
@@ -415,7 +415,7 @@ class mod_library_Publication extends icms_ipf_seo_Object {
 		
 		$ret = array();
 		
-		// Retrieve the tags for this object (which will include both tags and category label_type)
+		// Retrieve the categories for this object
 		$sprocketsModule = icms_getModuleInfo('sprockets');
 		if (icms_get_module_status("sprockets")) {
 			$sprockets_taglink_handler = icms_getModuleHandler('taglink',

@@ -1,13 +1,30 @@
 <{includeq file='db:library_header.html'}>
 
-<{if $library_tag_list}>
-	<div>
+<div>
+	<!-- Category index page -->
+	<{if $library_category_list}>
+		<ul>
+		<{foreach item=category from=$library_category_list}>
+			<li><{$category.itemLink}></li>
+			<{if $category.subcategories}>
+				<ul>
+				<{foreach item=subcat from=$category.subcategories}>
+					<li><{$subcat.itemLink}></li>
+				<{/foreach}>
+				</ul>
+			<{/if}>
+		<{/foreach}>
+		</ul>
+	<{/if}>
+	
+	<!-- Tag index page -->
+	<{if $library_tag_list}>
 		<ul>
 			<{foreach item=tag from=$library_tag_list}>
-				<li><a href="<{$icms_url}>/modules/library/publication.php?tag_id=<{$tag.tag_id}>"><{$tag.title}></a></li>
+				<li><{$tag.itemLink}></li>
 			<{/foreach}>
-		</ul>
-	</div>		
-<{/if}>
+		</ul>	
+	<{/if}>
+</div>
 
 <{includeq file='db:library_footer.html'}>

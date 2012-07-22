@@ -1,6 +1,6 @@
 <?php
 /**
-* Tag/category display page. If label_type = true the page will display categories, otherwise tags
+* Tag/category index display page.
 *
 * @copyright	Copyright Madfish (Simon Wilkinson) 2012
 * @license		http://www.gnu.org/licenses/old-licenses/gpl-2.0.html GNU General Public License (GPL)
@@ -10,90 +10,162 @@
 * @version		$Id$
 */
 
+function modifyItemLink($id, $title, $short_url) {	
+	$itemLink = '<a href="' . LIBRARY_URL . 'publication.php?tag_id=' . $id . '&amp;label_type=1';
+	if ($short_url) {
+		$itemLink .= '&amp;title=' . $short_url;
+	}
+	$itemLink .= '">' . $title . '</a>';
+	return $itemLink;
+}
+
 include_once "header.php";
 $xoopsOption["template_main"] = "library_tag.html";
 include_once ICMS_ROOT_PATH . "/header.php";
 
 global $icmsConfig, $xoTheme;
 
-$clean_label_type = isset($_GET["label_type"]) ? (int)$_GET["label_type"] : 0 ;
-$clean_tag_id = isset($_GET["tag_id"]) ? (int)$_GET["tag_id"] : 0 ;
-$sprockets_tag_handler = icms_getModuleHandler('tag', 'sprockets', 'sprockets');
-$sprockets_taglink_handler = icms_getModuleHandler('taglink', 'sprockets', 'sprockets');
-
-// Get a list of unique tag_id associated with content for this module
-$query = $rows = $tag_ids = '';
-$query = "SELECT DISTINCT `tid` FROM " . $sprockets_taglink_handler->table
-		. " WHERE `mid` = '" . icms::$module->getVar('mid') . "' AND `item` = 'publication'";
-$result = icms::$xoopsDB->query($query);
-if (!$result) {
-	echo 'Error';
-	exit;
-} else {
-	$rows = $sprockets_taglink_handler->convertResultSet($result);
-	foreach ($rows as $key => $row) {
-		$tag_ids[] = $row->getVar('tid');
-	}
-	$tag_ids = '(' . implode(',', $tag_ids) . ')';
-}
-
-// Get a list of tags or categories
-if ($tag_ids) {
-	$criteria = new icms_db_criteria_Compo();
-	$criteria->add(new icms_db_criteria_Item('label_type', $clean_label_type));
-	$criteria->add(new icms_db_criteria_Item('tag_id', $tag_ids, 'IN'));
-	$criteria->setSort('title');
-	$criteria->setOrder('ASC');
-	$tag_list = $sprockets_tag_handler->getObjects($criteria, TRUE, FALSE);
-	$icmsTpl->assign('library_tag_list', $tag_list);
-}
-
-////////////////////////////////////////////////////////
-////////// Display tag or category index page //////////
-////////////////////////////////////////////////////////
-
-if ($clean_tag_id == '0') // Indicates index page should be displayed
+// Check if Sprockets module is available, this page is dependent on it
+if (icms_get_module_status("sprockets"))
 {
-	if ($clean_label_type == '1') // Display the CATEGORY index page
-	{
-		$icmsTpl->assign("library_page_title", _CO_LIBRARY_CATEGORY_INDEX);
-	}
-	else // Display the TAG index page
-	{
-		$icmsTpl->assign("library_page_title", _CO_LIBRARY_TAG_INDEX);
-	}
-}
+	$clean_label_type = isset($_GET["label_type"]) ? (int)$_GET["label_type"] : 0 ;
+	$clean_tag_id = isset($_GET["tag_id"]) ? (int)$_GET["tag_id"] : 0 ;
+	$sprockets_tag_handler = icms_getModuleHandler('tag', 'sprockets', 'sprockets');
+	$sprockets_taglink_handler = icms_getModuleHandler('taglink', 'sprockets', 'sprockets');
+	$library_publication_handler = icms_getModuleHandler('publication', basename(dirname(__FILE__)), 'library');
+	
+	// Get a count of the total number of online publications
+	$criteria = icms_buildCriteria(array('online_status', '1'));
+	$publicationCount = $library_publication_handler->getCount($criteria);
+	unset($criteria);
+	
+	////////////////////////////////////////////////////////
+	////////// Display tag or category index page //////////
+	////////////////////////////////////////////////////////
 
-// RSS feed
-$icmsTpl->assign('library_rss_link', 'rss.php');
-$icmsTpl->assign('library_rss_title', _CO_LIBRARY_SUBSCRIBE_RSS);
-$rss_attributes = array('type' => 'application/rss+xml', 
-	'title' => $icmsConfig['sitename'] . ' - ' .  _CO_LIBRARY_NEW);
-$rss_link = LIBRARY_URL . 'rss.php';
+	////////////////////////////////////
+	////////// Category index //////////
+	////////////////////////////////////
+	if ($clean_label_type)
+	{
+		$criteria = '';
+		$libraryCategories = $parentCategories = $subcategories = array();
+		$sprocketsModule = icms::handler("icms_module")->getByDirName("sprockets");
 		
-// Add RSS auto-discovery link to module header
-$xoTheme->addLink('alternate', $rss_link, $rss_attributes);
+		// Get the library category tree
+		include ICMS_ROOT_PATH . '/modules/' . $sprocketsModule->getVar('dirname') . '/include/angry_tree.php';
+		$criteria = icms_buildCriteria(array('mid' => icms::$module->getVar('mid')));
+		$libraryCategories = $sprockets_tag_handler->getObjects($criteria, TRUE, TRUE);		
+		$categoryTree = new IcmsPersistableTree(&$libraryCategories, 'tag_id', 'parent_id', $rootId = null);
+		
+		// Get the top level parent categories and convert to array for template insertion
+		$parentCategories = $categoryTree->getFirstChild(0);
+		foreach ($parentCategories as &$parent) {
+			$parent = $parent->toArray();
+			$parent['itemLink'] = modifyItemLink($parent['tag_id'], $parent['title'], $parent['short_url']);
+			
+			// Get the first level child categories for each parent and covert to array for template
+			$subcategories = $categoryTree->getFirstChild($parent['tag_id']);
+			foreach ($subcategories as &$subcat) {
+				$subcat = $subcat->toArray();
+				$subcat['itemLink'] = modifyItemLink($subcat['tag_id'], $subcat['title'], $subcat['short_url']);
+				$parent['subcategories'][] = $subcat;
+			}
+		}
 
-// Generate page metadata (can be customised in module preferences)
-global $icmsConfigMetaFooter;
-$library_meta_keywords = $library_meta_description = '';
+		// Assign categories to template
+		$icmsTpl->assign("library_page_title", _CO_LIBRARY_CATEGORY_INDEX);
+		$icmsTpl->assign('library_category_list', $parentCategories);
+		
+	}
+	///////////////////////////////
+	////////// Tag index //////////
+	///////////////////////////////
+	else
+	{
+		// Get a list of unique tag_id associated with content for this module
+		$query = $rows = $tag_ids = '';
+		$query = "SELECT DISTINCT `tid` FROM " . $sprockets_taglink_handler->table
+				. " WHERE `mid` = '" . icms::$module->getVar('mid') . "' AND `item` = 'publication'";
+		$result = icms::$xoopsDB->query($query);
+		if (!$result) {
+			echo 'Error';
+			exit;
+		} else {
+			$rows = $sprockets_taglink_handler->convertResultSet($result);
+			foreach ($rows as $key => $row) {
+				$tag_ids[] = $row->getVar('tid');
+			}
+			$tag_ids = '(' . implode(',', $tag_ids) . ')';
+		}
 
-if (icms::$module->config['library_meta_keywords']) {
-	$library_meta_keywords = icms::$module->config['library_meta_keywords'];
-} else {
-	$library_meta_keywords = $icmsConfigMetaFooter['meta_keywords'];
+		// Get a list of tags
+		$tag_list = array();
+		if ($tag_ids) {
+			$criteria = new icms_db_criteria_Compo();
+			$criteria->add(new icms_db_criteria_Item('label_type', $clean_label_type));
+			$criteria->add(new icms_db_criteria_Item('tag_id', $tag_ids, 'IN'));
+			$criteria->setSort('title');
+			$criteria->setOrder('ASC');
+			$tagObjList = $sprockets_tag_handler->getObjects($criteria, TRUE, TRUE);
+			// Append an SEO-friendly URL (if available) and the label type (if a category)
+			if ($tagObjList) {
+				foreach ($tagObjList as $tagObj) {
+					$tag = $tagObj->toArray();
+					$tag['itemLink'] = '<a href="' . ICMS_URL . '/modules/' . icms::$module->getVar('dirname') 
+							. '/publication.php?tag_id=' . $tagObj->getVar('tag_id', 'e');
+					if ($tagObj->getVar('label_type', 'e') == '1') {
+						$tag['itemLink'] .= '&amp;label_type=1';
+					}
+					if ($tag['short_url']) {
+						$tag['itemLink'] .= '&amp;title=' . $tag['short_url'];
+					}
+					$tag['itemLink'] .= '">' . $tag['title'] . '</a>';
+					$tag_list[] = $tag;
+				}
+			}
+			$icmsTpl->assign("library_page_title", _CO_LIBRARY_TAG_INDEX);
+			$icmsTpl->assign('library_tag_list', $tag_list);
+		}
+	}
+
+	// RSS feed
+	$icmsTpl->assign('library_rss_link', 'rss.php');
+	$icmsTpl->assign('library_rss_title', _CO_LIBRARY_SUBSCRIBE_RSS);
+	$rss_attributes = array('type' => 'application/rss+xml', 
+		'title' => $icmsConfig['sitename'] . ' - ' .  _CO_LIBRARY_NEW);
+	$rss_link = LIBRARY_URL . 'rss.php';
+
+	// Add RSS auto-discovery link to module header
+	$xoTheme->addLink('alternate', $rss_link, $rss_attributes);
+
+	// Generate page metadata (can be customised in module preferences)
+	global $icmsConfigMetaFooter;
+	$library_meta_keywords = $library_meta_description = '';
+
+	if (icms::$module->config['library_meta_keywords']) {
+		$library_meta_keywords = icms::$module->config['library_meta_keywords'];
+	} else {
+		$library_meta_keywords = $icmsConfigMetaFooter['meta_keywords'];
+	}
+	if (icms::$module->config['library_meta_description']) {
+		$library_meta_description = icms::$module->config['library_meta_description'];
+	} else {
+		$library_meta_description = $icmsConfigMetaFooter['meta_description'];
+	}
+	$icms_metagen = new icms_ipf_Metagen(icms::$module->getVar('name'), $library_meta_keywords, 
+		_CO_LIBRARY_META_TAG_INDEX_DESCRIPTION);
+	$icms_metagen->createMetaTags();
+
+	$icmsTpl->assign("library_show_breadcrumb", icms::$module->config['library_show_breadcrumb']);
+	$icmsTpl->assign("library_module_home", '<a href="' . ICMS_URL . "/modules/" 
+			. icms::$module->getVar("dirname") . '/">' . icms::$module->getVar("name") . "</a>");
+	$icmsTpl->assign('library_publication_count', $publicationCount);
 }
-if (icms::$module->config['library_meta_description']) {
-	$library_meta_description = icms::$module->config['library_meta_description'];
-} else {
-	$library_meta_description = $icmsConfigMetaFooter['meta_description'];
+else
+{
+	// Sprockets module available - nothing to do
+	exit;
 }
-$icms_metagen = new icms_ipf_Metagen(icms::$module->getVar('name'), $library_meta_keywords, 
-	_CO_LIBRARY_META_TAG_INDEX_DESCRIPTION);
-$icms_metagen->createMetaTags();
-
-$icmsTpl->assign("library_show_breadcrumb", icms::$module->config['library_show_breadcrumb']);
-$icmsTpl->assign("library_module_home", '<a href="' . ICMS_URL . "/modules/" 
-		. icms::$module->getVar("dirname") . '/">' . icms::$module->getVar("name") . "</a>");
 
 include_once "footer.php";
