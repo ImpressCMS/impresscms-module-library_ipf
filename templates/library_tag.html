@@ -3,18 +3,24 @@
 <div>
 	<!-- Category index page -->
 	<{if $library_category_list}>
-		<ul>
+	<table>
+		<tr>
 		<{foreach item=category from=$library_category_list}>
-			<li><{$category.itemLink}></li>
-			<{if $category.subcategories}>
-				<ul>
-				<{foreach item=subcat from=$category.subcategories}>
-					<li><{$subcat.itemLink}></li>
-				<{/foreach}>
-				</ul>
+			<td><{$category.itemLink}>
+				<{if $category.subcategories}>
+					<ul>
+					<{foreach item=subcat from=$category.subcategories}>
+						<li><{$subcat.itemLink}></li>
+					<{/foreach}>
+					</ul>
+				<{/if}>
+			</td>
+			<{if $category.count is div by 2}>
+				</tr><tr>
 			<{/if}>
 		<{/foreach}>
-		</ul>
+		</tr>
+	</table>
 	<{/if}>
 	
 	<!-- Tag index page -->

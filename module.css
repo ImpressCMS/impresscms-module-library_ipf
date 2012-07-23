@@ -39,6 +39,10 @@
 	font-size: 0.8em;
 }
 
+.library_subcategories {
+	margin:1em 0em 1em 0em;
+}
+
 .library_comment_container {
 	margin-bottom: 35px;
 }

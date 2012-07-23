@@ -85,9 +85,11 @@ if (icms_get_module_status("sprockets"))
 		
 		// Get the top level parent categories and convert to array for template insertion
 		$parentCategories = $categoryTree->getFirstChild(0);
+		$i = 1;
 		foreach ($parentCategories as &$parent) {
 			$parent = $parent->toArray();
 			$parent['itemLink'] = modifyItemLink($parent['tag_id'], $parent['title'], $parent['short_url']);
+			$parent['count'] = $i;
 			
 			// Get the first level child categories for each parent and covert to array for template
 			$subcategories = $categoryTree->getFirstChild($parent['tag_id']);

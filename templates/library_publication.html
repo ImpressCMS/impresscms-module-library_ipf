@@ -1,12 +1,29 @@
 <{includeq file='db:library_header.html'}>
 
 <!-- Tag select box but only if enabled and Sprockets module installed -->
-<div>
+<div class="library_separator">
 	<{if $library_tag_select_box}><{$library_tag_select_box}><{/if}>
 </div>
 
 <{if $library_publication}>
 	<{include file=$library_publication.subtemplate}>
+<{/if}>
+
+<{if $library_subcategories}>
+<div class="library_subcategories">
+	<fieldset><legend><h3><{$smarty.const._CO_LIBRARY_PUBLICATION_SUBCATEGORY_LISTING}></h3></legend>
+	<table>
+		<tr>
+		<{foreach item=subcat from=$library_subcategories}>
+			<td><{$subcat.itemLink}></td>
+			<{if $subcat.count is div by 2}>
+				</tr><tr>
+			<{/if}>
+		<{/foreach}>
+		</tr>
+	</table>
+	</fieldset>
+</div>
 <{/if}>
 
 <{if $library_publication_summaries}>
@@ -18,6 +35,11 @@
 		<{foreach item=library_publication from=$library_publication_summaries}>
 			<{include file=$library_publication.subtemplate}>
 		<{/foreach}>
+	</div>
+<{else}>
+	<{if $library_no_publications}>
+		<div><{$smarty.const._CO_LIBRARY_PUBLICATION_NO_PUBLICATIONS}></div>
+	<{/if}>
 <{/if}>
 
 <{if $library_publication_table}>

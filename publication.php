@@ -10,6 +10,23 @@
 * @version		$Id$
 */
 
+/**
+ * Adjust category itemLinks to point at publication page
+ * 
+ * @param int $id
+ * @param string $title
+ * @param string $short_url
+ * @return string 
+ */
+function modifyItemLink($id, $title, $short_url) {	
+	$itemLink = '<a href="' . LIBRARY_URL . 'publication.php?tag_id=' . $id . '&amp;label_type=1';
+	if ($short_url) {
+		$itemLink .= '&amp;title=' . $short_url;
+	}
+	$itemLink .= '">' . $title . '</a>';
+	return $itemLink;
+}
+
 include_once "header.php";
 $xoopsOption["template_main"] = "library_publication.html";
 include_once ICMS_ROOT_PATH . "/header.php";
@@ -139,7 +156,7 @@ if($publicationObj && !$publicationObj->isNew())
 ////////////////////////////////////////////////////////////////////
 
 else
-{			
+{
 	// Set page title
 	$icmsTpl->assign("library_page_title", _MD_LIBRARY_ALL_PUBLICATIONS);
 	
@@ -173,6 +190,21 @@ else
 		$library_meta_description);
 	$icms_metagen->createMetaTags();
 	
+	// Check if there are any subcategories that should be displayed (immediate children only)
+	if ($clean_tag_id && $clean_label_type && icms_get_module_status("sprockets")) {
+		$subcategory_array = array();
+		$criteria = icms_buildCriteria(array('parent_id' => $clean_tag_id, 'label_type' => '1'));
+		$criteria->setSort('title');
+		$criteria->setorder('ASC');
+		$subcategory_array = $sprockets_tag_handler->getObjects($criteria, TRUE, FALSE);
+		$i = 1;
+		foreach ($subcategory_array as $subcat) {
+			$subcat['itemLink'] = modifyItemLink($subcat['tag_id'], $subcat['title'], $subcat['short_url']);
+			$icmsTpl->append('library_subcategories', array('itemLink' => $subcat['itemLink'], 'count' => $i));
+			$i++;
+		}
+	}
+	
 	// View publications index as a list of summaries
 	if (icms::$module->config['library_publication_index_display_mode'] == '1')
 	{
@@ -180,9 +212,9 @@ else
 		$criteria = $publication_count = '';
 		$library_publication_summaries = array();
 		
-		// Sort publications by tag
+		// Sort publications by tag or category
 		if ($clean_tag_id && icms_get_module_status("sprockets"))
-		{
+		{		
 			// Retrieve publications for a given tag
 			$publication_count = $library_publication_handler->getPublicationCountForTag($clean_tag_id);
 			$library_publication_summaries = $library_publication_handler->getPublicationsForTag($clean_tag_id, $publication_count, $clean_start);
@@ -220,12 +252,16 @@ else
 			}
 
 			// Assign publications to template
-			$icmsTpl->assign('library_publication_summaries', $library_publication_summaries);// Assign publications to template
+			$icmsTpl->assign('library_publication_summaries', $library_publication_summaries);
 
 			// Pagination control
 			$pagenav = new icms_view_PageNav($publication_count, 
 					icms::$module->config['number_publications_per_page'], $clean_start, 'start', FALSE);
 			$icmsTpl->assign('library_navbar', $pagenav->renderNav());
+		}
+		// If there are no publications, then display a message
+		if (!$library_publication_summaries) {
+			$icmsTpl->assign('library_no_publications', TRUE);
 		}
 	}
 	else // Display publication index as compact table
