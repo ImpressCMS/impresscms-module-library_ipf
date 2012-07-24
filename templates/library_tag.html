@@ -6,11 +6,11 @@
 	<table>
 		<tr>
 		<{foreach item=category from=$library_category_list}>
-			<td><{$category.itemLink}>
+			<td><strong><{$category.itemLink}></strong>
 				<{if $category.subcategories}>
-					<ul>
+					<ul class="library_subcategories">
 					<{foreach item=subcat from=$category.subcategories}>
-						<li><{$subcat.itemLink}></li>
+						<li style="list-style-type:none; list-style-position: inside;"><{$subcat.itemLink}></li>
 					<{/foreach}>
 					</ul>
 				<{/if}>
@@ -27,7 +27,7 @@
 	<{if $library_tag_list}>
 		<ul>
 			<{foreach item=tag from=$library_tag_list}>
-				<li><{$tag.itemLink}></li>
+				<li><strong><{$tag.itemLink}></strong></li>
 			<{/foreach}>
 		</ul>	
 	<{/if}>
