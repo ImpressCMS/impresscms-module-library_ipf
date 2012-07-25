@@ -27,7 +27,7 @@
 	<{if $library_tag_list}>
 		<ul>
 			<{foreach item=tag from=$library_tag_list}>
-				<li><strong><{$tag.itemLink}></strong></li>
+				<li><strong><{$tag.itemLink}></strong> (<{$tag.publicationCount}>)</li>
 			<{/foreach}>
 		</ul>	
 	<{/if}>

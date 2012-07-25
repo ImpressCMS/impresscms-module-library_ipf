@@ -66,7 +66,7 @@ if (icms_get_module_status("sprockets"))
 			$category_ids = array_keys($category_ids);
 			$category_ids = "(" . implode(',', $category_ids) . ")";
 		}
-		$criteria = icms_buildCriteria(array('online_status', '1'));
+		$criteria = icms_buildCriteria(array('online_status' => '1'));
 		$publication_ids = $library_publication_handler->getList($criteria);
 		if ($publication_ids) {
 			$publication_ids = array_keys($publication_ids);
@@ -146,7 +146,22 @@ if (icms_get_module_status("sprockets"))
 			$criteria->setSort('title');
 			$criteria->setOrder('ASC');
 			$tagObjList = $sprockets_tag_handler->getObjects($criteria, TRUE, TRUE);
-			// Append an SEO-friendly URL (if available) and the label type (if a category)
+			
+			// Get publication count for each tag
+			$offline_publications = array();
+			$criteria = icms_buildCriteria(array('online_status' => '0'));
+			$offline_publications = $library_publication_handler->getList($criteria);
+			$offline_publications = "(" . implode(',', array_keys($offline_publications)) . ")";
+			unset($criteria);			
+			$criteria = new icms_db_criteria_Compo();
+			$criteria->add(new icms_db_criteria_Item('iid', $offline_publications, 'NOT IN'));
+			$criteria->add(new icms_db_criteria_Item('mid', icms::$module->getVar('mid')));
+			$criteria->add(new icms_db_criteria_Item('item', 'publication'));
+			$criteria->setGroupby('tid');
+			$count = $sprockets_taglink_handler->getCount($criteria);
+			unset($criteria);
+			
+			// Append an SEO-friendly URL (if available) and the label type (if a category) and publication count
 			if ($tagObjList) {
 				foreach ($tagObjList as $tagObj) {
 					$tag = $tagObj->toArray();
@@ -159,6 +174,11 @@ if (icms_get_module_status("sprockets"))
 						$tag['itemLink'] .= '&amp;title=' . $tag['short_url'];
 					}
 					$tag['itemLink'] .= '">' . $tag['title'] . '</a>';
+					if ($count[$tag['tag_id']]) {
+						$tag['publicationCount'] = $count[$tag['tag_id']];
+					} else {
+						$tag['publicationCount'] = 0;
+					}
 					$tag_list[] = $tag;
 				}
 			}

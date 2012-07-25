@@ -223,13 +223,15 @@ else
 			foreach ($subcategory_array as $subcat) {
 				
 				// Add SEO to the link and a publication count
-				$subcat['itemLink'] = modifyItemLink($subcat['tag_id'], $subcat['title'], $subcat['short_url']);
+				$subcat['itemLink'] = modifyItemLink($subcat['tag_id'], $subcat['title'], 
+						$subcat['short_url']);
 				if ($count[$subcat['tag_id']]) {
 					$publication_count = $count[$subcat['tag_id']];
 				} else {
 					$publication_count = 0;
 				}
-				$icmsTpl->append('library_subcategories', array('itemLink' => $subcat['itemLink'], 'count' => $i, 'publicationCount' => $publication_count));
+				$icmsTpl->append('library_subcategories', array('itemLink' => $subcat['itemLink'], 
+					'count' => $i, 'publicationCount' => $publication_count));
 				$i++;
 			}
 		}
@@ -247,7 +249,8 @@ else
 		{		
 			// Retrieve publications for a given tag
 			$publication_count = $library_publication_handler->getPublicationCountForTag($clean_tag_id);
-			$library_publication_summaries = $library_publication_handler->getPublicationsForTag($clean_tag_id, $publication_count, $clean_start);
+			$library_publication_summaries = $library_publication_handler->getPublicationsForTag($clean_tag_id, 
+					$publication_count, $clean_start);
 			$icmsTpl->assign('library_publication_summaries', $library_publication_summaries);
 
 			// Pagination control - adust for tag, if present
