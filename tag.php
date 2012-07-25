@@ -35,7 +35,7 @@ if (icms_get_module_status("sprockets"))
 	$library_publication_handler = icms_getModuleHandler('publication', basename(dirname(__FILE__)), 'library');
 	
 	// Get a count of the total number of online publications
-	$criteria = icms_buildCriteria(array('online_status', '1'));
+	$criteria = icms_buildCriteria(array('online_status' => '1'));
 	$publicationCount = $library_publication_handler->getCount($criteria);
 	unset($criteria);
 	
@@ -66,7 +66,8 @@ if (icms_get_module_status("sprockets"))
 			$category_ids = array_keys($category_ids);
 			$category_ids = "(" . implode(',', $category_ids) . ")";
 		}
-		$criteria = icms_buildCriteria(array('online_status' => '1'));
+		// Since offline publications are probably the minority, more efficient to use these to filter the list
+		$criteria = icms_buildCriteria(array('online_status' => '0'));
 		$publication_ids = $library_publication_handler->getList($criteria);
 		if ($publication_ids) {
 			$publication_ids = array_keys($publication_ids);
@@ -76,7 +77,7 @@ if (icms_get_module_status("sprockets"))
 		
 		$criteria = new icms_db_criteria_Compo();
 		$criteria->add(new icms_db_criteria_Item('tid', $category_ids, 'IN'));
-		$criteria->add(new icms_db_criteria_Item('iid', $publication_ids, 'IN'));
+		$criteria->add(new icms_db_criteria_Item('iid', $publication_ids, 'NOT IN'));
 		$criteria->add(new icms_db_criteria_Item('mid', icms::$module->getVar('mid')));
 		$criteria->add(new icms_db_criteria_Item('item', 'publication'));
 		$criteria->setGroupby('tid');
