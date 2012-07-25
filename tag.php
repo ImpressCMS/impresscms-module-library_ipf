@@ -77,7 +77,9 @@ if (icms_get_module_status("sprockets"))
 		
 		$criteria = new icms_db_criteria_Compo();
 		$criteria->add(new icms_db_criteria_Item('tid', $category_ids, 'IN'));
-		$criteria->add(new icms_db_criteria_Item('iid', $publication_ids, 'NOT IN'));
+		if ($publication_ids) {
+			$criteria->add(new icms_db_criteria_Item('iid', $publication_ids, 'NOT IN'));
+		}
 		$criteria->add(new icms_db_criteria_Item('mid', icms::$module->getVar('mid')));
 		$criteria->add(new icms_db_criteria_Item('item', 'publication'));
 		$criteria->setGroupby('tid');
@@ -155,7 +157,9 @@ if (icms_get_module_status("sprockets"))
 			$offline_publications = "(" . implode(',', array_keys($offline_publications)) . ")";
 			unset($criteria);			
 			$criteria = new icms_db_criteria_Compo();
-			$criteria->add(new icms_db_criteria_Item('iid', $offline_publications, 'NOT IN'));
+			if ($offline_publication) {
+				$criteria->add(new icms_db_criteria_Item('iid', $offline_publications, 'NOT IN'));
+			}
 			$criteria->add(new icms_db_criteria_Item('mid', icms::$module->getVar('mid')));
 			$criteria->add(new icms_db_criteria_Item('item', 'publication'));
 			$criteria->setGroupby('tid');
