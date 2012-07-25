@@ -197,11 +197,41 @@ else
 		$criteria->setSort('title');
 		$criteria->setorder('ASC');
 		$subcategory_array = $sprockets_tag_handler->getObjects($criteria, TRUE, FALSE);
-		$i = 1;
-		foreach ($subcategory_array as $subcat) {
-			$subcat['itemLink'] = modifyItemLink($subcat['tag_id'], $subcat['title'], $subcat['short_url']);
-			$icmsTpl->append('library_subcategories', array('itemLink' => $subcat['itemLink'], 'count' => $i));
-			$i++;
+		if ($subcategory_array)
+		{
+			// Get a count of the number of publications in each subcategory
+			$subcategory_ids = array();
+			$subcategory_ids = "(" . implode(',', array_keys($subcategory_array)) . ")";
+			$criteria = icms_buildCriteria(array('online_status', '1'));
+			$publication_ids = $library_publication_handler->getList($criteria);
+			if ($publication_ids) {
+				$publication_ids = array_keys($publication_ids);
+				$publication_ids = "(" . implode(',', $publication_ids) . ")";
+			}
+			unset($criteria);
+
+			$criteria = new icms_db_criteria_Compo();
+			$criteria->add(new icms_db_criteria_Item('tid', $subcategory_ids, 'IN'));
+			$criteria->add(new icms_db_criteria_Item('iid', $publication_ids, 'IN'));
+			$criteria->add(new icms_db_criteria_Item('mid', icms::$module->getVar('mid')));
+			$criteria->add(new icms_db_criteria_Item('item', 'publication'));
+			$criteria->setGroupby('tid');
+			$count = $sprockets_taglink_handler->getCount($criteria);
+			unset($criteria);
+			
+			$i = 1;
+			foreach ($subcategory_array as $subcat) {
+				
+				// Add SEO to the link and a publication count
+				$subcat['itemLink'] = modifyItemLink($subcat['tag_id'], $subcat['title'], $subcat['short_url']);
+				if ($count[$subcat['tag_id']]) {
+					$publication_count = $count[$subcat['tag_id']];
+				} else {
+					$publication_count = 0;
+				}
+				$icmsTpl->append('library_subcategories', array('itemLink' => $subcat['itemLink'], 'count' => $i, 'publicationCount' => $publication_count));
+				$i++;
+			}
 		}
 	}
 	

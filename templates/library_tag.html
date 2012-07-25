@@ -6,7 +6,7 @@
 	<table>
 		<tr>
 		<{foreach item=category from=$library_category_list}>
-			<td><strong><{$category.itemLink}></strong>
+			<td><strong><{$category.itemLink}></strong> (<{$category.publicationCount}>)
 				<{if $category.subcategories}>
 					<ul class="library_subcategories">
 					<{foreach item=subcat from=$category.subcategories}>

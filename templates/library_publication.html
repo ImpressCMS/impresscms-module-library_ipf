@@ -15,7 +15,7 @@
 	<table>
 		<tr>
 		<{foreach item=subcat from=$library_subcategories}>
-			<td><{$subcat.itemLink}></td>
+			<td><{$subcat.itemLink}> (<{$subcat.publicationCount}>)</td>
 			<{if $subcat.count is div by 2}>
 				</tr><tr>
 			<{/if}>

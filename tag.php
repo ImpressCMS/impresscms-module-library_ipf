@@ -88,7 +88,18 @@ if (icms_get_module_status("sprockets"))
 		$i = 1;
 		foreach ($parentCategories as &$parent) {
 			$parent = $parent->toArray();
+			
+			// Add SEO to the link
 			$parent['itemLink'] = modifyItemLink($parent['tag_id'], $parent['title'], $parent['short_url']);
+			
+			// Add a count of the number of publications in this category
+			if ($count[$parent['tag_id']]) {
+				$parent['publicationCount'] = $count[$parent['tag_id']];
+			} else {
+				$parent['publicationCount'] = 0;
+			}
+			
+			// Used to divide the page layout into two columns
 			$parent['count'] = $i;
 			
 			// Get the first level child categories for each parent and covert to array for template
