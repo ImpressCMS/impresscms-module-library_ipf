@@ -33,6 +33,7 @@ if (icms_get_module_status("sprockets"))
 	$sprockets_tag_handler = icms_getModuleHandler('tag', 'sprockets', 'sprockets');
 	$sprockets_taglink_handler = icms_getModuleHandler('taglink', 'sprockets', 'sprockets');
 	$library_publication_handler = icms_getModuleHandler('publication', basename(dirname(__FILE__)), 'library');
+	icms_loadLanguageFile("sprockets", "common");
 	
 	// Get a count of the total number of online publications
 	$criteria = icms_buildCriteria(array('online_status' => '1'));
@@ -96,7 +97,7 @@ if (icms_get_module_status("sprockets"))
 			$parent['itemLink'] = modifyItemLink($parent['tag_id'], $parent['title'], $parent['short_url']);
 			
 			// Add a count of the number of publications in this category
-			if ($count[$parent['tag_id']]) {
+			if (isset($count[$parent['tag_id']])) {
 				$parent['publicationCount'] = $count[$parent['tag_id']];
 			} else {
 				$parent['publicationCount'] = 0;
@@ -157,7 +158,7 @@ if (icms_get_module_status("sprockets"))
 			$offline_publications = "(" . implode(',', array_keys($offline_publications)) . ")";
 			unset($criteria);			
 			$criteria = new icms_db_criteria_Compo();
-			if ($offline_publication) {
+			if ($offline_publications) {
 				$criteria->add(new icms_db_criteria_Item('iid', $offline_publications, 'NOT IN'));
 			}
 			$criteria->add(new icms_db_criteria_Item('mid', icms::$module->getVar('mid')));

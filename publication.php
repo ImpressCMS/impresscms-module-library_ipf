@@ -50,25 +50,31 @@ if (icms_get_module_status("sprockets"))
 	icms_loadLanguageFile("sprockets", "common");
 	$sprockets_tag_handler = icms_getModuleHandler('tag', $sprocketsModule->getVar('dirname'), 'sprockets');
 	$sprockets_taglink_handler = icms_getModuleHandler('taglink', $sprocketsModule->getVar('dirname'), 'sprockets');
-	$criteria = icms_buildCriteria(array('label_type' => '0'));
-	$sprockets_tag_buffer = $sprockets_tag_handler->getObjects($criteria, TRUE, FALSE);
+	if ($clean_label_type) {
+		$criteria = icms_buildCriteria(array('label_type' => '1'));
+	} else {
+		$criteria = icms_buildCriteria(array('label_type' => '0'));
+	}
+	$sprockets_tag_buffer = $sprockets_tag_handler->getObjects($criteria, TRUE, TRUE);
 	
 	// Append the tag to the breadcrumb title
 	if (array_key_exists($clean_tag_id, $sprockets_tag_buffer) && ($clean_tag_id !== 0))
 	{
-		$library_tag_name = $sprockets_tag_buffer[$clean_tag_id]['title'];
+		$library_tag_name = $sprockets_tag_buffer[$clean_tag_id]->getVar('title');
 		$icmsTpl->assign('library_tag_name', $library_tag_name);
-		$icmsTpl->assign('library_category_path', $sprockets_tag_buffer[$clean_tag_id]['title']);
+		$icmsTpl->assign('library_category_path', $sprockets_tag_buffer[$clean_tag_id]->getVar('title'));
 	}
 }
 
 // RSS feed links
-if (icms_get_module_status("sprockets") && $clean_tag_id) {
+if (icms_get_module_status("sprockets") && $clean_tag_id 
+		&& ($sprockets_tag_buffer[$clean_tag_id]->getVar('rss', 'e') == '1')) {
 	$icmsTpl->assign('library_rss_link', 'rss.php?tag_id=' . $clean_tag_id);
 	$icmsTpl->assign('library_rss_title', _CO_LIBRARY_SUBSCRIBE_RSS_ON
-			. $sprockets_tag_buffer[$clean_tag_id]['title']);
+			. $sprockets_tag_buffer[$clean_tag_id]->getVar('title'));
 	$rss_attributes = array('type' => 'application/rss+xml', 
-		'title' => $icmsConfig['sitename'] . ' - ' . $sprockets_tag_buffer[$clean_tag_id]['title']);
+		'title' => $icmsConfig['sitename'] . ' - ' 
+		. $sprockets_tag_buffer[$clean_tag_id]->getVar('title', 'e'));
 	$rss_link = LIBRARY_URL . 'rss.php?tag_id=' . $clean_tag_id;
 } else {				
 		$icmsTpl->assign('library_rss_link', 'rss.php');
@@ -109,7 +115,7 @@ if($publicationObj && !$publicationObj->isNew())
 			$publication_tag_array = $sprockets_taglink_handler->getTagsForObject($publicationObj->getVar('publication_id'), $library_publication_handler, '0');
 			foreach ($publication_tag_array as $key => $value) {
 				$publication['tags'][$value] = '<a href="' . LIBRARY_URL . 'publication.php?tag_id=' . $value 
-						. '">' . $sprockets_tag_buffer[$value]['title'] . '</a>';
+						. '">' . $sprockets_tag_buffer[$value]->getVar('title') . '</a>';
 			}
 			$publication['tags'] = implode(', ', $publication['tags']);
 		}
@@ -227,7 +233,7 @@ else
 				// Add SEO to the link and a publication count
 				$subcat['itemLink'] = modifyItemLink($subcat['tag_id'], $subcat['title'], 
 						$subcat['short_url']);
-				if ($count[$subcat['tag_id']]) {
+				if (isset($count[$subcat['tag_id']])) {
 					$publication_count = $count[$subcat['tag_id']];
 				} else {
 					$publication_count = 0;
