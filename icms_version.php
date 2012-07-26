@@ -388,4 +388,34 @@ $modversion['config'][] = array(
 	'default' =>  '');
 
 /** Notification information */
-/** To come soon in imBuilding... */
+$modversion['hasNotification'] = 1;
+
+$modversion['notification'] = array (
+	'lookup_file' => 'include/notification.inc.php',
+	'lookup_func' => 'library_notify_iteminfo');
+
+// Notification categories
+$modversion['notification']['category'][1] = array (
+	'name' => 'global',
+	'title' => _MI_LIBRARY_GLOBAL_NOTIFY,
+	'description' => _MI_LIBRARY_GLOBAL_NOTIFY_DSC,
+	'subscribe_from' => array('publication.php'),
+	'item_name' => '');
+
+$modversion['notification']['category'][3] = array(
+		'name' => 'publication',
+		'title' => _MI_LIBRARY_PUBLICATION_NOTIFY,
+		'description' => _MI_LIBRARY_PUBLICATION_NOTIFY_DSC,
+		'subscribe_from' => array('publication.php'),
+		'item_name' => 'publication_id',
+		'allow_bookmark' => 1);
+
+// Notification events - global
+$modversion['notification']['event'][1] = array(
+	'name' => 'publication_published',
+	'category'=> 'global',
+	'title'=> _MI_LIBRARY_GLOBAL_PUBLICATION_PUBLISHED_NOTIFY,
+	'caption'=> _MI_LIBRARY_GLOBAL_PUBLICATION_PUBLISHED_NOTIFY_CAP,
+	'description'=> _MI_LIBRARY_GLOBAL_PUBLICATION_PUBLISHED_NOTIFY_DSC,
+	'mail_template'=> 'global_publication_published',
+	'mail_subject'=> _MI_LIBRARY_GLOBAL_PUBLICATION_PUBLISHED_NOTIFY_SBJ);

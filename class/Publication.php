@@ -21,8 +21,7 @@ class mod_library_Publication extends icms_ipf_seo_Object {
 	public function __construct(&$handler)
 	{
 		icms_ipf_object::__construct($handler);
-		
-		$libraryModule = icms_getModuleInfo(basename(dirname(dirname(__FILE__))));
+		$libraryModule = icms::handler("icms_module")->getByDirname('library');
 
 		$this->quickInitVar("publication_id", XOBJ_DTYPE_INT, TRUE);
 		$this->quickInitVar("type", XOBJ_DTYPE_TXTBOX, TRUE);
@@ -546,5 +545,28 @@ class mod_library_Publication extends icms_ipf_seo_Object {
 			. $this->getVar('publication_id', 'e') . '" title="' . _CO_LIBRARY_PUBLICATION_VIEW 
 			. '">' . $this->getVar('title') . '</a>';
 		return $ret;
+	}
+	
+	/*
+     * Sends notifications to subscribers when a new publication is published, called by afterSave()
+	*/
+	protected function sendNotifPublicationPublished() {
+		$item_id = $this->id();
+		$source_id = $this->getVar('source', 'e');
+		$module_id = $libraryModule->getVar('mid');
+		$notification_handler = icms::handler('icms_data_notification');
+
+		$tags = array();
+		$tags['ITEM_TITLE'] = $this->getVar('title', 'e');
+		$tags['ITEM_URL'] = $this->getItemLink(TRUE);
+		$tags['PUBLICATION_NAME'] = $this->getVar('source', 's');
+
+		// Global notification
+		$notification_handler->triggerEvent('global', 0, 'publication_published', $tags,
+				array(), $module_id, 0);
+
+		// Collection-specific notification
+		/*$notification_handler->triggerEvent('collection', $source_id,
+            'programme_soundtrack_published', $tags, array(), $module_id, 0);*/
 	}
 }

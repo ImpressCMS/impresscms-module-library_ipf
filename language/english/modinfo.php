@@ -150,3 +150,40 @@ define("_MI_LIBRARY_ALL_CATEGORIES", "Publications by category");
 // Additional admin menu items
 define("_MI_LIBRARY_TEMPLATES", "Templates");
 define("_MI_LIBRARY_MANUAL", "Manual");
+
+// Notifications - categories
+define("_MI_LIBRARY_GLOBAL_NOTIFY", "All content");
+define("_MI_LIBRARY_GLOBAL_NOTIFY_DSC", "Notifications related to all publications and collections 
+	in this module");
+
+define("_MI_LIBRARY_COLLECTION_NOTIFY", "Collection");
+define("_MI_LIBRARY_COLLECTION_NOTIFY_DSC", "Notifications related to all publications in this
+    collection");
+
+define("_MI_LIBRARY_PUBLICATION_NOTIFY", "Publication");
+define("_MI_LIBRARY_PUBLICATION_NOTIFY_DSC", "Notifications related to individual publications");
+
+// Notifications - events
+define("_MI_LIBRARY_GLOBAL_PUBLICATION_PUBLISHED_NOTIFY", "New publication published");
+define("_MI_LIBRARY_GLOBAL_PUBLICATION_PUBLISHED_NOTIFY_CAP", "Notify me when a new publication
+    is published.");
+define("_MI_LIBRARY_GLOBAL_PUBLICATION_PUBLISHED_NOTIFY_DSC", "Receive notification when a new
+    publication is published.");
+define("_MI_LIBRARY_GLOBAL_PUBLICATION_PUBLISHED_NOTIFY_SBJ",
+		"New publication published at {X_SITENAME}");
+
+define("_MI_LIBRARY_GLOBAL_COLLECTION_PUBLISHED_NOTIFY", "New collection published");
+define("_MI_LIBRARY_GLOBAL_COLLECTION_PUBLISHED_NOTIFY_CAP",
+		"Notify me when a new collection is published.");
+define("_MI_LIBRARY_GLOBAL_COLLECTION_PUBLISHED_NOTIFY_DSC", "Receive notification when a new
+    collection is published.");
+define("_MI_LIBRARY_GLOBAL_COLLECTION_PUBLISHED_NOTIFY_SBJ",
+		"New audio collection published at {X_SITENAME}");
+
+define("_MI_LIBRARY_COLLECTION_PUBLICATION_PUBLISHED_NOTIFY", "New publication published");
+define("_MI_LIBRARY_COLLECTION_PUBLICATION_PUBLISHED_NOTIFY_CAP", "Notify me when a new publication is
+    published in this collection.");
+define("_MI_LIBRARY_COLLECTION_PUBLICATION_PUBLISHED_NOTIFY_DSC", "Receive notification when a new
+    publication is published in this collection.");
+define("_MI_LIBRARY_COLLECTION_PUBLICATION_PUBLISHED_NOTIFY_SBJ",
+		" New publication published at {X_SITENAME}");

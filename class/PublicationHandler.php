@@ -501,8 +501,16 @@ class mod_library_PublicationHandler extends icms_ipf_Handler {
 	protected function afterSave(& $obj)
 	{		
 		$sprockets_taglink_handler = '';
-
 		$sprocketsModule = icms::handler("icms_module")->getByDirname("sprockets");
+		
+		// Triggers notification event for subscribers
+		if($obj->getVar('submission_time', 'e') < time()) {
+			if (!$obj->getVar('notification_sent') && $obj->getVar ('online_status', 'e') == 1) {
+			$obj->sendNotifPublicationPublished();
+			$obj->setVar('notification_sent', TRUE);
+			$this->insert($obj);
+			}
+		}
 		
 		// Only update the taglinks if the object is being updated from the add/edit form (POST).
 		// Database updates are not permitted from GET requests and will trigger an error
@@ -530,8 +538,19 @@ class mod_library_PublicationHandler extends icms_ipf_Handler {
 		
 		$sprocketsModule = $notification_handler = $module_handler = $module = $module_id
 				= $category = $item_id = '';
-		
 		$sprocketsModule = icms_getModuleInfo('sprockets');
+		
+		// Delete global notifications
+		$notification_handler = icms::handler('icms_data_notification');
+		$libraryModule = icms::handler("icms_module")->getByDirname("library");
+		$module_id = $libraryModule->getVar('mid');
+		$category = 'global';
+		$item_id = $obj->getVar('publication_id');		
+		$notification_handler->unsubscribeByItem($module_id, $category, $item_id);
+		
+		// Delete publication bookmarks
+		$category = 'publication';
+		$notification_handler->unsubscribeByItem($module_id, $category, $item_id);
 
 		// Delete taglinks
 		if (icms_get_module_status("sprockets")) {

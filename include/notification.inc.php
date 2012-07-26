@@ -29,4 +29,19 @@ function library_notify_iteminfo($category, $item_id){
         $item['url'] = '';
         return $item;
     }
+	
+	if ($category == 'publication') {
+
+		$library_publication_handler = icms_getModuleHandler('publication',
+			basename(dirname(dirname(__FILE__))), 'library');
+		$publicationObj = $library_publication_handler->get($item_id);
+		if ($publicationObj) {
+			$item['name'] = $publicationObj->title();
+			$item['url'] = ICMS_URL . '/modules/' . basename(dirname(dirname(__FILE__)))
+				. '/publication.php?publication_id=' . intval($item_id);
+			return $item;
+		} else {
+			return null;
+		}
+	}
 }
