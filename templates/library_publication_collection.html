@@ -8,7 +8,7 @@
 	<{else}>
 		<h2><{$library_publication.itemLink}></a></h2>
 	<{/if}>
-	<div class="itemInfo">
+	<div class="itemInfo library_separator">
 		<{if $library_publication.creator}><{$smarty.const._CO_LIBRARY_PUBLICATION_AUTHORS}> <{$library_publication.creator}><{/if}>
 		<{if $library_publication.creator && ($library_publication.date || $library_publication.counter || $library_publication.tags)}> | <{/if}>
 		<{if $library_publication.date}><{$smarty.const._CO_LIBRARY_PUBLICATION_PUBLISHED}> <{$library_publication.date}><{/if}>
@@ -17,9 +17,20 @@
 		<{if ($library_publication.creator || $library_publication.date || $library_publication.counter) && $library_publication.tags}> | <{/if}>
 		<{if $library_publication.tags}><{$library_publication.tags}><{/if}>
 	</div>
+	<!-- Image -->
 	<{if $library_publication.image}>
 		<div class="library_publication_image">
-			<{resized_image file=$library_publication.image width=$library_publication.screenshot_width height=$library_publication.screenshot_height fit="inside"}>
+			<{if $library_publication_view_mode == 'single'}>
+				<{if $library_publication.identifier}>
+					<a href="<{$library_publication.identifier}>">
+						<{resized_image file=$library_publication.image width=$library_publication.screenshot_width height=$library_publication.screenshot_height fit="inside"}></a>
+				<{else}>
+						<{resized_image file=$library_publication.image width=$library_publication.screenshot_width height=$library_publication.screenshot_height fit="inside"}>
+				<{/if}>
+			<{else}>
+				<a href="<{$library_publication.itemUrl}>">
+					<{resized_image file=$library_publication.image width=$library_publication.screenshot_width height=$library_publication.screenshot_height fit="inside"}></a>
+			<{/if}>
 		</div>
 	<{/if}>
 	<!-- Float extra metadata in a box -->

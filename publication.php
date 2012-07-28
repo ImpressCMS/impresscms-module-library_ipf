@@ -283,7 +283,7 @@ else
 			// Continue to retrieve publications for this page view
 			$criteria->setStart($clean_start);
 			$criteria->setLimit(icms::$module->config['number_publications_per_page']);
-			$criteria->setSort('date');
+			$criteria->setSort('submission_time');
 			$criteria->setOrder('DESC');
 			$library_publication_summaries = $library_publication_handler->getObjects($criteria, TRUE, TRUE);
 

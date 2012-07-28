@@ -19,8 +19,12 @@ class mod_library_PublicationHandler extends icms_ipf_Handler {
 	 * @param icms_db_legacy_Database $db database connection object
 	 */
 	public function __construct(&$db) {
+		icms_getConfig('display_creator_field', 'library');
 		parent::__construct($db, "publication", "publication_id", "title", "description", "library");
-		$this->enableUpload(array("image/gif", "image/jpeg", "image/pjpeg", "image/png"), 512000, 800, 600);
+		$this->enableUpload(array("image/gif", "image/jpeg", "image/pjpeg", "image/png"), 
+				icms_getConfig('image_file_size', 'library'),
+				icms_getConfig('image_upload_width', 'library'),
+				icms_getConfig('image_upload_height', 'library'));
 	}
 	
 	/**
@@ -490,6 +494,22 @@ class mod_library_PublicationHandler extends icms_ipf_Handler {
 		}
 		
 		return $publication;
+	}
+	
+	/**
+	 * Adjust data before saving or updating
+	 * @param object $obj 
+	 */
+	protected function beforeSave(& $obj)
+	{		
+		// Strip non-numerical characters out of the file size field, so can paste in from Windows directly
+		$file_size = $obj->getVar('file_size', 'e');
+		if ($file_size) {
+			$file_size = preg_replace('/\D/', '', $file_size);
+			$obj->setVar('file_size', $file_size);
+		}
+		
+		return TRUE;
 	}
 	
 	/**

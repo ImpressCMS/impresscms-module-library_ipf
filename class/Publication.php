@@ -550,9 +550,10 @@ class mod_library_Publication extends icms_ipf_seo_Object {
 	/*
      * Sends notifications to subscribers when a new publication is published, called by afterSave()
 	*/
-	protected function sendNotifPublicationPublished() {
+	public function sendNotifPublicationPublished() {
 		$item_id = $this->id();
 		$source_id = $this->getVar('source', 'e');
+		$libraryModule = icms::handler("icms_module")->getByDirname('library');
 		$module_id = $libraryModule->getVar('mid');
 		$notification_handler = icms::handler('icms_data_notification');
 

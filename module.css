@@ -20,9 +20,19 @@
 	overflow: auto;
 }
 
+/* For publication covers etc */
 .library_publication_image {
 	float: right;
-	margin: 1em 0em 1em 1em;
+	margin: 0em 0em 1em 1em;
+	border: solid;
+	border-color: #000000;
+	border-width: 1px;
+}
+
+/* Used specifically for image-type publications, which need to be displayed differently */
+.library_publication_image_type {
+	float: left;
+	margin: 0em 1em 1em 0em;
 	border: solid;
 	border-color: #000000;
 	border-width: 1px;
@@ -30,7 +40,7 @@
 
 .library_publication_metadata {
 	float: right;
-	margin: 1em 0em 1em 1em;
+	margin: 0em 0em 1em 1em;
 	padding: 1em;
 	background-color: #ccccff;
 	border: solid;
