@@ -1,5 +1,17 @@
 <?php
 
+/**
+ * Displays basic repository information regarding the Open Archives Initiative functionality of
+ * this module. For more information visit the Open Archives Initiative, http://www.openarchives.org
+ *
+ * @copyright	Copyright Isengard.biz 2012, distributed under GNU GPL V2 or any later version
+ * @license	http://www.gnu.org/licenses/old-licenses/gpl-2.0.html GNU General Public License (GPL)
+ * @since	1.0
+ * @author	Madfish (Simon Wilkinson) <simon@isengard.biz>
+ * @package	Library
+ * @version	$Id$
+ */
+
 include_once "header.php";
 $xoopsOption["template_main"] = "library_open_archive.html";
 include_once ICMS_ROOT_PATH . "/header.php";
