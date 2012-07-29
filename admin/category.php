@@ -41,8 +41,9 @@ function edittag($tag_id = 0)
 		 * the hierarchy is already mangled.
 		 */
 		
+		// Include the Angry Tree!!!
 		include_once ICMS_ROOT_PATH . '/modules/' . $sprocketsModule->getVar('dirname')
-				. 'sprockets/include/angry_tree.php';
+				. '/include/angry_tree.php';
 
 		$tag_id = $categoryTree = '';
 		$categoryObjArray = $allChildCategories = $newParentCategory = array();
@@ -181,6 +182,7 @@ if (icms_get_module_status("sprockets"))
 
 			icms_cp_header();
 			icms::$module->displayAdminMenu(1, _AM_SPROCKETS_CATEGORY_CATEGORIES);
+			$sprocketsModule = icms::handler("icms_module")->getByDirname("sprockets");
 
 			// If no op is set, but there is a (valid) tag_id, display a single object
 			if ($clean_tag_id) {
@@ -189,11 +191,14 @@ if (icms_get_module_status("sprockets"))
 					$tagObj->displaySingleObject();
 				}
 			}
-
+			
+			// Include the Angry Tree Table !!! (Don't ask).
+			include_once ICMS_ROOT_PATH . '/modules/' . $sprocketsModule->getVar('dirname')
+					. '/include/angry_tree_table.php';
+				
 			// Restrict content to MODULE-SPECFIC CATEGORIES only (no tags)
 			$criteria = icms_buildCriteria(array('mid' => icms::$module->getVar('mid'), 'label_type' => '1'));
-
-			$objectTable = new icms_ipf_view_Table($sprockets_tag_handler, $criteria, $actions = array());
+			$objectTable = new icms_ipf_view_Tree($sprockets_tag_handler, $criteria, $actions = array());
 			$objectTable->addCustomAction('edit_category_action');
 			$objectTable->addCustomAction('delete_category_action');
 			$objectTable->addColumn(new icms_ipf_view_Column('title', 'left', FALSE,
@@ -203,7 +208,6 @@ if (icms_get_module_status("sprockets"))
 					_AM_SPROCKETS_TAG_RSS_FEED));
 			$objectTable->addfilter('rss', 'rss_filter');
 			$objectTable->addQuickSearch('title');
-			
 			$objectTable->addIntroButton('addtag', 'category.php?op=mod', _AM_SPROCKETS_CATEGORY_MODULE_CREATE);
 			$icmsAdminTpl->assign('sprockets_tag_table', $objectTable->fetch());
 			$icmsAdminTpl->display('db:sprockets_admin_tag.html');
