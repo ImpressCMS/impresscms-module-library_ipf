@@ -206,7 +206,6 @@ if (icms_get_module_status("sprockets"))
 			$objectTable->addcolumn(new icms_ipf_view_Column('rss', 'left', FALSE, 
 					'category_admin_rss', basename(dirname(dirname(__FILE__))),
 					_AM_SPROCKETS_TAG_RSS_FEED));
-			$objectTable->addfilter('rss', 'rss_filter');
 			$objectTable->addQuickSearch('title');
 			$objectTable->addIntroButton('addtag', 'category.php?op=mod', _AM_SPROCKETS_CATEGORY_MODULE_CREATE);
 			$icmsAdminTpl->assign('sprockets_tag_table', $objectTable->fetch());
