@@ -551,6 +551,9 @@ class mod_library_Publication extends icms_ipf_seo_Object {
      * Sends notifications to subscribers when a new publication is published, called by afterSave()
 	*/
 	public function sendNotifPublicationPublished() {
+		
+		global $icmsConfig;
+		
 		$item_id = $this->id();
 		$source_id = $this->getVar('source', 'e');
 		$libraryModule = icms::handler("icms_module")->getByDirname('library');
@@ -559,15 +562,13 @@ class mod_library_Publication extends icms_ipf_seo_Object {
 
 		$tags = array();
 		$tags['ITEM_TITLE'] = $this->getVar('title', 'e');
-		$tags['ITEM_URL'] = $this->getItemLink(TRUE);
+		$tags['ITEM_URL'] = $this->getItemLink(FALSE); // Get a title *with* link
 		$tags['PUBLICATION_NAME'] = $this->getVar('source', 's');
+		$tags['SITE_LINK'] = '<a href="' . $icmsConfig['sitename'] . '">' . ICMS_URL . '</a>';
+		$tags['UPDATE_YOUR_DESCRIPTIONS'] = '<a href="' . ICMS_URL . '/notifications.php">' . _CO_LIBRARY_PUBLICATION_UPDATE_YOUR_SUBSCRIPTIONS . '</a>';
 
 		// Global notification
 		// $category, $item_id, $events, $extra_tags=array(), $user_list=array(), $module_id=null, $omit_user_id=null
 		$notification_handler->triggerEvent('global', 0, 'publication_published', $tags, array(), $module_id, 0);
-
-		// Collection-specific notification
-		/*$notification_handler->triggerEvent('collection', $source_id,
-            'programme_soundtrack_published', $tags, array(), $module_id, 0);*/
 	}
 }

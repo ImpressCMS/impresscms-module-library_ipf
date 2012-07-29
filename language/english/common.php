@@ -134,3 +134,6 @@ define("_CO_LIBRARY_TAG_INDEX", "Publications: Tags");
 define("_CO_LIBRARY_META_TAG_INDEX_DESCRIPTION", "Index of publications sorted by tag");
 define("_CO_LIBRARY_CATEGORY_INDEX", "Publications: Categories");
 
+// Notification mail template
+define("_CO_LIBRARY_PUBLICATION_UPDATE_YOUR_SUBSCRIPTIONS", "update your subscriptions");
+

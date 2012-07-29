@@ -515,7 +515,7 @@ class mod_library_PublicationHandler extends icms_ipf_Handler {
 	/**
 	 * Manages tracking of categories (via taglinks), called when a message is inserted or updated
 	 *
-	 * @param object $obj ContactMessage object
+	 * @param object $obj LibraryPublication object
 	 * @return bool
 	 */
 	protected function afterSave(& $obj)
@@ -523,8 +523,11 @@ class mod_library_PublicationHandler extends icms_ipf_Handler {
 		$sprockets_taglink_handler = '';
 		$sprocketsModule = icms::handler("icms_module")->getByDirname("sprockets");
 		
-		// Triggers notification event for subscribers
-		if($obj->getVar('submission_time', 'e') < time()) {
+		// Triggers notification event for subscribers. Add 10:01 minutes to the timestamp check
+		// to account for the fact that submission time (XOBJ_DTYPE_LTIME) works on 10 minute 
+		// increments. Otherwise, it is likely that the check will fail and no notification will be
+		// sent.
+		if($obj->getVar('submission_time', 'e') < (time() + 601)) {
 			if (!$obj->getVar('notification_sent') && $obj->getVar ('online_status', 'e') == 1) {
 			$obj->sendNotifPublicationPublished();
 			$obj->setVar('notification_sent', TRUE);

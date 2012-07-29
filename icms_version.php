@@ -402,7 +402,7 @@ $modversion['notification']['category'][1] = array (
 	'subscribe_from' => array('publication.php'),
 	'item_name' => '');
 
-// Notification events - global
+// Notification events: Global
 $modversion['notification']['event'][1] = array(
 	'name' => 'publication_published',
 	'category'=> 'global',

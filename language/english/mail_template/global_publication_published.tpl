@@ -1,18 +1,13 @@
-Hello {X_UNAME}
+Dear {X_UNAME}<br /><br />
 
-A new publication has been published on {X_SITENAME}:
+A new publication has been published on {X_SITENAME}:<br /><br />
 
-{ITEM_TITLE}
+<strong>{ITEM_URL}</strong><br /><br />
 
-You can read this item here:
+-----------<br /><br />
 
-{ITEM_URL}
+If you no longer wish to receive automatic notifications, please {UPDATE_YOUR_DESCRIPTIONS}.<br /><br />
 
------------
+-----------<br /><br />
 
-If you no longer wish to receive automatic notifications, please update your subscriptions by visiting the link below:
-{X_UNSUBSCRIBE_URL}
-
------------
-
-{X_SITENAME} ({X_SITEURL})
+{SITE_LINK}
