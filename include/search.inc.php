@@ -22,7 +22,7 @@ function library_search($queryarray, $andor, $limit, $offset, $userid)
 	$ret = array();
 
 	foreach ($publicationArray as $publication) {
-		$item['image'] = "images/project.png";
+		$item['image'] = "images/publication.png";
 		$item['link'] = $publication->getItemLink(TRUE);
 		$item['title'] = $publication->getVar("title");
 		$item['time'] = $publication->getVar("date", "e");
