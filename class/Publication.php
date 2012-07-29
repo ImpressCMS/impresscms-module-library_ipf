@@ -563,8 +563,8 @@ class mod_library_Publication extends icms_ipf_seo_Object {
 		$tags['PUBLICATION_NAME'] = $this->getVar('source', 's');
 
 		// Global notification
-		$notification_handler->triggerEvent('global', 0, 'publication_published', $tags,
-				array(), $module_id, 0);
+		// $category, $item_id, $events, $extra_tags=array(), $user_list=array(), $module_id=null, $omit_user_id=null
+		$notification_handler->triggerEvent('global', 0, 'publication_published', $tags, array(), $module_id, 0);
 
 		// Collection-specific notification
 		/*$notification_handler->triggerEvent('collection', $source_id,

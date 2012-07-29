@@ -155,8 +155,11 @@ if (icms_get_module_status("sprockets"))
 			$offline_publications = array();
 			$criteria = icms_buildCriteria(array('online_status' => '0'));
 			$offline_publications = $library_publication_handler->getList($criteria);
-			$offline_publications = "(" . implode(',', array_keys($offline_publications)) . ")";
-			unset($criteria);			
+			if ($offline_publications) {
+				$offline_publications = "(" . implode(',', array_keys($offline_publications)) . ")";
+			}
+			unset($criteria);
+			
 			$criteria = new icms_db_criteria_Compo();
 			if ($offline_publications) {
 				$criteria->add(new icms_db_criteria_Item('iid', $offline_publications, 'NOT IN'));
