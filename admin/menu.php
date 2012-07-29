@@ -16,9 +16,12 @@ $adminmenu[] = array(
 	"title" => _MI_LIBRARY_PUBLICATIONS,
 	"link" => "admin/publication.php");
 
-$adminmenu[] = array(
+// Check if Sprockets module is available, otherwise categories page is not available
+if (icms_get_module_status("sprockets")) {
+	$adminmenu[] = array(
 	"title" => _MI_LIBRARY_CATEGORIES,
 	"link" => "admin/category.php");
+}
 
 $module = icms::handler("icms_module")->getByDirname(basename(dirname(dirname(__FILE__))));
 

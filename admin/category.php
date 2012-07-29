@@ -215,6 +215,11 @@ if (icms_get_module_status("sprockets"))
 	  }
 	}
 }
+else
+{
+	// Sprockets not installed - nothing to do
+	exit;
+}
 
 icms_cp_footer();
 /**

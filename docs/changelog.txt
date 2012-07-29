@@ -1,3 +1,7 @@
-<b><u>=> Unreleased: Version 1.0 Beta</u></b>
+Version history
+===============
 
-- First public release of the module.
+Version 1.0 BETA (29/7/2012)
+----------------------------
+
+- First beta release of the module.

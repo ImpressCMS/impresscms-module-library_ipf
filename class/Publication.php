@@ -68,7 +68,7 @@ class mod_library_Publication extends icms_ipf_seo_Object {
 			'module' => 'library',
 			'onSelect' => 'submit'));
 		
-		// Only display the tag / category fields if the sprockets module is installed
+		// Only display the tag / category / rights fields if the sprockets module is installed
 		$sprocketsModule = icms_getModuleInfo('sprockets');
 		if (icms_get_module_status("sprockets"))
 		{
@@ -83,13 +83,21 @@ class mod_library_Publication extends icms_ipf_seo_Object {
 			'itemHandler' => 'tag',
 			'method' => 'getCategoryOptions',
 			'module' => 'sprockets'));
+			
+			$this->setControl('rights', array(
+			'itemHandler' => 'rights',
+			'method' => 'getRights',
+			'module' => 'sprockets'));
 		}
 		else 
 		{
 			$this->hideFieldFromForm('tag');
-			$this->hideFieldFromSingleView ('tag');
+			$this->hideFieldFromSingleView('tag');
 			$this->hideFieldFromForm('category');
 			$this->hideFieldFromSingleView ('category');
+			$this->hideFieldFromForm('rights');
+			$this->hideFieldFromSingleView('rights');
+			$this->setFieldAsRequired('rights', FALSE);
 		}		
 		
 		$this->setControl('format', array(
@@ -110,11 +118,6 @@ class mod_library_Publication extends icms_ipf_seo_Object {
 			'itemHandler' => 'publication',
 			'method' => 'getSourceList',
 			'module' => 'library'));
-		
-		$this->setControl('rights', array(
-			'itemHandler' => 'rights',
-			'method' => 'getRights',
-			'module' => 'sprockets'));
 		
 		$this->setControl('language', array(
 			'name' => 'select',

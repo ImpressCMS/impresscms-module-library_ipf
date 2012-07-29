@@ -209,6 +209,9 @@ $icmsTpl->assign('library_rss_link', 'rss.php');
 $icmsTpl->assign('library_rss_title', _CO_LIBRARY_SUBSCRIBE_RSS);
 
 // Add RSS auto-discovery link to module header
+$rss_link = LIBRARY_URL . 'rss.php';
+$rss_attributes = array('type' => 'application/rss+xml', 'title' => $icmsConfig['sitename'] 
+	. ' - ' .  _CO_LIBRARY_NEW);
 $xoTheme->addLink('alternate', $rss_link, $rss_attributes);
 
 // Generate page metadata (can be customised in module preferences)

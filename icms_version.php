@@ -69,21 +69,21 @@ $modversion = array(
 /** Menu information */
 $modversion['hasMain'] = 1;
 $sprocketsModule = icms_getModuleInfo('sprockets');
+$i = 0;
 if (icms_get_module_status("sprockets")) {
-	$i = 0;
 	$modversion['sub'][$i]['name'] = _MI_LIBRARY_TAG_DIRECTORY;
 	$modversion['sub'][$i]['url'] = "tag.php";
 	$i++;
 	$modversion['sub'][$i]['name'] = _MI_LIBRARY_CATEGORY_DIRECTORY;
 	$modversion['sub'][$i]['url'] = "tag.php?label_type=1";
 	$i++;
-	$modversion['sub'][$i]['name'] = _MI_LIBRARY_TIMELINE_DIRECTORY;
-	$modversion['sub'][$i]['url'] = "timeline.php";
-	$i++;
 	$modversion['sub'][$i]['name'] = _MI_LIBRARY_OPEN_ARCHIVES_INITIATIVE;
 	$modversion['sub'][$i]['url'] = "open-archives-initiative.php";
-	unset($i);
+	$i++;
 }
+$modversion['sub'][$i]['name'] = _MI_LIBRARY_TIMELINE_DIRECTORY;
+$modversion['sub'][$i]['url'] = "timeline.php";
+unset($i);
 
 /** Other possible types: testers, translators, documenters and other */
 $modversion['people']['developers'][] = "Madfish (Simon Wilkinson)";
