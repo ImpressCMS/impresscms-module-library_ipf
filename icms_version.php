@@ -402,6 +402,14 @@ $modversion['notification']['category'][1] = array (
 	'subscribe_from' => array('publication.php'),
 	'item_name' => '');
 
+$modversion['notification']['category'][2] = array(
+	'name' => 'publication',
+	'title' => _MI_LIBRARY_PUBLICATION_NOTIFY,
+	'description' => _MI_LIBRARY_PUBLICATION_NOTIFY_DSC,
+	'subscribe_from' => array('publication.php'),
+	'item_name' => 'publication_id',
+	'allow_bookmark' => 1);
+
 // Notification events: Global
 $modversion['notification']['event'][1] = array(
 	'name' => 'publication_published',
