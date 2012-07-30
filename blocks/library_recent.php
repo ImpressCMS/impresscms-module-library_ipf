@@ -23,6 +23,7 @@ if (!defined("ICMS_ROOT_PATH")) die("ICMS root path not defined");
  */
 function show_recent_publications($options)
 {
+	$publicationObjects = array();
 	$libraryModule = icms::handler("icms_module")->getByDirname('library');
 	$sprocketsModule = icms::handler("icms_module")->getByDirname("sprockets");
 		
@@ -64,31 +65,39 @@ function show_recent_publications($options)
 		}
 		else
 		{
-			$rows = $library_publication_handler->convertResultSet($result, TRUE, FALSE);
+			$rows = $library_publication_handler->convertResultSet($result, TRUE, TRUE);
 			foreach ($rows as $key => $row) 
 			{
-				$publication_list[$key] = $row;
+				$publicationObjects[$key] = $row;
 			}
 		}
 	}
 	// Otherwise just get a list of all publications
+	
 	else 
 	{
 		$criteria->add(new icms_db_criteria_Item('online_status', '1'));
 		$criteria->setSort('submission_time');
 		$criteria->setOrder('DESC');
 		$criteria->setLimit($clean_limit);
-		$publication_list = $library_publication_handler->getObjects($criteria, TRUE, FALSE);
+		$publicationObjects = $library_publication_handler->getObjects($criteria, TRUE, TRUE);
 	}
 
 	// Prepare publication for display
-	foreach ($publication_list as $key => &$object)
-	{		
+	$publication_list = array();
+	foreach ($publicationObjects as $key => $object)
+	{
+		$publication = array();
+		$publication['title'] = $object->getVar('title');
+		$publication['submission_time'] = $object->getVar('submission_time');
+		
 		// Add SEO friendly string to URL
-		if (!empty($object['short_url']))
+		$short_url = $object->getVar('short_url', 'e');
+		if (!empty($short_url))
 		{
-			$object['itemUrl'] .= "&amp;title=" . $object['short_url'];
+			$publication['itemUrl'] = $object->getItemLink(TRUE) . "&amp;title=" . $short_url;
 		}
+		$publication_list[] = $publication;
 	}
 	
 	// Assign to template
@@ -137,6 +146,7 @@ function edit_recent_publications($options)
 
 		$criteria = new icms_db_criteria_Compo();
 		$criteria->add(new icms_db_criteria_Item('tag_id', $relevant_tag_ids, 'IN'));
+		$criteria->add(new icms_db_criteria_Item('label_type', '0'));
 		$tagList = $sprockets_tag_handler->getList($criteria);
 
 		$tagList = array(0 => _MB_LIBRARY_RECENT_ALL) + $tagList;

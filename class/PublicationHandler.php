@@ -263,23 +263,30 @@ class mod_library_PublicationHandler extends icms_ipf_Handler {
 		{
 			// Retrieve publications as objects, with id as key, and prepare for display
 			$rows = $this->convertResultSet($result, TRUE, TRUE);
+			
+			// Prepare buffers to minimuse query looks due to certain getVar() overrides
+			$system_mimetype_handler = icms_getModuleHandler('mimetype', 'system');
+			$format_buffer = $system_mimetype_handler->getObjects(FALSE, TRUE, TRUE);
+			if (icms_get_module_status("sprockets")) {
+				$sprockets_rights_handler = icms_getModuleHandler('rights', 'sprockets', 'sprockets');
+				$rights_buffer = $sprockets_rights_handler->getObjects(FALSE, TRUE, TRUE);
+			}
 			foreach ($rows as $pubObj) {
-				$library_publication_summaries[$pubObj->getVar('publication_id')] = $this->toArrayForDisplay($pubObj);
+				$publication = $this->toArrayForDisplay($pubObj, FALSE);
+				
+				// Manually convert some fields to human readable from buffers, to reduce query load
+				if (isset($publication['rights']) && isset($rights_buffer)) {
+					$publication['rights'] = $rights_buffer[$publication['rights']]->getItemLink();
+				}
+				if (isset($publication['format'])) {
+					$publication['format'] = $format_buffer[$publication['format']]->getVar('extension');
+				}
+				$library_publication_summaries[$pubObj->getVar('publication_id')] = $publication;
 			}
 			return $library_publication_summaries;
 		}
 	}
 			
-	/**
-	 * Prepares a publication for user-side display
-	 */
-	
-	public function prepareForDisplay($type)
-	{
-		// Convert properties to human readable
-		
-	}
-	
 	/**
 	 * Sets a contextually appropriate template for this publication, based on its type
 	 * 
@@ -411,21 +418,15 @@ class mod_library_PublicationHandler extends icms_ipf_Handler {
 	}
 	
 	/**
-	 * Converts publication objects to array and unsets properties toggled off in module preferences
+	 * Unsets publication display fields as per the module preferences, on behalf of toArrayForDisplay()
 	 * 
-	 * Prevents unwanted or inappropriate fields from being displayed on the user side, and adds 
-	 * some additional type-speciic fields where required. Call it whenever a publication is viewed
-	 * from the front end instead of using ->toArray(). Basically the vars are unset and when Smarty
-	 * tests for their existance they will be removed from the template.
-	 * 
-	 * @param array $pubArray - a publication object that has been converted ->toArray()
-	 * @return array
+	 * @param array $publication
+	 * @return array 
 	 */
-	public function toArrayForDisplay(&$pubObj)
+	private function unsetFieldPreferences($publication)
 	{
-		$publication = $pubObj->toArray();
 		$library = basename(dirname(dirname(__FILE__)));
-
+		
 		if (icms_getConfig('display_counter_field', $library) == '0') {
 			unset($publication['counter']);
 		}
@@ -456,6 +457,40 @@ class mod_library_PublicationHandler extends icms_ipf_Handler {
 		if (icms_getConfig('display_submitter_field', $library) == '0') {
 			unset($publication['submitter']);
 		}
+		
+		return $publication;
+	}
+	
+	/**
+	 * Converts individual publication objects to array and unsets properties toggled off in 
+	 * module preferences, optionally restrict getVar() overrides if manual buffering is required.
+	 * 
+	 * Prevents unwanted or inappropriate fields from being displayed on the user side, and adds 
+	 * some additional type-speciic fields where required. Call it whenever a publication is viewed
+	 * from the front end instead of using ->toArray(). Basically the vars are unset and when Smarty
+	 * tests for their existance they will be removed from the template.
+	 * 
+	 * The $with_overrides parameter toggles getVar() overrides for certain fields (see the object
+	 * method toArrayWithoutOverrides for a list). Some overrides require a query lookup to get 
+	 * the value; if you are processing a large number of records, for example on an index page, 
+	 * this can get expensive. In that case its better to toggle overrides off and manually 
+	 * convert the values from buffers.
+	 * 
+	 * @param array $pubArray - a publication object that has been converted ->toArray()
+	 * @return array
+	 */
+	public function toArrayForDisplay(&$pubObj, $with_overrides = TRUE)
+	{
+		$library = basename(dirname(dirname(__FILE__)));
+		
+		if ($with_overrides) {
+			$publication = $pubObj->toArray();
+		} else {
+			$publication = $pubObj->toArrayWithoutOverrides();
+		}
+		
+		// Unset any unwanted fields so that they don't display
+		$publication = $this->unsetFieldPreferences($publication);
 		
 		// If an image is present, set resizing preferences
 		if ($publication['image']) {

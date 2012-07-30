@@ -55,7 +55,7 @@ if (icms_get_module_status("sprockets"))
 		
 		// Get the library category tree
 		include ICMS_ROOT_PATH . '/modules/' . $sprocketsModule->getVar('dirname') . '/include/angry_tree.php';
-		$criteria = icms_buildCriteria(array('mid' => icms::$module->getVar('mid')));
+		$criteria = icms_buildCriteria(array('mid' => icms::$module->getVar('mid'), 'label_type' => '1'));
 		$libraryCategories = $sprockets_tag_handler->getObjects($criteria, TRUE, TRUE);		
 		$categoryTree = new IcmsPersistableTree(&$libraryCategories, 'tag_id', 'parent_id', $rootId = null);
 		unset($criteria);
@@ -138,7 +138,9 @@ if (icms_get_module_status("sprockets"))
 			foreach ($rows as $key => $row) {
 				$tag_ids[] = $row->getVar('tid');
 			}
-			$tag_ids = '(' . implode(',', $tag_ids) . ')';
+			if ($tag_ids) {
+				$tag_ids = '(' . implode(',', $tag_ids) . ')';
+			}
 		}
 
 		// Get a list of tags
@@ -231,7 +233,7 @@ if (icms_get_module_status("sprockets"))
 }
 else
 {
-	// Sprockets module available - nothing to do
+	// Sprockets module unavailable - nothing to do
 	exit;
 }
 

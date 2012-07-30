@@ -179,7 +179,9 @@ if ($fromyear != 0 && $frommonth != 0) {
 	    	$publication['counter'] = $publicationObj->getVar('counter');
 			if (icms_get_module_status("sprockets")) {
 				// Use the publication_id to extract the array of tags relevant to this publication
-				$publication['tags'] = implode(', ', $publication_tags_multi_array[$publicationObj->getVar('publication_id')]);
+				if (isset($publication_tags_multi_array[$publicationObj->getVar('publication_id')])) {
+					$publication['tags'] = implode(', ', $publication_tags_multi_array[$publicationObj->getVar('publication_id')]);
+				}
 			} else {
 				$publication['tags'] = FALSE;
 			}

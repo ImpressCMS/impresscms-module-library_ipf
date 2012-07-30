@@ -40,7 +40,11 @@ $clean_m3u = isset($_GET['m3u']) ? intval($_GET['m3u']) : 0; // Flag indicating 
 $clean_label_type = isset($_GET['label_type']) ? intval($_GET['label_type']) : 0 ; // View tags (0) or categories (1)
 
 $library_publication_handler = icms_getModuleHandler("publication", basename(dirname(__FILE__)), "library");
-$publicationObj = $library_publication_handler->get($clean_publication_id);
+if ($clean_publication_id) {
+	$publicationObj = $library_publication_handler->get($clean_publication_id);
+} else {
+	$publicationObj = '';
+}
 
 // Optional tagging support (only if Sprockets module installed)
 $sprocketsModule = icms::handler("icms_module")->getByDirname("sprockets");
@@ -106,7 +110,7 @@ if($publicationObj && !$publicationObj->isNew())
 		}
 
 		// Prepare publication for display
-		$publication = $library_publication_handler->toArrayForDisplay($publicationObj);
+		$publication = $library_publication_handler->toArrayForDisplay($publicationObj, TRUE);
 
 		// Prepare tags for display (only if Sprockets module installed)
 		if (icms_get_module_status("sprockets"))
@@ -202,7 +206,7 @@ else
 		$criteria = icms_buildCriteria(array('parent_id' => $clean_tag_id, 'label_type' => '1'));
 		$criteria->setSort('title');
 		$criteria->setorder('ASC');
-		$subcategory_array = $sprockets_tag_handler->getObjects($criteria, TRUE, FALSE);
+		$subcategory_array = $sprockets_tag_handler->getObjects($criteria, TRUE, TRUE);
 		if ($subcategory_array)
 		{
 			// Get a count of the number of publications in each subcategory
@@ -228,13 +232,15 @@ else
 			unset($criteria);
 			
 			$i = 1;
-			foreach ($subcategory_array as $subcat) {
+			foreach ($subcategory_array as $subcatObj) {
+				
+				$subcat = array();
 				
 				// Add SEO to the link and a publication count
-				$subcat['itemLink'] = modifyItemLink($subcat['tag_id'], $subcat['title'], 
-						$subcat['short_url']);
-				if (isset($count[$subcat['tag_id']])) {
-					$publication_count = $count[$subcat['tag_id']];
+				$subcat['itemLink'] = modifyItemLink($subcatObj->getVar('tag_id'), 
+						$subcatObj->getVar('title'), $subcatObj->getVar('short_url'));
+				if (isset($count[$subcatObj->getVar('tag_id')])) {
+					$publication_count = $count[$subcatObj->getVar('tag_id')];
 				} else {
 					$publication_count = 0;
 				}
@@ -275,7 +281,7 @@ else
 		else // Do not sort by tag
 		{	
 			$criteria = new icms_db_criteria_Compo();
-			$criteria->add(new icms_db_criteria_Item('online_status', TRUE));
+			$criteria->add(new icms_db_criteria_Item('online_status', '1'));
 
 			// Count the number of online publications for the pagination control
 			$publication_count = $library_publication_handler->getCount($criteria);
@@ -285,11 +291,23 @@ else
 			$criteria->setLimit(icms::$module->config['number_publications_per_page']);
 			$criteria->setSort('submission_time');
 			$criteria->setOrder('DESC');
-			$library_publication_summaries = $library_publication_handler->getObjects($criteria, TRUE, TRUE);
-
-			// Prepare publications for display
+			$library_publication_summaries = $library_publication_handler->getObjects($criteria, TRUE, TRUE);			
+			
+			// Manually convert some fields to human readable from buffers, to reduce query load
+			$system_mimetype_handler = icms_getModuleHandler('mimetype', 'system');
+			$format_buffer = $system_mimetype_handler->getObjects(FALSE, TRUE, TRUE);
+			if (icms_get_module_status("sprockets")) {
+				$sprockets_rights_handler = icms_getModuleHandler('rights', 'sprockets', 'sprockets');
+				$rights_buffer = $sprockets_rights_handler->getObjects(FALSE, TRUE, TRUE);
+			}
 			foreach ($library_publication_summaries as &$publication) {
-				$publication = $library_publication_handler->toArrayForDisplay($publication);
+				$publication = $library_publication_handler->toArrayForDisplay($publication, FALSE);
+				if (isset($publication['rights'])) {
+					$publication['rights'] = $rights_buffer[$publication['rights']]->getItemLink();
+				}
+				if (isset($publication['format'])) {
+					$publication['format'] = $format_buffer[$publication['format']]->getVar('extension');
+				}
 			}
 
 			// Assign publications to template
@@ -313,7 +331,7 @@ else
 			// Get a list of publication IDs belonging to this tag
 			$criteria->add(new icms_db_criteria_Item('tid', $clean_tag_id));
 			$criteria->add(new icms_db_criteria_Item('mid', icms::$module->getVar('mid')));
-			$criteria->add(new icms_db_criteria_Item('item', 'publication'));
+			$criteria->add(new icms_db_criteria_Item('item', 'publication'));			
 			$taglink_array = $sprockets_taglink_handler->getObjects($criteria);
 			foreach ($taglink_array as $taglink) {
 				$categorised_publication_list[] = $taglink->getVar('iid');
@@ -337,8 +355,6 @@ else
 		$objectTable->addColumn(new icms_ipf_view_Column("title"));
 		$objectTable->addColumn(new icms_ipf_view_Column("creator"));
 		$objectTable->addColumn(new icms_ipf_view_Column("type"));
-		$objectTable->addColumn(new icms_ipf_view_Column("format"));
-		$objectTable->addColumn(new icms_ipf_view_Column("file_size"));
 		$objectTable->addColumn(new icms_ipf_view_Column("date"));
 		$objectTable->addFilter('format', 'format_filter');
 		$objectTable->addFilter('type' , 'type_filter');

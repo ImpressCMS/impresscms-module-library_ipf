@@ -505,6 +505,43 @@ class mod_library_Publication extends icms_ipf_seo_Object {
 		}
 	}
 	
+	/*
+	 * Performs the same function as toArray(), but does not permit getVar() overrides for specified
+	 * fields (ie. those requiring query lookups), so that they can be *manually* overriden from 
+	 * buffers. This can substantially reduce the number of queries when converting a large number 
+	 * of objects (for example, on an index page).
+	 */
+	public function toArrayWithoutOverrides() {
+		$ret = $vars = $blacklisted_vars = array();
+		
+		// These are the properties that we don't want converted, because each one costs a query
+		$blacklisted_vars = array('rights', 'format');
+		
+		$vars = $this->getVars();
+		foreach ($vars as $key=>$var) {
+			if (in_array($key, $blacklisted_vars)) {
+				$value = $this->getVar($key, 'e');
+				$ret[$key] = $value;
+			} else {
+				$value = $this->getVar($key);
+				$ret[$key] = $value;
+			}
+		}
+		if ($this->handler->identifierName != "") {
+			$controller = new icms_ipf_Controller($this->handler);
+			/**
+			 * Addition of some automatic value
+			 */
+			$ret['itemLink'] = $controller->getItemLink($this);
+			$ret['itemUrl'] = $controller->getItemLink($this, TRUE);
+			$ret['editItemLink'] = $controller->getEditItemLink($this, FALSE, TRUE);
+			$ret['deleteItemLink'] = $controller->getDeleteItemLink($this, FALSE, TRUE);
+			$ret['printAndMailLink'] = $controller->getPrintAndMailLink($this);
+		}
+
+		return $ret;
+	}
+	
 	public function initiateStreaming()
 	{
 		$identifier = '';
