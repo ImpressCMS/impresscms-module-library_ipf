@@ -118,7 +118,6 @@ if (icms_get_module_status("sprockets"))
 		// Assign categories to template
 		$icmsTpl->assign("library_page_title", _CO_LIBRARY_CATEGORY_INDEX);
 		$icmsTpl->assign('library_category_list', $parentCategories);
-		
 	}
 	///////////////////////////////
 	////////// Tag index //////////
@@ -193,9 +192,9 @@ if (icms_get_module_status("sprockets"))
 					$tag_list[] = $tag;
 				}
 			}
-			$icmsTpl->assign("library_page_title", _CO_LIBRARY_TAG_INDEX);
 			$icmsTpl->assign('library_tag_list', $tag_list);
 		}
+		$icmsTpl->assign("library_page_title", _CO_LIBRARY_TAG_INDEX);
 	}
 
 	// RSS feed
