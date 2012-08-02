@@ -129,7 +129,7 @@ if ($fromyear != 0 && $frommonth != 0) {
 	$criteria->add(new icms_db_criteria_Item('submission_time', $monthstart, '>'));
 	$criteria->add(new icms_db_criteria_Item('submission_time', $monthend, '<'));
 	$criteria->add(new icms_db_criteria_Item('online_status', '1'));
-	$criteria->setSort('submission_time');
+	$criteria->setSort('date');
 	$criteria->setOrder('DESC');
 	$publicationArray = $library_publication_handler->getObjects($criteria, TRUE);
 

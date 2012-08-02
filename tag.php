@@ -91,7 +91,7 @@ if (icms_get_module_status("sprockets"))
 		$parentCategories = $categoryTree->getFirstChild(0);
 		$i = 1;
 		foreach ($parentCategories as &$parent) {
-			$parent = $parent->toArray();
+			$parent = $parent->toArrayWithoutOverrides();
 			
 			// Add SEO to the link
 			$parent['itemLink'] = modifyItemLink($parent['tag_id'], $parent['title'], $parent['short_url']);
@@ -109,10 +109,11 @@ if (icms_get_module_status("sprockets"))
 			// Get the first level child categories for each parent and covert to array for template
 			$subcategories = $categoryTree->getFirstChild($parent['tag_id']);
 			foreach ($subcategories as &$subcat) {
-				$subcat = $subcat->toArray();
+				$subcat = $subcat->toArrayWithoutOverrides();
 				$subcat['itemLink'] = modifyItemLink($subcat['tag_id'], $subcat['title'], $subcat['short_url']);
 				$parent['subcategories'][] = $subcat;
 			}
+			$i++;
 		}
 
 		// Assign categories to template
@@ -174,7 +175,7 @@ if (icms_get_module_status("sprockets"))
 			// Append an SEO-friendly URL (if available) and the label type (if a category) and publication count
 			if ($tagObjList) {
 				foreach ($tagObjList as $tagObj) {
-					$tag = $tagObj->toArray();
+					$tag = $tagObj->toArrayWithoutOverrides();
 					$tag['itemLink'] = '<a href="' . ICMS_URL . '/modules/' . icms::$module->getVar('dirname') 
 							. '/publication.php?tag_id=' . $tagObj->getVar('tag_id', 'e');
 					if ($tagObj->getVar('label_type', 'e') == '1') {

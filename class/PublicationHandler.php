@@ -42,8 +42,8 @@ class mod_library_PublicationHandler extends icms_ipf_Handler {
 		$criteria = new icms_db_criteria_Compo();
 		$criteria->setStart($offset);
 		$criteria->setLimit($limit);
-		$criteria->setSort('title');
-		$criteria->setOrder('ASC');
+		$criteria->setSort('date');
+		$criteria->setOrder('DESC');
 
 		if ($userid != 0) 
 		{
@@ -252,7 +252,7 @@ class mod_library_PublicationHandler extends icms_ipf_Handler {
 				. " AND `tid` = '" . $clean_tag_id . "'"
 				. " AND `mid` = '" . $libraryModule->getVar('mid') . "'"
 				. " AND `item` = 'publication'"
-				. " ORDER BY `date` DESC"
+				. " ORDER BY `submission_time` DESC"
 				. " LIMIT " . $clean_start . ", " . $libraryModule->config['number_publications_per_page'];
 		$result = icms::$xoopsDB->query($query);
 		if (!$result) {

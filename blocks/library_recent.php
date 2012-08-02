@@ -77,7 +77,7 @@ function show_recent_publications($options)
 	else 
 	{
 		$criteria->add(new icms_db_criteria_Item('online_status', '1'));
-		$criteria->setSort('submission_time');
+		$criteria->setSort('date');
 		$criteria->setOrder('DESC');
 		$criteria->setLimit($clean_limit);
 		$publicationObjects = $library_publication_handler->getObjects($criteria, TRUE, TRUE);
