@@ -6,11 +6,11 @@
 	<table>
 		<tr>
 		<{foreach item=category from=$library_category_list}>
-			<td><strong><{$category.itemLink}></strong> (<{$category.publicationCount}>)
+			<td><strong><{$category.itemLink}></strong> <{if $category.publicationCount}>(<{$category.publicationCount}>)<{/if}>
 				<{if $category.subcategories}>
 					<ul class="library_subcategories">
 					<{foreach item=subcat from=$category.subcategories}>
-						<li style="list-style-type:none; list-style-position: inside;"><{$subcat.itemLink}></li>
+						<li style="list-style-type:none; list-style-position: inside;"><{$subcat.itemLink}> <{if $subcat.publicationCount}>(<{$subcat.publicationCount}>)<{/if}></li>
 					<{/foreach}>
 					</ul>
 				<{/if}>

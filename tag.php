@@ -69,6 +69,7 @@ if (icms_get_module_status("sprockets"))
 		unset($criteria);
 		
 		// Get a count of the number of publications in each category - need online publication IDs and category IDs
+		// Can do this in a single query using GROUP BY clause
 		$criteria = icms_buildCriteria(array('mid' => icms::$module->getVar('mid'), 'label_type' => '1'));
 		$category_ids = $sprockets_tag_handler->getList($criteria, TRUE);
 		if ($category_ids) {
@@ -116,6 +117,11 @@ if (icms_get_module_status("sprockets"))
 			foreach ($subcategories as &$subcat) {
 				$subcat = $subcat->toArrayWithoutOverrides();
 				$subcat['itemLink'] = modifyItemLink($subcat['tag_id'], $subcat['title'], $subcat['short_url']);
+				if (isset($count[$subcat['tag_id']])) {
+					$subcat['publicationCount'] = $count[$subcat['tag_id']];
+				} else {
+					$subcat['publicationCount'] = 0;
+				}	
 				$parent['subcategories'][] = $subcat;
 			}
 			if (isset($parent['subcategories']) && count($parent['subcategories']) > 1) {
