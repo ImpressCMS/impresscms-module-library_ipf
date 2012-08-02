@@ -19,6 +19,14 @@ function modifyItemLink($id, $title, $short_url) {
 	return $itemLink;
 }
 
+function array_sort_by_column(&$arr, $col, $dir = SORT_ASC) {
+	$sort_col = array();
+	foreach ($arr as $key=> $row) {
+		$sort_col[$key] = $row[$col];
+	}
+	array_multisort($sort_col, $dir, $arr);
+}
+
 include_once "header.php";
 $xoopsOption["template_main"] = "library_tag.html";
 include_once ICMS_ROOT_PATH . "/header.php";
@@ -87,9 +95,9 @@ if (icms_get_module_status("sprockets"))
 		$count = $sprockets_taglink_handler->getCount($criteria);
 		unset($criteria);
 		
-		// Get the top level parent categories and convert to array for template insertion
-		$parentCategories = $categoryTree->getFirstChild(0);
-		$i = 1;
+		// Get the parent categories
+		$parentCategories = $categoryTree->getFirstChild(0);		
+		
 		foreach ($parentCategories as &$parent) {
 			$parent = $parent->toArrayWithoutOverrides();
 			
@@ -103,9 +111,6 @@ if (icms_get_module_status("sprockets"))
 				$parent['publicationCount'] = 0;
 			}
 			
-			// Used to divide the page layout into two columns
-			$parent['count'] = $i;
-			
 			// Get the first level child categories for each parent and covert to array for template
 			$subcategories = $categoryTree->getFirstChild($parent['tag_id']);
 			foreach ($subcategories as &$subcat) {
@@ -113,6 +118,18 @@ if (icms_get_module_status("sprockets"))
 				$subcat['itemLink'] = modifyItemLink($subcat['tag_id'], $subcat['title'], $subcat['short_url']);
 				$parent['subcategories'][] = $subcat;
 			}
+			if (isset($parent['subcategories']) && count($parent['subcategories']) > 1) {
+				array_sort_by_column($parent['subcategories'], 'title');
+			}
+		}
+		
+		// Sort the categories alphabetically
+		array_sort_by_column($parentCategories, 'title');
+		
+		// Used to divide the page layout into two columns
+		$i = 1;
+		foreach ($parentCategories as &$parent) {
+			$parent['count'] = $i;
 			$i++;
 		}
 
