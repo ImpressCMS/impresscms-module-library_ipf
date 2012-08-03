@@ -547,6 +547,10 @@ class mod_library_Publication extends icms_ipf_seo_Object {
 		$identifier = '';
 		$identifier = $this->getVar('identifier');
 		if (!empty ($identifier)) {
+			// Update counter
+			if (!icms_userIsAdmin(icms::$module->getVar('dirname'))) {
+				$this->handler->updateCounter($publicationObj);
+			}
 			// Send playlist headers to the browser, followed by the audio file URL as contents (iso-8859-1 charset is standard for m3u)
 			header('Content-Type: audio/x-mpegurl audio/mpeg-url application/x-winamp-playlist audio/scpls audio/x-scpls; charset=iso-8859-1');
 			header("Content-Disposition:inline;filename=stream_soundtrack.m3u");

@@ -129,6 +129,9 @@ define("_CO_LIBRARY_CAL_NOVEMBER", "November");
 define("_CO_LIBRARY_CAL_DECEMBER", "December");
 define("_CO_LIBRARY_META_TIMELINE_INDEX_DESCRIPTION", "Index of publications sorted by date");
 
+// Download page
+define("_CO_LIBRARY_PUBLICATION_UNAVAILABLE", "Sorry, no such publication available");
+
 // Tag index page
 define("_CO_LIBRARY_TAG_INDEX", "Publications: Tags");
 define("_CO_LIBRARY_META_TAG_INDEX_DESCRIPTION", "Index of publications sorted by tag");

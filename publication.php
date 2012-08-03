@@ -104,13 +104,17 @@ if($publicationObj && !$publicationObj->isNew())
 	// Display single object
 	else
 	{	
-		// Update views counter
-		if (!icms_userIsAdmin(icms::$module->getVar('dirname'))) {
-			$library_publication_handler->updateCounter($publicationObj);
-		}
-
 		// Prepare publication for display
 		$publication = $library_publication_handler->toArrayForDisplay($publicationObj, TRUE);
+		
+		// Update views counter - but only if its not a downloadable object
+		if (empty($publication['identifier'])) {
+			if (!icms_userIsAdmin(icms::$module->getVar('dirname'))) {
+				$library_publication_handler->updateCounter($publicationObj);
+			} else {
+				$publication['identifier'] = LIBRARY_URL . 'download.php?publication_id=' . $publication['publication_id'];
+			}
+		}
 
 		// Prepare tags for display (only if Sprockets module installed)
 		if (icms_get_module_status("sprockets"))
@@ -356,6 +360,8 @@ else
 		$objectTable->addColumn(new icms_ipf_view_Column("creator"));
 		$objectTable->addColumn(new icms_ipf_view_Column("type"));
 		$objectTable->addColumn(new icms_ipf_view_Column("date"));
+		$objectTable->setDefaultSort('date');
+		$objectTable->setDefaultOrder('DESC');
 		$objectTable->addFilter('format', 'format_filter');
 		$objectTable->addFilter('type' , 'type_filter');
 		$objectTable->addFilter('rights', 'rights_filter');

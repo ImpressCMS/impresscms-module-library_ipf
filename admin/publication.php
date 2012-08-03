@@ -217,6 +217,8 @@ if (in_array($clean_op, $valid_op, TRUE)) {
 		$objectTable->addColumn(new icms_ipf_view_Column('format', _GLOBAL_LEFT, false));
 		$objectTable->addColumn(new icms_ipf_view_Column('counter'));
 		$objectTable->addColumn(new icms_ipf_view_Column('date'));
+		$objectTable->setDefaultSort('date');
+		$objectTable->setDefaultOrder('DESC');
 		if (icms_get_module_status("sprockets")) {
 			$objectTable->addColumn(new icms_ipf_view_Column('federated'));
 			$objectTable->addFilter('online_status', 'online_status_filter');

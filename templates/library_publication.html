@@ -47,4 +47,8 @@
 	<{$library_publication_table}>
 <{/if}>
 
+<{if $library_publication_unavailable}>
+	<div><{$smarty.const._CO_LIBRARY_PUBLICATION_UNAVAILABLE}></div>
+<{/if}>
+
 <{includeq file='db:library_footer.html'}>
