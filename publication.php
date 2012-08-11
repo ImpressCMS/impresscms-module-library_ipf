@@ -306,7 +306,7 @@ else
 			}
 			foreach ($library_publication_summaries as &$publication) {
 				$publication = $library_publication_handler->toArrayForDisplay($publication, FALSE);
-				if (isset($publication['rights'])) {
+				if (icms_get_module_status("sprockets") && isset($publication['rights'])) {
 					$publication['rights'] = $rights_buffer[$publication['rights']]->getItemLink();
 				}
 				if (isset($publication['format'])) {
