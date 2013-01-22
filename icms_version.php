@@ -17,7 +17,7 @@ defined("ICMS_ROOT_PATH") or die("ICMS root path not defined");
 /**  General Information  */
 $modversion = array(
 	"name"						=> _MI_LIBRARY_MD_NAME,
-	"version"					=> 1.0,
+	"version"					=> 1.01,
 	"description"				=> _MI_LIBRARY_MD_DESC,
 	"author"					=> "Madfish (Simon Wilkinson)",
 	"credits"					=> "",
@@ -33,11 +33,10 @@ $modversion = array(
 	"image"						=> "images/icon_big.png", /* for backward compatibility */
 
 /**  Development information */
-	"status_version"			=> "1.0",
+	"status_version"			=> "1.01",
 	"status"					=> "Final",
-	"date"						=> "16/1/2013",
+	"date"						=> "22/1/2013",
 	"author_word"				=> "",
-	"warning"					=> _CO_ICMS_WARNING_BETA,
 
 /** Contributors */
 	"developer_website_url"		=> "https://www.isengard.biz",
@@ -312,7 +311,7 @@ $modversion['config'][] = array(
 	'title' => '_MI_LIBRARY_DATE_FORMAT',
 	'description' => '_MI_LIBRARY_DATE_FORMAT_DSC',
 	'formtype' => 'textbox',
-	'valuetype' => 'string',
+	'valuetype' => 'text',
 	'default' => 'j/n/Y');
 
 $modversion['config'][] = array(
@@ -376,7 +375,7 @@ $modversion['config'][] = array(
 	'title' => '_MI_LIBRARY_META_DESCRIPTION',
 	'description' => '_MI_LIBRARY_META_DESCRIPTIONDSC',
 	'formtype' => 'textbox',
-	'valuetype' => 'string',
+	'valuetype' => 'text',
 	'default' =>  '');
 
 $modversion['config'][] = array(
@@ -384,7 +383,7 @@ $modversion['config'][] = array(
 	'title' => '_MI_LIBRARY_META_KEYWORDS',
 	'description' => '_MI_LIBRARY_META_KEYWORDSDSC',
 	'formtype' => 'textbox',
-	'valuetype' => 'string',
+	'valuetype' => 'text',
 	'default' =>  '');
 
 /** Notification information */
