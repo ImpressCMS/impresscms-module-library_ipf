@@ -1,0 +1,36 @@
+<{includeq file='db:library_header.html'}>
+
+<div>
+	<!-- Category index page -->
+	<{if $library_category_list}>
+	<table>
+		<tr>
+		<{foreach item=category from=$library_category_list}>
+			<td><strong><{$category.itemLink}></strong> <{if $category.publicationCount}>(<{$category.publicationCount}>)<{/if}>
+				<{if $category.subcategories}>
+					<ul class="library_subcategories">
+					<{foreach item=subcat from=$category.subcategories}>
+						<li style="list-style-type:none; list-style-position: inside;"><{$subcat.itemLink}> <{if $subcat.publicationCount}>(<{$subcat.publicationCount}>)<{/if}></li>
+					<{/foreach}>
+					</ul>
+				<{/if}>
+			</td>
+			<{if $category.count is div by 2}>
+				</tr><tr>
+			<{/if}>
+		<{/foreach}>
+		</tr>
+	</table>
+	<{/if}>
+	
+	<!-- Tag index page -->
+	<{if $library_tag_list}>
+		<ul>
+			<{foreach item=tag from=$library_tag_list}>
+				<li><strong><{$tag.itemLink}></strong> (<{$tag.publicationCount}>)</li>
+			<{/foreach}>
+		</ul>	
+	<{/if}>
+</div>
+
+<{includeq file='db:library_footer.html'}>

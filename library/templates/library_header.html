@@ -1,0 +1,21 @@
+<{if $library_show_breadcrumb == TRUE}>
+
+<div class="library_headertable">
+	<{if $library_module_home}>
+	<span class="library_modulename"><{$library_module_home}></span>
+	<{/if}>
+	<{if $library_category_path}>
+	<span class="library_breadcrumb"><{if $library_module_home}>&gt;&nbsp;<{/if}><{$library_category_path}></span>
+	<{/if}>
+</div>
+
+<{else}>
+
+	<{if $library_page_title}>
+		<h1><a href="<{$library_rss_link}>" title="<{$library_rss_title}>">
+				<img src="./images/rss.png" alt="RSS" /></a>
+			<{$library_page_title}><{if $library_tag_name}> - <{$library_tag_name}><{/if}>
+		</h1>
+	<{/if}>
+	
+<{/if}>
