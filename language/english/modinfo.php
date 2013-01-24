@@ -137,6 +137,7 @@ define("_MI_LIBRARY_DISPLAY_SOURCEDSC", "Toggles visibility in user-side templat
 define("_MI_LIBRARY_PUBLICATION_ADD", "Submit publication");
 
 // Menu
+define("_MI_LIBRARY_PUBLICATION_NEW", "New");
 define("_MI_LIBRARY_TAG_DIRECTORY", "Tags");
 define("_MI_LIBRARY_CATEGORY_DIRECTORY", "Categories");
 define("_MI_LIBRARY_TIMELINE_DIRECTORY", "Timeline");

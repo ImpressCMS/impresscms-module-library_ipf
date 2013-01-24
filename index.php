@@ -14,6 +14,9 @@
 
 include_once "../../mainfile.php";
 include_once ICMS_ROOT_PATH . "/header.php";
- 
-header('location: publication.php');
+
+$start_options = array(0 => 'publication.php', 1 => 'tag.php', 2 => 'tag.php?label_type=1', 3 => 'timeline.php');
+$start_page = $start_options[icms::$module->config['library_start_page']];
+
+header('location: ' . $start_page);
 exit();

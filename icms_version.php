@@ -17,7 +17,7 @@ defined("ICMS_ROOT_PATH") or die("ICMS root path not defined");
 /**  General Information  */
 $modversion = array(
 	"name"						=> _MI_LIBRARY_MD_NAME,
-	"version"					=> 1.01,
+	"version"					=> 1.02,
 	"description"				=> _MI_LIBRARY_MD_DESC,
 	"author"					=> "Madfish (Simon Wilkinson)",
 	"credits"					=> "",
@@ -33,9 +33,9 @@ $modversion = array(
 	"image"						=> "images/icon_big.png", /* for backward compatibility */
 
 /**  Development information */
-	"status_version"			=> "1.01",
-	"status"					=> "Final",
-	"date"						=> "22/1/2013",
+	"status_version"			=> "1.02",
+	"status"					=> "BETA",
+	"date"						=> "24/1/2013",
 	"author_word"				=> "",
 
 /** Contributors */
@@ -69,6 +69,9 @@ $modversion = array(
 $modversion['hasMain'] = 1;
 $sprocketsModule = icms_getModuleInfo('sprockets');
 $i = 0;
+$modversion['sub'][$i]['name'] = _MI_LIBRARY_PUBLICATION_NEW;
+$modversion['sub'][$i]['url'] = "publication.php";
+$i++;
 if (icms_get_module_status("sprockets")) {
 	$modversion['sub'][$i]['name'] = _MI_LIBRARY_TAG_DIRECTORY;
 	$modversion['sub'][$i]['url'] = "tag.php";

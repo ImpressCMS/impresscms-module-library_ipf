@@ -41,6 +41,26 @@ if ($publicationObj && !$publicationObj->isNew())
 			header("Location: " . $publicationObj->getVar('identifier', 'e'));
 		}
 		exit;
+		
+		// WF-Downloads style header hand off (experimental)
+		header("Cache-Control: no-store, no-cache, must-revalidate");
+		header("Cache-Control: post-check=0, pre-check=0", FALSE);
+		header("Pragma: no-cache"); // HTTP 1.0 backwards compatibility
+		
+		// Always modified
+		header("Expires: Mon, 26 Jul 1997 05:00:00 GMT"); // Date in the past
+		header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
+		header("Refresh: 3; url=$url");
+		header("Pragma: public"); // HTTP 1.0 backwards compatibility
+		
+		$header_file = (strstr($_SERVER['HTTP_USER_AGENT'], 'MSIE')) ? preg_replace('/\./', '%2e', $file_name, substr_count($file_name, '.') - 1) : $file_name;
+	
+		header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
+		header("Cache-Control: private",false);
+		header("Content-Length: ".(string)(filesize($filePath)));
+		header("Content-Transfer-Encoding: binary");
+		if(isset($mimeType)) {header("Content-Type: " . $mimeType);}
+		header("Content-Disposition: attachment; filename=".$header_file);
 	}
 }
 
