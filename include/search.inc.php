@@ -1,8 +1,6 @@
 <?php
 /**
- * Library version infomation
- *
- * This file holds the configuration information of this module
+ * Library search function
  *
  * @copyright	Copyright Madfish (Simon Wilkinson) 2012
  * @license		http://www.gnu.org/licenses/old-licenses/gpl-2.0.html GNU General Public License (GPL)
@@ -13,6 +11,17 @@
  */
 
 defined("ICMS_ROOT_PATH") or die("ICMS root path not defined");
+
+/**
+ * Provides search functionality for the library module
+ *
+ * @param array $queryarray
+ * @param string $andor
+ * @param int $limit
+ * @param int $offset
+ * @param int $userid
+ * @return array 
+ */
 
 function library_search($queryarray, $andor, $limit, $offset, $userid)
 {
@@ -26,9 +35,9 @@ function library_search($queryarray, $andor, $limit, $offset, $userid)
 		$item['link'] = $publication->getItemLink(TRUE);
 		$item['title'] = $publication->getVar("title");
 		$item['time'] = $publication->getVar("date", "e");
-		$item['uid'] = $publication->getVar("creator");
+		$item['uid'] = $publication->getVar("submitter", "e");
 		$ret[] = $item;
-		unset($item);
+		unset($item, $publication);
 	}
 
 	return $ret;
