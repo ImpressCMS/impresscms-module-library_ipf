@@ -28,7 +28,7 @@ function library_search($queryarray, $andor, $limit, $offset, $userid)
 	$library_publication_handler = icms_getModuleHandler("publication", basename(dirname(dirname(__FILE__))), "library");
 	$publicationArray = $library_publication_handler->getPublicationsForSearch($queryarray, $andor, $limit, $offset, $userid);
 	
-	$publications = $ret = array();
+	$publicationArray = $ret = array();
 	$count = '';
 	
 	// Count the number of records
