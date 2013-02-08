@@ -100,7 +100,7 @@ class mod_library_PublicationHandler extends icms_ipf_Handler {
 		}
 
 		$criteria->setLimit($limit);
-		$results = $this->getObjects($criteria, TRUE, TRUE);
+		$results = $this->getObjects($criteria, TRUE);
 		
 		// Pad the results array out to the counted length to preserve 'hits' and pagination controls.
 		// This approach is not ideal, but it greatly reduces the load for queries with large result sets
