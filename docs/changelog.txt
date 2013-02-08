@@ -17,3 +17,4 @@ Version 1.02 BETA
 -----------------
 - Fix start page preference (wasn't working).
 - Add 'new' publications as a submenu option.
+- Substantially improve efficiency of search function, especially for large result sets
