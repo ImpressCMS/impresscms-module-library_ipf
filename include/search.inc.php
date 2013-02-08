@@ -27,18 +27,43 @@ function library_search($queryarray, $andor, $limit, $offset, $userid)
 {
 	$library_publication_handler = icms_getModuleHandler("publication", basename(dirname(dirname(__FILE__))), "library");
 	$publicationArray = $library_publication_handler->getPublicationsForSearch($queryarray, $andor, $limit, $offset, $userid);
-
-	$ret = array();
-
-	foreach ($publicationArray as $publication) {
-		$item['image'] = "images/publication.png";
-		$item['link'] = $publication->getItemLink(TRUE);
-		$item['title'] = $publication->getVar("title");
-		$item['time'] = $publication->getVar("date", "e");
-		$item['uid'] = $publication->getVar("submitter", "e");
-		$ret[] = $item;
-		unset($item, $publication);
+	
+	$publications = $ret = array();
+	$count = '';
+	
+	// Count the number of records
+	$count = count($publicationArray);
+	
+	// Only the first $limit number of records contain publication objects, the rest are padding
+	if (!$limit) {
+		global $icmsConfigSearch;
+		$limit = $icmsConfigSearch['search_per_page'];
 	}
+	
+	// Ensure a value is set for offset as it will be used in calculations later
+	if (!$offset) {
+		$offset = 0;
+	}
+		
+	// Process the actual publications (not the padding)
+	for ($i = 0; $i < $limit; $i++) {
+		$item['image'] = "images/publication.png";
+		$item['link'] = $publicationArray[$i]->getItemLink(TRUE);
+		$item['title'] = $publicationArray[$i]->getVar("title");
+		$item['time'] = $publicationArray[$i]->getVar("date", "e");
+		$item['uid'] = $publicationArray[$i]->getVar("submitter", "e");
+		$ret[] = $item;
+		unset($item);
+	}
+	
+	// Restore the padding (required for 'hits' information and pagination controls). The offset
+	// must be padded to the left of the results, and the remainder to the right or else the search
+	// pagination controls will display the wrong results (which will all be empty).
+	// Left padding = -($limit + $offset)
+	$ret = array_pad($ret, -($limit + $offset), 1);
+	
+	// Right padding = $count - ($limit + $offset)
+	$ret = array_pad($ret, $count - ($limit + $offset), 1);
 
 	return $ret;
 }
