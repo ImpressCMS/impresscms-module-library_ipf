@@ -107,13 +107,10 @@ if($publicationObj && !$publicationObj->isNew())
 		// Prepare publication for display
 		$publication = $library_publication_handler->toArrayForDisplay($publicationObj, TRUE);
 		
-		// Update views counter - but only if its not a downloadable object
-		if (empty($publication['identifier'])) {
-			if (!icms_userIsAdmin(icms::$module->getVar('dirname'))) {
-				$library_publication_handler->updateCounter($publicationObj);
-			} else {
-				$publication['identifier'] = LIBRARY_URL . 'download.php?publication_id=' . $publication['publication_id'];
-			}
+		// update hits counter
+		if (!icms_userIsAdmin(icms::$module->getVar('dirname')))
+		{
+			$library_publication_handler->updateCounter($publicationObj);
 		}
 
 		// Prepare tags for display (only if Sprockets module installed)
