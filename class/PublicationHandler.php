@@ -270,13 +270,13 @@ class mod_library_PublicationHandler extends icms_ipf_Handler {
 	 * 
 	 * @return array publications
 	 */
-	public function getPublicationsForTag($tag_id, $count, $clean_start)
+	public function getPublicationsForTag($tag_id, $count, $start)
 	{
 		// Sanitise the parameters
 		$clean_tag_id = isset($tag_id) ? (int)$tag_id : 0 ;
 		$publication_count = isset($count) ? (int)$count : 0 ;
 		$clean_start = isset($start) ? (int)$start : 0 ;
-		
+			
 		$library_publication_summaries = array();
 		$libraryModule = $this->getModuleInfo();
 		

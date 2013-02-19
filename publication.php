@@ -37,7 +37,7 @@ $clean_publication_id = isset($_GET["publication_id"]) ? (int)$_GET["publication
 $clean_tag_id = isset($_GET["tag_id"]) ? (int)$_GET["tag_id"] : 0 ;
 $clean_start = isset($_GET["start"]) ? intval($_GET["start"]) : 0;
 $clean_m3u = isset($_GET['m3u']) ? intval($_GET['m3u']) : 0; // Flag indicating streamable content
-$clean_label_type = isset($_GET['label_type']) ? intval($_GET['label_type']) : 0 ; // View tags (0) or categories (1)
+$clean_label_type = isset($_GET['label_type']) ? intval($_GET['label_type']) : 0 ; // View categories (1) or tags (0)
 
 $library_publication_handler = icms_getModuleHandler("publication", basename(dirname(__FILE__)), "library");
 if ($clean_publication_id) {
@@ -167,7 +167,7 @@ if($publicationObj && !$publicationObj->isNew())
 ////////////////////////////////////////////////////////////////////
 
 else
-{
+{	
 	// Set page title
 	$icmsTpl->assign("library_page_title", _MD_LIBRARY_ALL_PUBLICATIONS);
 	
@@ -268,9 +268,14 @@ else
 					$publication_count, $clean_start);
 			$icmsTpl->assign('library_publication_summaries', $library_publication_summaries);
 
-			// Pagination control - adust for tag, if present
-			if (!empty($clean_tag_id)) {
+			// Pagination control - adust for tag (and label_type), if present
+			if ($clean_tag_id) {
 				$extra_arg = 'tag_id=' . $clean_tag_id;
+				if ($clean_label_type) {
+					$extra_arg .= '&amp;label_type=1';
+				} else {
+					$extra_arg .= '&amp;label_type=0';
+				}
 			}
 			else {
 				$extra_arg = FALSE;

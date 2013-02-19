@@ -16,5 +16,7 @@ Version 1.01 Final (22/1/2013)
 Version 1.02 BETA
 -----------------
 - Fix start page preference (wasn't working).
+- Fix broken hits counter.
 - Add 'new' publications as a submenu option.
 - Substantially improve efficiency of search function, especially for large result sets
+- Fix broken pagination in category view
