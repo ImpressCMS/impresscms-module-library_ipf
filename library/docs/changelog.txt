@@ -1,0 +1,22 @@
+Version history
+===============
+
+Version 1.0 BETA (29/7/2012)
+----------------------------
+- First beta release of the module.
+
+Version 1.0 Final (16/1/2013)
+-----------------------------
+- Initial production release.
+
+Version 1.01 Final (22/1/2013)
+------------------------------
+- Fix incorrect data type assignment in several preferences ('string' should be 'text').
+
+Version 1.02 Final (20/2/2013)
+------------------------------
+- Fix start page preference (wasn't working).
+- Fix broken hits counter.
+- Add 'new' publications as a submenu option.
+- Substantially improve efficiency of search function, especially for large result sets
+- Fix broken pagination in category view

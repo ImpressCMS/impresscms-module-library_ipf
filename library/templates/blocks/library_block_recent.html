@@ -1,0 +1,7 @@
+<div>
+	<ul>
+		<{foreach item=publication from=$block.library_recent_publications}>
+			<li><a href="<{$publication.itemUrl}>"><{$publication.title}></a> (<{$publication.submission_time}>)</li>
+		<{/foreach}>
+	</ul>
+</div>
