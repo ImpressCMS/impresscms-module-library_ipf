@@ -13,8 +13,8 @@ Version 1.01 Final (22/1/2013)
 ------------------------------
 - Fix incorrect data type assignment in several preferences ('string' should be 'text').
 
-Version 1.02 BETA
------------------
+Version 1.02 Final (20/2/2013)
+------------------------------
 - Fix start page preference (wasn't working).
 - Fix broken hits counter.
 - Add 'new' publications as a submenu option.
