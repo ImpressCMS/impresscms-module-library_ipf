@@ -24,3 +24,4 @@ Version 1.02 Final (20/2/2013)
 Version 1.03 trunk
 ------------------
 - Removed incorrect closing anchor tag on item titles.
+- Work around HTML Purifier comment insertion / template issue (Smarty evaluates comments in an otherwise empty field as TRUE)
