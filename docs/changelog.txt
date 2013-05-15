@@ -20,3 +20,7 @@ Version 1.02 Final (20/2/2013)
 - Add 'new' publications as a submenu option.
 - Substantially improve efficiency of search function, especially for large result sets
 - Fix broken pagination in category view
+
+Version 1.03 trunk
+------------------
+- Removed incorrect closing anchor tag on item titles.
