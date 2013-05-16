@@ -105,7 +105,7 @@ define("_CO_LIBRARY_META_ARCHIVE_INDEX_DESCRIPTION", "Open Archives Initiative r
 // Timeline page
 define("_CO_LIBRARY_TIMELINE", "Publication timeline");
 define("_CO_LIBRARY_TIMELINE_DESCRIPTION", "Archived publications sorted by month.");
-define("_CO_LIBRARY_TIMELINES", "Publication timline");
+define("_CO_LIBRARY_TIMELINES", "Publication timeline");
 define("_CO_LIBRARY_NO_TIMELINE", "Sorry there are no publications to display yet.");
 define("_CO_LIBRARY_TIMELINE_PUBLICATIONS", "Publications");
 define("_CO_LIBRARY_TIMELINE_ACTIONS", "Actions");
