@@ -49,13 +49,15 @@ function library_search($queryarray, $andor, $limit, $offset = 0, $userid = 0)
 			
 	// Process the actual publications (not the padding)
 	for ($i = 0; $i < $number_to_process; $i++) {
-		$item['image'] = "images/publication.png";
-		$item['link'] = $publicationArray[$i]->getItemLink(TRUE);
-		$item['title'] = $publicationArray[$i]->getVar("title");
-		$item['time'] = $publicationArray[$i]->getVar("date", "e");
-		$item['uid'] = $publicationArray[$i]->getVar("submitter", "e");
-		$ret[] = $item;
-		unset($item);
+		if (is_object($publicationArray[$i])) { // Required to prevent crashing on profile view
+			$item['image'] = "images/publication.png";
+			$item['link'] = $publicationArray[$i]->getItemLink(TRUE);
+			$item['title'] = $publicationArray[$i]->getVar("title");
+			$item['time'] = $publicationArray[$i]->getVar("date", "e");
+			$item['uid'] = $publicationArray[$i]->getVar("submitter", "e");
+			$ret[] = $item;
+			unset($item);
+		}
 	}
 	
 	// Restore the padding (required for 'hits' information and pagination controls). The offset
