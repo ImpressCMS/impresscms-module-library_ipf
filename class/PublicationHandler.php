@@ -537,6 +537,10 @@ class mod_library_PublicationHandler extends icms_ipf_Handler {
 		// Unset any unwanted fields so that they don't display
 		$publication = $this->unsetFieldPreferences($publication);
 		
+		// Add admin links
+		$publication['editItemLink'] = $pubObj->getEditItemLink(FALSE, TRUE, FALSE);
+		$publication['deleteItemLink'] = $pubObj->getDeleteItemLink(FALSE, TRUE, FALSE);
+		
 		// If an image is present, set resizing preferences
 		if ($publication['image']) {
 			$publication['image'] = '/uploads/' . basename(dirname(dirname(__FILE__))) . '/publication/'
