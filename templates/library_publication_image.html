@@ -16,6 +16,9 @@
 		<{if $library_publication.counter}><{$library_publication.counter}> <{$smarty.const._CO_LIBRARY_PUBLICATION_VIEWS}><{/if}>
 		<{if ($library_publication.creator || $library_publication.date || $library_publication.counter) && $library_publication.tags}> | <{/if}>
 		<{if $library_publication.tags}><{$library_publication.tags}><{/if}>
+		<{if $library_is_admin}>
+			<{$library_publication.editItemLink}> <{$library_publication.deleteItemLink}>
+		<{/if}>
 	</div>
 	<!-- Image goes here -->
 	<{if $library_publication.image}>

@@ -107,6 +107,8 @@ if($publicationObj && !$publicationObj->isNew())
 		// Prepare publication for display
 		$publication = $library_publication_handler->toArrayForDisplay($publicationObj, TRUE);
 		$publication['extended_text'] = $publicationObj->getVar('extended_text', 'e'); // try to overcome HTML Purifier comment issue
+		$publication['editItemLink'] = $publicationObj->getEditItemLink(FALSE, TRUE, FALSE); // Add user side edit/delete links
+		$publication['deleteItemLink'] = $publicationObj->getDeleteItemLink(FALSE, TRUE, FALSE);
 		
 		// update hits counter
 		if (!icms_userIsAdmin(icms::$module->getVar('dirname')))

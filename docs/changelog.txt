@@ -28,3 +28,4 @@ Version 1.03 trunk
 - Fixed search function bug that was crashing profile views.
 - Search now examines the creator, extended_text and publisher fields (in addition to title and description)
 - Fixed broken default language preference when adding new publication
+- Add user-side edit/delete links (admins only)
