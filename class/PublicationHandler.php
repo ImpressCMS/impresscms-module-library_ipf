@@ -54,7 +54,13 @@ class mod_library_PublicationHandler extends icms_ipf_Handler {
 				$criteriaKeyword = new icms_db_criteria_Compo();
 				$criteriaKeyword->add(new icms_db_criteria_Item('title', '%' . $queryarray[$i] . '%',
 					'LIKE'), 'OR');
+				$criteriaKeyword->add(new icms_db_criteria_Item('creator', '%' . $queryarray[$i]
+					. '%', 'LIKE'), 'OR');
 				$criteriaKeyword->add(new icms_db_criteria_Item('description', '%' . $queryarray[$i]
+					. '%', 'LIKE'), 'OR');
+				$criteriaKeyword->add(new icms_db_criteria_Item('extended_text', '%' . $queryarray[$i]
+					. '%', 'LIKE'), 'OR');
+				$criteriaKeyword->add(new icms_db_criteria_Item('publisher', '%' . $queryarray[$i]
 					. '%', 'LIKE'), 'OR');
 				$criteriaKeywords->add($criteriaKeyword, $andor);
 				unset ($criteriaKeyword);
