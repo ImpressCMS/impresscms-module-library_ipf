@@ -17,7 +17,7 @@ defined("ICMS_ROOT_PATH") or die("ICMS root path not defined");
 /**  General Information  */
 $modversion = array(
 	"name"						=> _MI_LIBRARY_MD_NAME,
-	"version"					=> 1.02,
+	"version"					=> 1.03,
 	"description"				=> _MI_LIBRARY_MD_DESC,
 	"author"					=> "Madfish (Simon Wilkinson)",
 	"credits"					=> "",
@@ -34,7 +34,7 @@ $modversion = array(
 
 /**  Development information */
 	"status_version"			=> "1.03",
-	"status"					=> "Trunk",
+	"status"					=> "Beta",
 	"date"						=> "20/2/2013",
 	"author_word"				=> "",
 
