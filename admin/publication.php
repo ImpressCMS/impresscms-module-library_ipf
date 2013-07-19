@@ -30,6 +30,7 @@ function editPublication($pubObj)
 		$sform = $pubObj->getForm(_AM_LIBRARY_PUBLICATION_EDIT, "addpublication");
 		$sform->assign($icmsAdminTpl);
 	} else {
+		$pubObj->setVar('language', icms_getConfig('default_language', 'library'));
 		$icmsModule->displayAdminMenu(0, _AM_LIBRARY_PUBLICATIONS . " > " . _CO_ICMS_CREATINGNEW);
 		$sform = $pubObj->getForm(_AM_LIBRARY_PUBLICATION_CREATE, "addpublication");
 		$sform->assign($icmsAdminTpl);
