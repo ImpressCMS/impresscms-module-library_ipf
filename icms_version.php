@@ -34,8 +34,8 @@ $modversion = array(
 
 /**  Development information */
 	"status_version"			=> "1.03",
-	"status"					=> "Beta",
-	"date"						=> "20/2/2013",
+	"status"					=> "Final",
+	"date"						=> "1/8/2013",
 	"author_word"				=> "",
 
 /** Contributors */
