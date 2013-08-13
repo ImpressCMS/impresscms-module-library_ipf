@@ -52,8 +52,8 @@ class mod_library_Publication extends icms_ipf_seo_Object {
 				$this->handler->setOaiId());
 		$this->quickInitVar('notification_sent', XOBJ_DTYPE_INT, TRUE, FALSE, FALSE, 0);
 		$this->initCommonVar("counter");
-		$this->initCommonVar("dohtml");
-		$this->initCommonVar("dobr");
+		$this->initCommonVar("dohtml", FALSE, 1);
+		$this->initCommonVar("dobr", TRUE, 0);
 
 		$this->initiateSEO();
 		

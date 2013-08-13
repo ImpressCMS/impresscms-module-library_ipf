@@ -29,3 +29,7 @@ Version 1.03 Final (1/8/2013)
 - Search now examines the creator, extended_text and publisher fields (in addition to title and description)
 - Fixed broken default language preference when adding new publication
 - Add user-side edit/delete links (admins only)
+
+Version 1.04
+------------
+- Change way dohtml / dobr field visibility and default settings are handled (set properties in initCommonVar()
