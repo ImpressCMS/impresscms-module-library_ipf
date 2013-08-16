@@ -31,7 +31,7 @@ class mod_library_Publication extends icms_ipf_seo_Object {
 		$this->initNonPersistableVar('tag', XOBJ_DTYPE_INT, 'tag', FALSE, FALSE, FALSE, TRUE);
 		$this->initNonPersistableVar('category', XOBJ_DTYPE_INT, 'category', FALSE, FALSE, FALSE,
 				TRUE);
-		$this->quickInitVar("description", XOBJ_DTYPE_TXTAREA, FALSE);
+		$this->quickInitVar("description", XOBJ_DTYPE_TXTAREA, TRUE);
 		$this->quickInitVar("extended_text", XOBJ_DTYPE_TXTAREA, FALSE);
 		$this->quickInitVar("format", XOBJ_DTYPE_TXTBOX, TRUE);
 		$this->quickInitVar("file_size", XOBJ_DTYPE_INT, FALSE);
@@ -52,8 +52,8 @@ class mod_library_Publication extends icms_ipf_seo_Object {
 				$this->handler->setOaiId());
 		$this->quickInitVar('notification_sent', XOBJ_DTYPE_INT, TRUE, FALSE, FALSE, 0);
 		$this->initCommonVar("counter");
-		$this->initCommonVar("dohtml", FALSE, 1);
-		$this->initCommonVar("dobr", TRUE, 0);
+		$this->initCommonVar("dohtml", FALSE, TRUE); // HTML tags always enabled
+		$this->initCommonVar("dobr", TRUE, FALSE); // Linebreaks optional, default off
 
 		$this->initiateSEO();
 		
@@ -135,9 +135,6 @@ class mod_library_Publication extends icms_ipf_seo_Object {
 		// Make the oai_identifier read only for OAIPMH archive integrity purposes. These must 
 		// never change as external harvesters use them as markers to detect duplicate records
 		$this->doMakeFieldreadOnly('oai_identifier');
-		
-		// Force html and don't allow user to change; necessary for RSS feed integrity
-		$this->doHideFieldFromForm('dohtml');
 		
 		// For backend use only - tracking notifications for this object
 		$this->hideFieldFromForm ('notification_sent');

@@ -6,6 +6,7 @@
 </div>
 
 <{if $library_publication}>
+	<!-- Single publication view -->
 	<{include file=$library_publication.subtemplate}>
 <{/if}>
 
@@ -32,6 +33,7 @@
 		<div>
 			<{if $library_navbar }><{$library_navbar}><{/if}>
 		</div>
+		<!-- Index (summary) view, display the description field instead of extended_text -->
 		<{foreach item=library_publication from=$library_publication_summaries}>
 			<{include file=$library_publication.subtemplate}>
 		<{/foreach}>
