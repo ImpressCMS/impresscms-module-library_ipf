@@ -579,7 +579,7 @@ class mod_library_PublicationHandler extends icms_ipf_Handler {
 		if (!empty($publication['short_url'])) {
 			$publication['itemUrl'] .= "&amp;title=" . $publication['short_url'];
 			$publication['itemLink'] = '<a href="' . $publication['itemUrl'] . '">' 
-					. $publication['title'] . '</a';
+					. $publication['title'] . '</a>';
 		}
 		
 		return $publication;
