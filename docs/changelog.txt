@@ -33,3 +33,4 @@ Version 1.03 Final (1/8/2013)
 Version 1.04
 ------------
 - Change way dohtml / dobr field visibility and default settings are handled (set properties in initCommonVar()
+- Fix incorrect display of extended_text rather than description field in summary (index) view.

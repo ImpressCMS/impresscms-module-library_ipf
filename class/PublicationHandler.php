@@ -575,9 +575,11 @@ class mod_library_PublicationHandler extends icms_ipf_Handler {
 			}
 		}
 		
-		// Add SEO friendly string to URL
+		// Add SEO friendly string to URL and itemLink
 		if (!empty($publication['short_url'])) {
 			$publication['itemUrl'] .= "&amp;title=" . $publication['short_url'];
+			$publication['itemLink'] = '<a href="' . $publication['itemUrl'] . '">' 
+					. $publication['title'] . '</a';
 		}
 		
 		return $publication;
