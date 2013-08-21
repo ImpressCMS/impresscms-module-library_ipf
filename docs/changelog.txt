@@ -35,3 +35,4 @@ Version 1.04
 - Change way dohtml / dobr field visibility and default settings are handled (set properties in initCommonVar()
 - Fix incorrect display of extended_text rather than description field in summary (index) view.
 - Add SEO friendly URL extension to publication.itemUrl field.
+- Add selective clearance of cached content when a publication is added/edited/deleted

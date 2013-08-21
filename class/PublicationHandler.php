@@ -586,6 +586,58 @@ class mod_library_PublicationHandler extends icms_ipf_Handler {
 	}
 	
 	/**
+	 * Flush the cache for the Library module after adding, editing or deleting a publication.
+	 * 
+	 * Ensures that the index/block/single view cache is kept updated if caching is enabled.
+	 * 
+	 * @global array $icmsConfig
+	 * @param type $obj 
+	 */
+	protected function clear_cache(& $obj)
+	{
+		global $icmsConfig;
+		$cache_status = $icmsConfig['module_cache'];
+		$module = icms::handler("icms_module")->getByDirname("library", TRUE);
+		$module_id = $module->getVar("mid");
+			
+		// Check if caching is enabled for this module. The cache time is stored in a serialised 
+		// string in config table (module_cache), and is indicated in seconds. Uncached = 0.
+		if ($cache_status[$module_id] > 0)
+		{			
+			// As PHP's exec() function is often disabled for security reasons
+			try 
+			{	
+				// Index pages, including for tags
+				exec("find " . ICMS_CACHE_PATH . "/" . "library^%2Fmodules%2Flibrary%2Fpublication.php^* -delete &");
+				exec("find " . ICMS_CACHE_PATH . "/" . "library^%2Fmodules%2Flibrary%2Fpublication.php%3Fstart* -delete &");
+				exec("find " . ICMS_CACHE_PATH . "/" . "library^%2Fmodules%2Flibrary%2Fpublication.php%3Ftag_id* -delete &");
+				
+				// Tags and categories index pages
+				exec("find " . ICMS_CACHE_PATH . "/" . "library^%2Fmodules%2Flibrary%2Ftag.php* -delete &");
+				
+				// Timeline pages
+				exec("find " . ICMS_CACHE_PATH . "/" . "library^%2Fmodules%2Flibrary%2Ftimeline.php* -delete &");
+				
+				// Blocks
+				exec("find " . ICMS_CACHE_PATH . "/" . "blk_library* -delete &");
+				
+				// Individual publication page
+				if (!$obj->isNew())
+				{
+					exec("find " . ICMS_CACHE_PATH . "/" . "library^%2Fmodules%2Flibrary%2Fpublication.php%3Fpublication_id%3D" 
+							. $obj->getVar('publication_id', 'e') . "%26* -delete &");
+					exec("find " . ICMS_CACHE_PATH . "/" . "library^%2Fmodules%2Flibrary%2Fpublication.php%3Fpublication_id%3D" 
+							. $obj->getVar('publication_id', 'e') . "^* -delete &");
+				}				
+			}
+			catch(Exception $e)
+			{
+				$obj->setErrors($e->getMessage());
+			}
+		}		
+	}
+	
+	/**
 	 * Adjust data before saving or updating
 	 * @param object $obj 
 	 */
@@ -636,6 +688,9 @@ class mod_library_PublicationHandler extends icms_ipf_Handler {
 			// Store categories
 			$sprockets_taglink_handler->storeTagsForObject($obj, 'category', '1');
 		}
+		
+		// Clear cache
+		$this->clear_cache(& $obj);	
 	
 		return TRUE;
 	}
@@ -670,6 +725,9 @@ class mod_library_PublicationHandler extends icms_ipf_Handler {
 					$sprocketsModule->getVar('dirname'), 'sprockets');
 			$sprockets_taglink_handler->deleteAllForObject($obj);
 		}
+		
+		// Clear cache
+		$this->clear_cache(& $obj);	
 		
 		// To do: Need to search for other publications that have this one marked as source and
 		// delete the reference
