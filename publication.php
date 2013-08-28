@@ -106,8 +106,11 @@ if($publicationObj && !$publicationObj->isNew())
 	{	
 		// Prepare publication for display
 		$publication = $library_publication_handler->toArrayForDisplay($publicationObj, TRUE);
-		$publication['extended_text'] = $publicationObj->getVar('extended_text', 's'); // try to overcome HTML Purifier comment issue
-		
+		// try to overcome HTML Purifier comment issue
+		$publication['extended_text'] = $publicationObj->getVar('extended_text', 'e');
+		$publication['extended_text'] = str_replace('<!-- filtered with htmlpurifier -->', '', $publication['extended_text']);
+		$publication['extended_text'] = str_replace('<!-- warning! output filtered only -->', '', $publication['extended_text']);
+
 		// update hits counter
 		if (!icms_userIsAdmin(icms::$module->getVar('dirname')))
 		{
@@ -376,5 +379,6 @@ else
 $icmsTpl->assign("library_show_breadcrumb", icms::$module->config['library_show_breadcrumb']);
 $icmsTpl->assign("library_module_home", '<a href="' . ICMS_URL . "/modules/" 
 		. icms::$module->getVar("dirname") . '/">' . icms::$module->getVar("name") . "</a>");
+$icmsTpl->assign("page_displaytitle", "Publications");
 
 include_once "footer.php";
