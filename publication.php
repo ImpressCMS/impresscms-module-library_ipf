@@ -106,10 +106,6 @@ if($publicationObj && !$publicationObj->isNew())
 	{	
 		// Prepare publication for display
 		$publication = $library_publication_handler->toArrayForDisplay($publicationObj, TRUE);
-		// try to overcome HTML Purifier comment issue
-		$publication['extended_text'] = $publicationObj->getVar('extended_text', 'e');
-		$publication['extended_text'] = str_replace('<!-- filtered with htmlpurifier -->', '', $publication['extended_text']);
-		$publication['extended_text'] = str_replace('<!-- warning! output filtered only -->', '', $publication['extended_text']);
 
 		// update hits counter
 		if (!icms_userIsAdmin(icms::$module->getVar('dirname')))

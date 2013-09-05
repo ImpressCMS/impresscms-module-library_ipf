@@ -553,10 +553,7 @@ class mod_library_PublicationHandler extends icms_ipf_Handler {
 		
 		// Assign an appropriate template for this publication type.
 		$publication['subtemplate'] = $this->assignTemplate($publication['type']);
-		
-		// Work around HTML Purifier comment insertion issue (Smarty evaluates comments in an otherwise empty field as TRUE)
-		$publication['extended_text'] = $pubObj->getVar('extended_text', 'e');
-		
+			
 		////////////////////////////////////////////////////////////////
 		////////// Add type-specific fields here, as required //////////
 		////////////////////////////////////////////////////////////////
