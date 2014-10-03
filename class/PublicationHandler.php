@@ -350,7 +350,6 @@ class mod_library_PublicationHandler extends icms_ipf_Handler {
 		switch ($type)
 		{
 			case "Text":
-			case "Dataset":
 			case "Event":
 			case "Software":
 			case "Dataset":

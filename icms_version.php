@@ -137,7 +137,7 @@ $start_options = array_flip($start_options);
 
 // default start page for the module
 
-$modversion['config'][3] = array(
+$modversion['config'][] = array(
 	'name' => 'library_start_page',
 	'title' => '_MI_LIBRARY_START_PAGE',
 	'description' => '_MI_LIBRARY_START_PAGE_DSC',

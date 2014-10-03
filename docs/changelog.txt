@@ -30,9 +30,10 @@ Version 1.03 Final (1/8/2013)
 - Fixed broken default language preference when adding new publication
 - Add user-side edit/delete links (admins only)
 
-Version 1.04
-------------
+Version 1.04 (unreleased)
+------------------------
 - Change way dohtml / dobr field visibility and default settings are handled (set properties in initCommonVar()
 - Fix incorrect display of extended_text rather than description field in summary (index) view.
 - Add SEO friendly URL extension to publication.itemUrl field.
 - Add selective clearance of cached content when a publication is added/edited/deleted
+- Remove global $libraryConfig in favour of icms_getConfig() in class files.

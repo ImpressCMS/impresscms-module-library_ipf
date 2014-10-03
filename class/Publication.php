@@ -39,13 +39,13 @@ class mod_library_Publication extends icms_ipf_seo_Object {
 		$this->quickInitVar("date", XOBJ_DTYPE_STIME, FALSE);
 		$this->quickInitVar("source", XOBJ_DTYPE_TXTBOX, FALSE);
 		$this->quickInitVar("language", XOBJ_DTYPE_TXTBOX, FALSE, FALSE, FALSE,
-				$libraryModule->config['default_language']);
+				icms_getConfig('default_language', 'library'));
 		$this->quickInitVar("rights", XOBJ_DTYPE_TXTBOX, TRUE);
 		$this->quickInitVar("publisher", XOBJ_DTYPE_TXTBOX, FALSE);
 		$this->quickInitVar("compact_view", XOBJ_DTYPE_INT, FALSE, FALSE, FALSE, 0);
 		$this->quickInitVar("online_status", XOBJ_DTYPE_INT, TRUE, FALSE, FALSE, 1);		
 		$this->quickInitVar("federated", XOBJ_DTYPE_INT, TRUE, FALSE, FALSE,
-				$libraryModule->config['library_default_federation']);
+				icms_getConfig('library_default_federation', 'library'));
 		$this->quickInitVar("submission_time", XOBJ_DTYPE_LTIME, TRUE);
 		$this->quickInitVar("submitter", XOBJ_DTYPE_INT, TRUE);
 		$this->quickInitVar("oai_identifier", XOBJ_DTYPE_TXTBOX, TRUE, FALSE, FALSE,
@@ -189,10 +189,9 @@ class mod_library_Publication extends icms_ipf_seo_Object {
 	*/
 	public function date()
 	{
-		$libraryModule = icms_getModuleInfo(basename(dirname(dirname(__FILE__))));
 		$date = $this->getVar('date', 'e');
 		if ($date) {
-			$date = date($libraryModule->config['date_format'], $date);
+			$date = date(icms_getConfig('date_format', 'library'), $date);
 		}
 		return $date;
 	}
