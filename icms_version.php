@@ -125,7 +125,7 @@ $modversion['blocks'][1] = array(
 	'description' => _MI_LIBRARY_RECENTDSC,
 	'show_func' => 'show_recent_publications',
 	'edit_func' => 'edit_recent_publications',
-	'options' => '5|0',
+	'options' => '5|0|0',
 	'template' => 'library_block_recent.html'
 );
 

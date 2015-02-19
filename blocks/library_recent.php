@@ -23,6 +23,11 @@ if (!defined("ICMS_ROOT_PATH")) die("ICMS root path not defined");
  */
 function show_recent_publications($options)
 {
+	//Check for dynamic tag filtering
+	if ($options[2] == 1 && isset($_GET['tag_id'])) {
+		$options[1] = (int)trim($_GET['tag_id']);
+	}
+	
 	$publicationObjects = array();
 	$libraryModule = icms::handler("icms_module")->getByDirname('library');
 	$sprocketsModule = icms::handler("icms_module")->getByDirname("sprockets");
@@ -101,7 +106,11 @@ function show_recent_publications($options)
 	}
 	
 	// Assign to template
-	$block['library_recent_publications'] = $publication_list;
+	if (!empty($publication_list)) {
+		$block['library_recent_publications'] = $publication_list;
+	} else {
+		$block = array();
+	}	
 
 	return $block;
 }
@@ -155,6 +164,18 @@ function edit_recent_publications($options)
 		$form_select = new icms_form_elements_Select('', 'options[1]', $options[1], '1', FALSE);
 		$form_select->addOptionArray($tagList);
 		$form .= '<td>' . $form_select->render() . '</td></tr>';
+		// Dynamic tag filtering - overrides the tag filter
+		$form .= '<tr><td>' . _MB_LIBRARY_PUBLICATION_DYNAMIC_TAG . '</td>';			
+		$form .= '<td><input type="radio" name="options[2]" value="1"';
+		if ($options[2] == 1) {
+			$form .= ' checked="checked"';
+		}
+		$form .= '/>' . _MB_LIBRARY_PUBLICATION_YES;
+		$form .= '<input type="radio" name="options[2]" value="0"';
+		if ($options[2] == 0) {
+			$form .= 'checked="checked"';
+		}
+		$form .= '/>' . _MB_LIBRARY_PUBLICATION_NO . '</td></tr>';
 	}
 	
 	$form .= '</table>';

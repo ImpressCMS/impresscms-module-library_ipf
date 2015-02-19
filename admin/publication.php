@@ -50,11 +50,18 @@ $clean_op = "";
  */
 $valid_op = array ("mod", "changedField", "addpublication", "del", "view", "changeStatus",
 	"changeFederated", "");
+$untagged_content = FALSE;
 
 if (isset($_GET["op"])) $clean_op = htmlentities($_GET["op"]);
 if (isset($_POST["op"])) $clean_op = htmlentities($_POST["op"]);
 
+// Sanitise the tag_id and start (pagination) parameters
 $clean_publication_id = isset($_GET["publication_id"]) ? (int)$_GET["publication_id"] : 0 ;
+if (isset($_GET['tag_id'])) {
+	if ($_GET['tag_id'] == 'untagged') {
+		$untagged_content = TRUE;
+	}
+}
 $clean_tag_id = isset($_GET['tag_id']) ? intval($_GET['tag_id']) : 0 ;
 
 if (in_array($clean_op, $valid_op, TRUE)) {
@@ -132,14 +139,25 @@ if (in_array($clean_op, $valid_op, TRUE)) {
 			$sprockets_tag_handler = icms_getModuleHandler('tag', 'sprockets', 'sprockets');
 			$sprockets_taglink_handler = icms_getModuleHandler('taglink', 'sprockets', 'sprockets');
 
-			$tag_select_box = $sprockets_tag_handler->getTagSelectBox('publication.php', $clean_tag_id,
-				_AM_LIBRARY_PUBLICATION_ALL_PUBLICATIONS, FALSE, icms::$module->getVar('mid'), 'publication');
+			if ($untagged_content) {
+				$tag_select_box = $sprockets_tag_handler->getTagSelectBox('publication.php', 
+						'untagged', _AM_LIBRARY_PUBLICATION_ALL_PUBLICATIONS, FALSE, 
+						icms::$module->getVar('mid'), 'publication', TRUE);
+			} else {
+				$tag_select_box = $sprockets_tag_handler->getTagSelectBox('publication.php',
+						$clean_tag_id, _AM_LIBRARY_PUBLICATION_ALL_PUBLICATIONS, FALSE, 
+						icms::$module->getVar('mid'), 'publication', TRUE);
+			}
 
-			if ($clean_tag_id)
+			if ($untagged_content || $clean_tag_id)
 			{
 				// Get a list of publication IDs belonging to this tag
 				$criteria = new icms_db_criteria_Compo();
-				$criteria->add(new icms_db_criteria_Item('tid', $clean_tag_id));
+				if ($untagged_content) {
+					$criteria->add(new icms_db_criteria_Item('tid', 0));
+				} else {
+					$criteria->add(new icms_db_criteria_Item('tid', $clean_tag_id));
+				}
 				$criteria->add(new icms_db_criteria_Item('mid', icms::$module->getVar('mid')));
 				$criteria->add(new icms_db_criteria_Item('item', 'publication'));
 				$taglink_array = $sprockets_taglink_handler->getObjects($criteria);

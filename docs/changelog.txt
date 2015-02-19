@@ -37,3 +37,4 @@ Version 1.04 (unreleased)
 - Add SEO friendly URL extension to publication.itemUrl field.
 - Add selective clearance of cached content when a publication is added/edited/deleted
 - Remove global $libraryConfig in favour of icms_getConfig() in class files.
+- Recent publications block will no longer display title if there is no contents.

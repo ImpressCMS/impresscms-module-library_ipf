@@ -33,11 +33,18 @@ include_once ICMS_ROOT_PATH . "/header.php";
 
 global $xoTheme, $icmsConfig;
 
+// Sanitise the tag_id and start (pagination) parameters
+$untagged_content = FALSE;
+if (isset($_GET['tag_id'])) {
+	if ($_GET['tag_id'] == 'untagged') {
+		$untagged_content = TRUE;
+	}
+}
 $clean_publication_id = isset($_GET["publication_id"]) ? (int)$_GET["publication_id"] : 0 ;
 $clean_tag_id = isset($_GET["tag_id"]) ? (int)$_GET["tag_id"] : 0 ;
-$clean_start = isset($_GET["start"]) ? intval($_GET["start"]) : 0;
-$clean_m3u = isset($_GET['m3u']) ? intval($_GET['m3u']) : 0; // Flag indicating streamable content
-$clean_label_type = isset($_GET['label_type']) ? intval($_GET['label_type']) : 0 ; // View categories (1) or tags (0)
+$clean_start = isset($_GET["start"]) ? (int)$_GET["start"] : 0;
+$clean_m3u = isset($_GET['m3u']) ? (int)$_GET['m3u'] : 0; // Flag indicating streamable content
+$clean_label_type = isset($_GET['label_type']) ? (int)$_GET['label_type'] : 0 ; // View categories (1) or tags (0)
 
 $library_publication_handler = icms_getModuleHandler("publication", basename(dirname(__FILE__)), "library");
 if ($clean_publication_id) {
@@ -48,6 +55,7 @@ if ($clean_publication_id) {
 
 // Optional tagging support (only if Sprockets module installed)
 $sprocketsModule = icms::handler("icms_module")->getByDirname("sprockets");
+$libraryModule = icms::handler("icms_module")->getByDirname("library");
 if (icms_get_module_status("sprockets"))
 {
 	// Prepare common Sprockets handlers and buffers
@@ -55,11 +63,10 @@ if (icms_get_module_status("sprockets"))
 	$sprockets_tag_handler = icms_getModuleHandler('tag', $sprocketsModule->getVar('dirname'), 'sprockets');
 	$sprockets_taglink_handler = icms_getModuleHandler('taglink', $sprocketsModule->getVar('dirname'), 'sprockets');
 	if ($clean_label_type) {
-		$criteria = icms_buildCriteria(array('label_type' => '1'));
+		$sprockets_tag_buffer = $sprockets_tag_handler->getCategoryBuffer($libraryModule->getVar('mid'));
 	} else {
-		$criteria = icms_buildCriteria(array('label_type' => '0'));
+		$sprockets_tag_buffer = $sprockets_tag_handler->getTagBuffer(TRUE);
 	}
-	$sprockets_tag_buffer = $sprockets_tag_handler->getObjects($criteria, TRUE, TRUE);
 	
 	// Append the tag to the breadcrumb title
 	if (array_key_exists($clean_tag_id, $sprockets_tag_buffer) && ($clean_tag_id !== 0))
@@ -72,6 +79,7 @@ if (icms_get_module_status("sprockets"))
 
 // RSS feed links
 if (icms_get_module_status("sprockets") && $clean_tag_id 
+		&& array_key_exists($clean_tag_id, $sprockets_tag_buffer) 
 		&& ($sprockets_tag_buffer[$clean_tag_id]->getVar('rss', 'e') == '1')) {
 	$icmsTpl->assign('library_rss_link', 'rss.php?tag_id=' . $clean_tag_id);
 	$icmsTpl->assign('library_rss_title', _CO_LIBRARY_SUBSCRIBE_RSS_ON
@@ -167,18 +175,26 @@ if($publicationObj && !$publicationObj->isNew())
 ////////////////////////////////////////////////////////////////////
 
 else
-{	
+{
 	// Set page title
 	$icmsTpl->assign("library_page_title", _MD_LIBRARY_ALL_PUBLICATIONS);
 	
 	// Get a select box (if preferences allow, and only if Sprockets module installed)
 	if (icms_get_module_status("sprockets") && icms::$module->config['library_show_tag_select_box'] == TRUE) {
 		if ($clean_label_type == '0') { // Get tag select box
-			$tag_select_box = $sprockets_tag_handler->getTagSelectBox('publication.php', $clean_tag_id, 
-				_CO_LIBRARY_PUBLICATION_ALL_TAGS, TRUE, icms::$module->getVar('mid'));
+			if ($untagged_content) {
+				$tag_select_box = $sprockets_tag_handler->getTagSelectBox('publication.php', 
+						'untagged', _CO_LIBRARY_PUBLICATION_ALL_TAGS, TRUE, 
+						icms::$module->getVar('mid'), 'publication', TRUE);					
+			} else {
+				$tag_select_box = $sprockets_tag_handler->getTagSelectBox('publication.php', 
+						$clean_tag_id, _CO_LIBRARY_PUBLICATION_ALL_TAGS, TRUE, 
+						icms::$module->getVar('mid'), 'publication', TRUE);
+			}
 		} else { // Get category select box
 			$tag_select_box = $sprockets_tag_handler->getCategorySelectBox('publication.php', $clean_tag_id, 
-				_CO_LIBRARY_PUBLICATION_ALL_TAGS, TRUE, icms::$module->getVar('mid'));
+				_CO_LIBRARY_PUBLICATION_ALL_TAGS, TRUE, icms::$module->getVar('mid'), 'publication',
+					FALSE);
 		}
 		$icmsTpl->assign('library_tag_select_box', $tag_select_box);
 	}
@@ -260,8 +276,8 @@ else
 		$library_publication_summaries = array();
 		
 		// Sort publications by tag or category
-		if ($clean_tag_id && icms_get_module_status("sprockets"))
-		{		
+		if (($clean_tag_id || $untagged_content) && icms_get_module_status("sprockets")) {
+			
 			// Retrieve publications for a given tag
 			$publication_count = $library_publication_handler->getPublicationCountForTag($clean_tag_id);
 			$library_publication_summaries = $library_publication_handler->getPublicationsForTag($clean_tag_id, 
@@ -283,9 +299,7 @@ else
 			$pagenav = new icms_view_PageNav($publication_count, 
 				icms::$module->config['number_publications_per_page'], $clean_start, 'start', $extra_arg);
 			$icmsTpl->assign('library_navbar', $pagenav->renderNav());
-		}
-		else // Do not sort by tag
-		{	
+		} else { // Do not sort by tag
 			$criteria = new icms_db_criteria_Compo();
 			$criteria->add(new icms_db_criteria_Item('online_status', '1'));
 
@@ -328,12 +342,11 @@ else
 		if (!$library_publication_summaries) {
 			$icmsTpl->assign('library_no_publications', TRUE);
 		}
-	}
-	else // Display publication index as compact table
-	{
+	} else { // Display publication index as compact table
+	
 		$criteria = new icms_db_criteria_Compo();
-		if ($clean_tag_id && icms_get_module_status("sprockets"))
-		{
+		if ($clean_tag_id && array_key_exists($clean_tag_id, $sprockets_tag_buffer) 
+				&& icms_get_module_status("sprockets")) {
 			// Get a list of publication IDs belonging to this tag
 			$criteria->add(new icms_db_criteria_Item('tid', $clean_tag_id));
 			$criteria->add(new icms_db_criteria_Item('mid', icms::$module->getVar('mid')));

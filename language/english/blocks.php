@@ -15,3 +15,8 @@ defined("ICMS_ROOT_PATH") or die("ICMS root path not defined");
 define("_MB_LIBRARY_RANDOM_LIMIT", "Number of recently publications to display:");
 define("_MB_LIBRARY_RECENT_ALL", "-- All --");
 define("_MB_LIBRARY_RECENT_TAG", "Filter publications by tag:");
+
+// New in V2.01
+define("_MB_LIBRARY_PUBLICATION_DYNAMIC_TAG", "Dynamic tag filtering (overrides the static tag filter).");
+define("_MB_LIBRARY_PUBLICATION_YES", "Yes");
+define("_MB_LIBRARY_PUBLICATION_NO", "No");
