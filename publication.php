@@ -67,7 +67,7 @@ if (icms_get_module_status("sprockets"))
 	} else {
 		$sprockets_tag_buffer = $sprockets_tag_handler->getTagBuffer(TRUE);
 	}
-	
+
 	// Append the tag to the breadcrumb title
 	if (array_key_exists($clean_tag_id, $sprockets_tag_buffer) && ($clean_tag_id !== 0))
 	{

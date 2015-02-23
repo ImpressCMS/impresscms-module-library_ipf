@@ -23,8 +23,11 @@ if (!defined("ICMS_ROOT_PATH")) die("ICMS root path not defined");
  */
 function show_recent_publications($options)
 {
-	//Check for dynamic tag filtering
+	$untagged_content = FALSE;
+	
+	// Check for dynamic tag filtering
 	if ($options[2] == 1 && isset($_GET['tag_id'])) {
+		$untagged_content = ($_GET['tag_id'] == 'untagged') ? TRUE : FALSE;
 		$options[1] = (int)trim($_GET['tag_id']);
 	}
 	
@@ -49,12 +52,15 @@ function show_recent_publications($options)
 	$clean_tag_id = isset($options[1]) ? (int)$options[1] : 0 ;
 
 	// Get a list of publications filtered by tag
-	if (icms_get_module_status("sprockets") && $clean_tag_id != 0)
+	if (icms_get_module_status("sprockets") && $clean_tag_id || $untagged_content)
 	{
 		$query = "SELECT * FROM " . $library_publication_handler->table . ", "
 			. $sprockets_taglink_handler->table
-			. " WHERE `publication_id` = `iid`"
-			. " AND `tid` = '" . $clean_tag_id . "'"
+			. " WHERE `publication_id` = `iid`";
+		if ($untagged_content) {
+			$clean_tag_id = 0;
+		}
+		$query .= " AND `tid` = '" . $clean_tag_id . "'"
 			. " AND `mid` = '" . $libraryModule->getVar('mid') . "'"
 			. " AND `item` = 'publication'"
 			. " AND `online_status` = '1'"
