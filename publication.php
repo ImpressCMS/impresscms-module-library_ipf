@@ -345,7 +345,7 @@ else
 	} else { // Display publication index as compact table
 	
 		$criteria = new icms_db_criteria_Compo();
-		if ($clean_tag_id && array_key_exists($clean_tag_id, $sprockets_tag_buffer) 
+		if (($clean_tag_id || $untagged_content) && array_key_exists($clean_tag_id, $sprockets_tag_buffer) 
 				&& icms_get_module_status("sprockets")) {
 			// Get a list of publication IDs belonging to this tag
 			$criteria->add(new icms_db_criteria_Item('tid', $clean_tag_id));
