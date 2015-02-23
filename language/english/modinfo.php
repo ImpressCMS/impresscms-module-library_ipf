@@ -66,10 +66,6 @@ define("_MI_LIBRARY_NEW_ITEMS", "New publications");
 define("_MI_LIBRARY_NEW_ITEMSDSC", "When looking at the new publications page");
 define("_MI_LIBRARY_PUBLICATION_INDEX_DISPLAY_MODE", "Display publications index page as list of 
 	summaries?");
-define("_MI_LIBRARY_PUBLICATION_INDEX_DISPLAY_MODEDSC", "Toggles how the new publication index page is
-    displayed. Select 'no' to display descriptive summaries of each publication (it is more
-    attractive and aids user navigation as screenshots are enabled). Select 'yes' to display a
-    summary table.");
 define("_MI_LIBRARY_NEW_VIEW_MODE", "Display new collections in compact view by default?");
 define("_MI_LIBRARY_NEW_VIEW_MODEDSC", "This sets the default value in the 'add collection' form for
     convenience. You can override it. Compact view does not show publication descriptions, it is
@@ -168,3 +164,9 @@ define("_MI_LIBRARY_GLOBAL_PUBLICATION_PUBLISHED_NOTIFY_DSC", "Receive notificat
     publication is published.");
 define("_MI_LIBRARY_GLOBAL_PUBLICATION_PUBLISHED_NOTIFY_SBJ",
 		"New publication published at {X_SITENAME}");
+
+// Updated in V1.03
+define("_MI_LIBRARY_PUBLICATION_INDEX_DISPLAY_MODEDSC", "Toggles how the new publication index page is
+    displayed. Select 'yes' to display descriptive summaries of each publication (it is more
+    attractive and aids user navigation as screenshots are enabled). Select 'no' to display a
+    summary table.");
