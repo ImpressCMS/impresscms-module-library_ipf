@@ -686,7 +686,7 @@ class mod_library_PublicationHandler extends icms_ipf_Handler {
 		}
 		
 		// Clear cache
-		$this->clear_cache(& $obj);	
+		$this->clear_cache($obj);	
 	
 		return TRUE;
 	}
@@ -723,7 +723,7 @@ class mod_library_PublicationHandler extends icms_ipf_Handler {
 		}
 		
 		// Clear cache
-		$this->clear_cache(& $obj);	
+		$this->clear_cache($obj);	
 		
 		// To do: Need to search for other publications that have this one marked as source and
 		// delete the reference

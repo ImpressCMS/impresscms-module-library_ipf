@@ -38,3 +38,6 @@ Version 1.04 (unreleased)
 - Add selective clearance of cached content when a publication is added/edited/deleted
 - Remove global $libraryConfig in favour of icms_getConfig() in class files.
 - Recent publications block will no longer display title if there is no contents.
+- Change image control to imageupload.
+- Remove deprecated pass-by-reference calls.
+- Add support for untagged publications on index page and block.

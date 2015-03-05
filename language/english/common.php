@@ -139,4 +139,5 @@ define("_CO_LIBRARY_CATEGORY_INDEX", "Publications: Categories");
 
 // Notification mail template
 define("_CO_LIBRARY_PUBLICATION_UPDATE_YOUR_SUBSCRIPTIONS", "update your subscriptions");
+define("_CO_LIBRARY_PUBLICATION_UNTAGGED", "Untagged");
 

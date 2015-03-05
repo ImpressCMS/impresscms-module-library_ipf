@@ -34,13 +34,13 @@ include_once ICMS_ROOT_PATH . "/header.php";
 global $xoTheme, $icmsConfig;
 
 // Sanitise the tag_id and start (pagination) parameters
+$clean_publication_id = isset($_GET["publication_id"]) ? (int)$_GET["publication_id"] : 0 ;
 $untagged_content = FALSE;
 if (isset($_GET['tag_id'])) {
 	if ($_GET['tag_id'] == 'untagged') {
 		$untagged_content = TRUE;
 	}
 }
-$clean_publication_id = isset($_GET["publication_id"]) ? (int)$_GET["publication_id"] : 0 ;
 $clean_tag_id = isset($_GET["tag_id"]) ? (int)$_GET["tag_id"] : 0 ;
 $clean_start = isset($_GET["start"]) ? (int)$_GET["start"] : 0;
 $clean_m3u = isset($_GET['m3u']) ? (int)$_GET['m3u'] : 0; // Flag indicating streamable content
@@ -74,6 +74,9 @@ if (icms_get_module_status("sprockets"))
 		$library_tag_name = $sprockets_tag_buffer[$clean_tag_id]->getVar('title');
 		$icmsTpl->assign('library_tag_name', $library_tag_name);
 		$icmsTpl->assign('library_category_path', $sprockets_tag_buffer[$clean_tag_id]->getVar('title'));
+	} elseif ($untagged_content) {
+		$icmsTpl->assign('library_tag_name', _CO_LIBRARY_PUBLICATION_UNTAGGED);
+		$icmsTpl->assign('library_category_path', _CO_LIBRARY_PUBLICATION_UNTAGGED);
 	}
 }
 

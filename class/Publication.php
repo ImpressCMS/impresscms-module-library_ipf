@@ -106,7 +106,7 @@ class mod_library_Publication extends icms_ipf_seo_Object {
 			'method' => 'getFormatOptions',
 			'module' => 'library'));
 		
-		$this->setControl("image", "image");
+		$this->setControl("image", "imageupload");
 		
 		// Set uploads directory for images
 		$this->setControl('image', array('name' => 'image'));
