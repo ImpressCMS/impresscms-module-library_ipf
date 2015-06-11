@@ -65,7 +65,7 @@ if (icms_get_module_status("sprockets"))
 		include ICMS_ROOT_PATH . '/modules/' . $sprocketsModule->getVar('dirname') . '/include/angry_tree.php';
 		$criteria = icms_buildCriteria(array('mid' => icms::$module->getVar('mid'), 'label_type' => '1'));
 		$libraryCategories = $sprockets_tag_handler->getObjects($criteria, TRUE, TRUE);		
-		$categoryTree = new IcmsPersistableTree(&$libraryCategories, 'tag_id', 'parent_id', $rootId = null);
+		$categoryTree = new IcmsPersistableTree($libraryCategories, 'tag_id', 'parent_id', $rootId = null);
 		unset($criteria);
 		
 		// Get a count of the number of publications in each category - need online publication IDs and category IDs
